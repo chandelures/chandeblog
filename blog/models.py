@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.urls import reverse
 import django.utils.timezone as timezone
 from uuslug import slugify
+from taggit.managers import TaggableManager
 
 
 class PostQuerySet(models.QuerySet):
@@ -44,8 +45,17 @@ class Post(models.Model):
         'Category',
         verbose_name='分类',
         null=True,
-        on_delete=models.SET_NULL)
-    tags = models.ManyToManyField('Tag', verbose_name='标签', blank=True)
+        on_delete=models.SET_NULL,
+        related_name='post')
+    tags = TaggableManager()
+    column = models.ForeignKey(
+        'PostColumn',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        verbose_name="栏目",
+        related_name='post'
+    )
     views = models.PositiveIntegerField('浏览量', default=0)
     create_date = models.DateTimeField('创建日期', default=timezone.now)
     mod_time = models.DateTimeField('最后修改时间', auto_now=True)
@@ -118,4 +128,26 @@ class Tag(models.Model):
 
     class Meta:
         verbose_name = '标签'
+        verbose_name_plural = verbose_name
+
+
+class PostColumn(models.Model):
+    name = models.CharField(verbose_name='名称', max_length=20)
+    slug = models.SlugField(editable=False)
+    create_date = models.DateTimeField(
+        verbose_name='创建时间', default=timezone.now)
+    mod_date = models.DateTimeField(verbose_name='最后修改时间', auto_now=True)
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse('blog:column', args=[self.slug])
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
+    class Meta:
+        verbose_name = '栏目'
         verbose_name_plural = verbose_name

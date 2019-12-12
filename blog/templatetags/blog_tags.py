@@ -1,4 +1,4 @@
-from ..models import Post, Tag, Category
+from ..models import Post, Category
 from django.db.models.aggregates import Count
 from django import template
 import markdown

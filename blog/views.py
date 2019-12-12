@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404
 from django.views.generic import ListView, DetailView, TodayArchiveView, YearArchiveView, MonthArchiveView, \
     DayArchiveView
 from django.db.models import F
-from .models import Post, Tag, Category
+from .models import Post, Category
 
 
 class IndexView(ListView):
