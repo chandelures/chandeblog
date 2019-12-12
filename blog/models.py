@@ -5,14 +5,23 @@ import django.utils.timezone as timezone
 from uuslug import slugify
 
 
+class PostQuerySet(models.QuerySet):
+    def public(self):
+        return self.filter(status=True)
+
+    def draft(self):
+        return self.filter(status=False)
+
+
 class PostManager(models.Manager):
     def get_queryset(self):
-        return super().get_queryset().filter(status=True)
+        return PostQuerySet(self.model, using=self._db)
 
+    def public(self):
+        return self.get_queryset().public()
 
-class DraftPostManager(models.Manager):
-    def get_queryset(self):
-        return super().get_queryset().filter(status=False)
+    def draft(self):
+        return self.get_queryset().draft()
 
 
 class Post(models.Model):
@@ -43,9 +52,7 @@ class Post(models.Model):
     STATUS_CHOICE = ((False, '草稿'), (True, '发布'))
     status = models.BooleanField('状态', default=False, choices=STATUS_CHOICE)
 
-    objects = models.Manager()
-    public_objects = PostManager()
-    draft = DraftPostManager()
+    objects = PostManager()
 
     def __str__(self):
         return self.title
