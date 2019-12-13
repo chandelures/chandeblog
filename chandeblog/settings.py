@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     # My apps
     'blog',
     'comment',
-    'accounts',
+    'userprofile',
 
     # other apps
     'mptt',

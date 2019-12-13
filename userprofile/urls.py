@@ -3,7 +3,7 @@ from . import views
 from django.contrib.auth.views import LoginView, LogoutView
 
 """定义url模式"""
-app_name = 'accounts'
+app_name = 'userprofile'
 
 urlpatterns = [
     # 个人信息

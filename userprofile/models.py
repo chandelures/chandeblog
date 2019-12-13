@@ -16,7 +16,7 @@ class Profile(models.Model):
         return 'user {}'.format(self.user.username)
 
     class Meta:
-        app_label = 'accounts'
+        app_label = 'userprofile'
         verbose_name = "用户配置"
         verbose_name_plural = verbose_name
 

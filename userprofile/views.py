@@ -8,6 +8,6 @@ from django.contrib.auth.views import LoginView
 
 class ProfileView(DetailView):
     model = Profile
-    template_name = 'accounts/profile.html'
+    template_name = 'account/profile.html'
     context_object_name = 'profile'
 
