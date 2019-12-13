@@ -35,15 +35,20 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
 
     # My apps
     'blog',
     'comment',
-    'userprofile',
+    'accounts',
 
     # other apps
     'mptt',
     'taggit',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.github',
     # 'avatar',
 
 ]
@@ -72,6 +77,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
+
         },
     },
 ]
@@ -104,6 +110,9 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
+    {
+        'NAME': 'allauth.account.auth_backends.AuthenticationBackend',
+    }
 ]
 
 # Internationalization
@@ -130,6 +139,7 @@ STATICFILES_DIR = [
     os.path.join(BASE_DIR, 'static')
 ]
 
+# Media files
 MEDIA_URL = '/media/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media").replace("\\", "/")
@@ -190,3 +200,9 @@ LOGGING = {
         },
     }
 }
+
+# Login configuration
+SITE_ID = 1
+
+# 登录成功后重定向地址
+LOGIN_REDIRECT_URL = '/'

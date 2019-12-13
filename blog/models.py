@@ -26,33 +26,29 @@ class PostManager(models.Manager):
 
 
 class Post(models.Model):
-    """文章"""
     title = models.CharField(verbose_name='标题', max_length=100)
     slug = models.SlugField(editable=False)
     author = models.ForeignKey(
         User,
         verbose_name='作者',
         null=True,
-        on_delete=models.SET_NULL,
+        on_delete=models.CASCADE,
         auto_created=True)
-    cover = models.ImageField(
-        verbose_name='封面图片',
-        null=True,
-        upload_to='cover')
-    summary = models.TextField(verbose_name='摘要')
+    abstract = models.TextField(verbose_name='摘要')
     body = models.TextField(verbose_name='正文')
     category = models.ForeignKey(
         'Category',
         verbose_name='分类',
         null=True,
-        on_delete=models.SET_NULL,
-        related_name='post')
+        on_delete=models.CASCADE,
+        related_name='post'
+    )
     tags = TaggableManager()
     column = models.ForeignKey(
-        'PostColumn',
+        'Column',
         null=True,
         blank=True,
-        on_delete=models.SET_NULL,
+        on_delete=models.CASCADE,
         verbose_name="栏目",
         related_name='post'
     )
@@ -85,11 +81,7 @@ class Category(models.Model):
     """分类"""
     name = models.CharField(verbose_name='名称', max_length=20)
     slug = models.SlugField(editable=False)
-    create_date = models.DateTimeField(
-        verbose_name='创建时间', default=timezone.now)
-    mod_date = models.DateTimeField(verbose_name='最后修改时间', auto_now=True)
-
-    # objects = CategoryManager()
+    create_date = models.DateTimeField('创建日期', auto_now_add=True, null=True)
 
     def __str__(self):
         return self.name
@@ -106,37 +98,22 @@ class Category(models.Model):
         verbose_name_plural = verbose_name
 
 
-class Tag(models.Model):
-    """标签"""
+class Column(models.Model):
     name = models.CharField(verbose_name='名称', max_length=20)
     slug = models.SlugField(editable=False)
-    create_date = models.DateTimeField(
-        verbose_name='创建时间', default=timezone.now)
-    mod_date = models.DateTimeField(verbose_name='最后修改时间', auto_now=True)
-
-    # objects = TagManager()
-
-    def __str__(self):
-        return self.name
-
-    def get_absolute_url(self):
-        return reverse('blog:tag', args=[self.slug])
-
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
-        super().save(*args, **kwargs)
-
-    class Meta:
-        verbose_name = '标签'
-        verbose_name_plural = verbose_name
-
-
-class PostColumn(models.Model):
-    name = models.CharField(verbose_name='名称', max_length=20)
-    slug = models.SlugField(editable=False)
-    create_date = models.DateTimeField(
-        verbose_name='创建时间', default=timezone.now)
-    mod_date = models.DateTimeField(verbose_name='最后修改时间', auto_now=True)
+    create_date = models.DateTimeField('创建日期', auto_now_add=True, null=True)
+    cover = models.ImageField(
+        verbose_name="封面图片",
+        null=False,
+        upload_to="column/cover")
+    category = models.ForeignKey(
+        'ColumnCategory',
+        verbose_name='分类',
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name='post'
+    )
+    tags = TaggableManager()
 
     def __str__(self):
         return self.name
@@ -150,4 +127,25 @@ class PostColumn(models.Model):
 
     class Meta:
         verbose_name = '栏目'
+        verbose_name_plural = verbose_name
+
+
+class ColumnCategory(models.Model):
+    """分类"""
+    name = models.CharField(verbose_name='名称', max_length=20)
+    slug = models.SlugField(editable=False)
+    create_date = models.DateTimeField('创建日期', auto_now_add=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse('blog:category', args=[self.slug])
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
+    class Meta:
+        verbose_name = '栏目分类'
         verbose_name_plural = verbose_name

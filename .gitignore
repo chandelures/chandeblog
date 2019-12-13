@@ -5,3 +5,5 @@ migrations/
 *.sqlite3
 .idea/
 logs/
+docs/
+node_modules/
