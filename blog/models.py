@@ -26,6 +26,7 @@ class PostManager(models.Manager):
 
 
 class Post(models.Model):
+    """文章"""
     title = models.CharField(verbose_name='标题', max_length=100)
     slug = models.SlugField(editable=False)
     author = models.ForeignKey(
@@ -131,7 +132,7 @@ class Column(models.Model):
 
 
 class ColumnCategory(models.Model):
-    """分类"""
+    """栏目分类"""
     name = models.CharField(verbose_name='名称', max_length=20)
     slug = models.SlugField(editable=False)
     create_date = models.DateTimeField('创建日期', auto_now_add=True, null=True)

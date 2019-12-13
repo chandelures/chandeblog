@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
 from django.views.generic import ListView, DetailView, TodayArchiveView, YearArchiveView, MonthArchiveView, \
-    DayArchiveView
+    DayArchiveView, UpdateView, CreateView, DeleteView
 from django.db.models import F
+from django.urls import reverse_lazy
 from .models import Post, Category, Column
 
 
@@ -30,6 +31,22 @@ class PostView(DetailView):
         response = super().get(request, *args, **kwargs)
         Post.objects.filter(pk=self.object.pk).update(views=F('views') + 1)
         return response
+
+
+class PostCreate(CreateView):
+    model = Post
+    template_name = 'blog/create.html'
+
+
+class PostUpdate(UpdateView):
+    model = Post
+    template_name = 'blog/post_update.html'
+
+
+class PostDelete(DeleteView):
+    model = Post
+    success_url = reverse_lazy('blog:index')
+    template_name_suffix = 'blog/post_check_delete.html'
 
 
 class PostTodayArchive(TodayArchiveView):
