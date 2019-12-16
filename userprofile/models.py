@@ -1,7 +1,8 @@
 from django.db import models
-from django.contrib.auth.models import User
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
+
+from django.contrib.auth.models import User
 
 
 class Profile(models.Model):
@@ -27,5 +28,3 @@ class Profile(models.Model):
         app_label = 'userprofile'
         verbose_name = "用户配置"
         verbose_name_plural = verbose_name
-
-

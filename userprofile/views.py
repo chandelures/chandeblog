@@ -1,9 +1,11 @@
 from django.shortcuts import render
-from django.views.generic import FormView, CreateView, UpdateView, DeleteView, DetailView
-from .forms import UserLoginForm
-from .models import Profile
+from django.views.generic import FormView, UpdateView, DeleteView, DetailView
+
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
+
+from userprofile.forms import UserLoginForm
+from userprofile.models import Profile
 
 
 class ProfileView(DetailView):

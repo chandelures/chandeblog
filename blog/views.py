@@ -1,10 +1,12 @@
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
-from django.views.generic import ListView, DetailView, TodayArchiveView, YearArchiveView, MonthArchiveView, \
-    DayArchiveView, UpdateView, CreateView, DeleteView
+from django.views.generic import ListView, DetailView
+from django.views.generic import TodayArchiveView, YearArchiveView, MonthArchiveView, DayArchiveView
+from django.views.generic import UpdateView, CreateView, DeleteView
 from django.db.models import F
 from django.urls import reverse_lazy
-from .models import Post, Category, Column
+
+from blog.models import Post, Category, Column
 
 
 class IndexView(ListView):
