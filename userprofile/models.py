@@ -5,6 +5,14 @@ from django.dispatch import receiver
 
 
 class Profile(models.Model):
+    """用户个人信息
+
+    Attributes:
+        user: 用户
+        resume: 简介
+        avatar: 头像
+
+    """
     user = models.OneToOneField(
         User,
         on_delete=models.CASCADE,

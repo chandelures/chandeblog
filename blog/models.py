@@ -7,26 +7,50 @@ from taggit.managers import TaggableManager
 
 
 class PostQuerySet(models.QuerySet):
+    """文章查询类"""
+
     def public(self):
+        """返回所有状态为公开的文章"""
         return self.filter(status=True)
 
     def draft(self):
+        """返回所有状态为草稿的文章"""
         return self.filter(status=False)
 
 
 class PostManager(models.Manager):
+    """文章管理类"""
+
     def get_queryset(self):
         return PostQuerySet(self.model, using=self._db)
 
     def public(self):
+        """返回所有状态为公开的文章"""
         return self.get_queryset().public()
 
     def draft(self):
+        """返回所有状态为草稿的文章"""
         return self.get_queryset().draft()
 
 
 class Post(models.Model):
-    """文章"""
+    """文章模型
+
+    Attributes:
+        title: 文章标题
+        slug: url字符串
+        author: 作者
+        abstrace: 摘要
+        body: 正文
+        category: 分类
+        tags: 标签
+        column: 专栏
+        views: 浏览量
+        create_date: 创建日期
+        mod_date: 最后修改日期
+        status: 文章的状态（True = 发布， False = 草稿）
+
+    """
     title = models.CharField(verbose_name='标题', max_length=100)
     slug = models.SlugField(editable=False)
     author = models.ForeignKey(
@@ -68,6 +92,7 @@ class Post(models.Model):
         return reverse('blog:post', args=[self.slug])
 
     def save(self, *args, **kwargs):
+        """自动保存slug"""
         self.slug = slugify(self.title)
         super().save(*args, **kwargs)
 
@@ -79,7 +104,14 @@ class Post(models.Model):
 
 
 class Category(models.Model):
-    """分类"""
+    """分类模型
+
+    Attributes:
+        name: 名称.
+        slug: url字符串.
+        create_date: 创建日期
+
+    """
     name = models.CharField(verbose_name='名称', max_length=20)
     slug = models.SlugField(editable=False)
     create_date = models.DateTimeField('创建日期', auto_now_add=True, null=True)
@@ -91,6 +123,7 @@ class Category(models.Model):
         return reverse('blog:category', args=[self.slug])
 
     def save(self, *args, **kwargs):
+        """自动保存slug"""
         self.slug = slugify(self.name)
         super().save(*args, **kwargs)
 
@@ -100,6 +133,15 @@ class Category(models.Model):
 
 
 class Column(models.Model):
+    """专栏模型
+
+    Attributes:
+        name: 名称.
+        slug: url字符串.
+        create_date: 创建日期
+        cover: 封面图片
+
+    """
     name = models.CharField(verbose_name='名称', max_length=20)
     slug = models.SlugField(editable=False)
     create_date = models.DateTimeField('创建日期', auto_now_add=True, null=True)
@@ -123,6 +165,7 @@ class Column(models.Model):
         return reverse('blog:column', args=[self.slug])
 
     def save(self, *args, **kwargs):
+        """自动保存slug"""
         self.slug = slugify(self.name)
         super().save(*args, **kwargs)
 
@@ -132,7 +175,14 @@ class Column(models.Model):
 
 
 class ColumnCategory(models.Model):
-    """栏目分类"""
+    """栏目分类模型
+
+    Attributes:
+        name: 名称.
+        slug: url字符串.
+        create_date: 创建日期
+
+    """
     name = models.CharField(verbose_name='名称', max_length=20)
     slug = models.SlugField(editable=False)
     create_date = models.DateTimeField('创建日期', auto_now_add=True, null=True)

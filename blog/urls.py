@@ -7,13 +7,16 @@ from .models import Post
 app_name = 'blog'
 
 urlpatterns = [
+
     # 主页
     url(r'^$', views.IndexView.as_view(), name='index'),
+
     # 文章页
     url(r'^post/(?P<slug>[^\\.]+)/$', views.PostView.as_view(), name='post'),
+
     # 归档页面
     url(r'^archive/$',
-        ArchiveIndexView.as_view(model=Post, date_field="pub_date"),
+        ArchiveIndexView.as_view(model=Post, date_field='create_date', template_name='blog/archive_index.html'),
         name="post_archive"),
     url(r'^<int:year>/$', views.PostYearArchive.as_view(), name='archive_year'),
     url(r'^<int:year>/<int:month>/$',
@@ -22,4 +25,6 @@ urlpatterns = [
     url(r'^<int:year>/<int:month>/<int:day>/$',
         views.PostDayArchive.as_view(), name='archive_day'),
     url(r'^today/$', views.PostTodayArchive.as_view(), name='archive_today'),
+
+
 ]

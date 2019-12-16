@@ -34,22 +34,26 @@ class PostView(DetailView):
 
 
 class PostCreate(CreateView):
+    """文章创建页面"""
     model = Post
     template_name = 'blog/create.html'
 
 
 class PostUpdate(UpdateView):
+    """文章更新页面"""
     model = Post
     template_name = 'blog/post_update.html'
 
 
 class PostDelete(DeleteView):
+    """文章删除页面"""
     model = Post
     success_url = reverse_lazy('blog:index')
     template_name_suffix = 'blog/post_check_delete.html'
 
 
 class PostTodayArchive(TodayArchiveView):
+    """归档页面"""
     allow_empty = True
     allow_future = False
     context_object_name = 'post_list'
@@ -62,6 +66,7 @@ class PostTodayArchive(TodayArchiveView):
 
 
 class PostYearArchive(YearArchiveView):
+    """文章归档页面"""
     allow_empty = True
     allow_future = False
     context_object_name = 'post_list'
@@ -75,6 +80,7 @@ class PostYearArchive(YearArchiveView):
 
 
 class PostMonthArchive(MonthArchiveView):
+    """文章归档页面"""
     allow_empty = True
     allow_future = False
     context_object_name = 'post_list'
@@ -89,6 +95,7 @@ class PostMonthArchive(MonthArchiveView):
 
 
 class PostDayArchive(DayArchiveView):
+    """文章归档页面"""
     allow_empty = True
     allow_future = False
     context_object_name = 'post_list'

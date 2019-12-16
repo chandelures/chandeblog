@@ -19,10 +19,17 @@ from django.conf.urls.static import static
 from . import settings
 
 urlpatterns = [
+
+    # 后台管理页面
     path('admin/', admin.site.urls),
+
+    # 博客页面
     path('', include('blog.urls', namespace='blog')),
-    path('userprofile/', include('userprofile.urls', namespace='userprofile')),
+
+    # 用户页面
+    path('account/', include('userprofile.urls', namespace='account')),
     path('account/', include('allauth.urls')),
+
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

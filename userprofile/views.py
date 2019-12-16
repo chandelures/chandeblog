@@ -7,7 +7,7 @@ from django.contrib.auth.views import LoginView
 
 
 class ProfileView(DetailView):
+    """用户个人资料页面"""
     model = Profile
     template_name = 'account/profile.html'
     context_object_name = 'profile'
-
