@@ -27,8 +27,8 @@ urlpatterns = [
     path('', include('blog.urls', namespace='blog')),
 
     # 用户页面
-    path('account/', include('userprofile.urls', namespace='accounts')),
-    path('account/', include('allauth.urls')),
+    path('accounts/', include('userprofile.urls', namespace='accounts')),
+    path('accounts/', include('allauth.urls')),
 
     # mdeditor
     path('mdeditor/', include('mdeditor.urls'))

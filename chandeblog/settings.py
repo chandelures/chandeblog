@@ -49,7 +49,9 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.github',
     'mdeditor',
-    # 'avatar',
+    'sass_processor',
+    'compressor',
+    'avatar',
 
 ]
 
@@ -162,6 +164,14 @@ AUTHENTICATION_BACKENDS = (
 
 LOGIN_REDIRECT_URL = '/account/profile'
 
+EMAIL_HOST = "smtp.qq.com"
+EMAIL_PORT = 25
+EMAIL_HOST_USER = "chandelurewang@qq.com"
+EMAIL_HOST_PASSWORD = "kacqzrmzzwxzbbja"
+EMAIL_USE_TLS = True
+EMAIL_FROM = "chandelurewang@qq.com"
+DEFAULT_FROM_EMAIL = "Chandelure博客 <chandelurewang@qq.com>"
+
 # MDeditor configuration
 MDEDITOR_CONFIGS = {
     'default': {
@@ -175,7 +185,8 @@ MDEDITOR_CONFIGS = {
                     "emoji", "html-entities", "pagebreak", "goto-line", "|",
                     "help", "info",
                     "||", "preview", "watch", "fullscreen"],  # 自定义编辑框工具栏
-        'upload_image_formats': ["jpg", "jpeg", "gif", "png", "bmp", "webp"],  # 图片上传格式类型
+        # 图片上传格式类型
+        'upload_image_formats': ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
         'image_folder': 'post',  # 图片保存文件夹名称
         'theme': 'dark',  # 编辑框主题 ，dark / default
         'preview_theme': 'default',  # 预览区域主题， dark / default
@@ -188,4 +199,5 @@ MDEDITOR_CONFIGS = {
         'sequence': False  # 是否开启序列图功能
     }
 }
+
 X_FRAME_OPTIONS = "SAMEORIGIN"
