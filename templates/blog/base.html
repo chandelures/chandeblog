@@ -1,68 +1,142 @@
 {% load static %}
+{% load sass_tags %}
+{% load compress %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-hans">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Chandelure的个人博客</title>
 
+    {% compress js %}
+        <script src="{% static 'bootstrap/js/jquery-3.3.1.slim.min.js' %}"></script>
+        <script src="{% static 'bootstrap/js/popper.min.js' %}"></script>
+        <script src="{% static 'bootstrap/js/bootstrap.js' %}"></script>
+        {% block js %}
+        {% endblock js %}
+    {% endcompress %}
 
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-            crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-            crossorigin="anonymous"></script>
-
-
-
-    <link rel="stylesheet" href="{% static 'bootstrap/bootstrap.css' %}">
-    <script src="{% static 'bootstrap/bootstrap.js' %}"></script>
-
-
-
-    <link rel="stylesheet" href="{% static 'blog/css/monokai.css' %}">
+    {% compress css %}
+        <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
+        <link rel="stylesheet" href="{% static 'blog/css/monokai.css' %}">
+        <link rel="stylesheet" href="{% static 'font-awesome-4.7.0/css/font-awesome.min.css' %}">
+        <link rel="stylesheet" href="{% sass_src "blog/css/base.scss" %}">
+        {% block css %}
+        {% endblock css %}
+    {% endcompress %}
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">ChandeBlog</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-                   aria-haspopup="true" aria-expanded="false">
-                    Dropdown
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Something else here</a>
+<div id="wrap">
+    <header class="bg-header">
+
+        <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="container">
+
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link text-white font-weight-bold mr-3 border-bottom pb-0" href="#">主页</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white font-weight-bold mr-3 border-bottom pb-0" href="#">专栏</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white font-weight-bold mr-3 border-bottom pb-0" href="#">关于</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav mr-2">
+                        <li class="nav-item">
+                            <a class="nav-link text-white font-weight-bold  mr-2 border-bottom pb-0" href="#">登录</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white font-weight-bold  mr-2 border-bottom pb-0" href="#">注册</a>
+                        </li>
+                    </ul>
                 </div>
-            </li>
-            <li class="nav-item">
-            </li>
-        </ul>
-        <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon text-white"></span>
+                </button>
+            </div>
+        </nav>
+        <div class="text-center pt-4 pb-5"><a
+                class="h1 text-white font-weight-bolder text-decoration-none p-3" href="#">Chandelure's
+            Blog</a>
+
+        </div>
+
+    </header>
+
+    <div id="main">
+        <div class="container">
+            {% block content %}
+            {% endblock content %}
+        </div>
     </div>
 
-</nav>
-<div class="container">
-    {% block content %}
-    {% endblock content %}
+
+    <footer class="navbar-fixed-bottom bg-white pt-4 pb-2 bg-footer">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-4">
+                    <div class="text-center pt-4 pb-4"><a
+                            class="h1 text-white font-weight-bolder text-decoration-none" href="#">LOGO</a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item border-0 p-1 bg-transparent"><a class="text-white font-weight-bold text-decoration-none"
+                                                                    href="#">主页</a></li>
+                        <li class="list-group-item border-0 p-1 bg-transparent"><a class="text-white font-weight-bold text-decoration-none"
+                                                                    href="#">专栏</a></li>
+                        <li class="list-group-item border-0 p-1 bg-transparent"><a class="text-white font-weight-bold text-decoration-none"
+                                                                    href="#">关于</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item border-0 p-1 bg-transparent"><a class="text-white font-weight-bold text-decoration-none" href="#">RSS订阅</a>
+                        </li>
+                        <li class="list-group-item border-0 p-1 bg-transparent"><a class="text-white font-weight-bold text-decoration-none"
+                                                                    href="#">标签云</a>
+                        </li>
+                        <li class="list-group-item border-0 p-1 bg-transparent"><a class="text-white font-weight-bold text-decoration-none"
+                                                                    href="#">归档</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <ul class="nav col-md-4">
+                    <li class="nav-item">
+                        <a class="nav-link text-white font-weight-bold text-decoration-none" href="#">@copyright</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white font-weight-bold text-decoration-none" href="#">反馈</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white font-weight-bold text-decoration-none" href="#">站点地图</a>
+                    </li>
+                </ul>
+                <ul class="nav col-md-5">
+                </ul>
+                <ul class="nav col-md-3">
+                    <li class="nav-item">
+                        <a class="nav-link text-white font-weight-bold text-decoration-none pr-4" href="#"><i class="fa fa-github"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white font-weight-bold text-decoration-none" href="#"><i class="fa fa-rss"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white font-weight-bold text-decoration-none" href="#"><i class="fa fa-envelope-o"></i></a>
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+    </footer>
 </div>
 </body>
 </html>

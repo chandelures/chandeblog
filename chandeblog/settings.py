@@ -137,6 +137,12 @@ STATICFILES_DIR = [
     os.path.join(BASE_DIR, 'static')
 ]
 
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'compressor.finders.CompressorFinder',
+)
+
 # User Model Setting
 AUTH_USER_MODEL = 'userprofile.User'
 

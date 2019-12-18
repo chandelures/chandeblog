@@ -1,0 +1,32 @@
+html, body {
+  font-family: PingFangSC-Regular, Noto Sans CJK, STHeiti, STHeiti LightSan Francisco, Helvetica Neue, Roboto, Avenir NextDin, Helvetica Neue;
+  height: 100%; }
+
+#wrap {
+  position: relative;
+  width: 100%;
+  min-height: 100%;
+  padding-bottom: 100px;
+  box-sizing: border-box; }
+  #wrap header {
+    width: 100%; }
+  #wrap #main {
+    width: 100%; }
+  #wrap footer {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0; }
+
+.bg-header {
+  background-color: #08AEEA;
+  background-image: linear-gradient(135deg, #2AF598 0%, #08AEEA 100%); }
+
+.bg-footer {
+  background-color: #FEE140;
+  background-image: linear-gradient(90deg, #FEE140 0%, #FA709A 100%); }
+
+footer .fa {
+  font-size: 24px; }
+
+/*# sourceMappingURL=base.css.map */

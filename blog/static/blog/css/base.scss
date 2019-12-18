@@ -1,0 +1,56 @@
+$custom-blue: #08AEEA;
+$custom-green: #2AF598;
+$custom-write: #ffffff;
+$custom-yellow: #FEE140;
+$custom-pink: #FA709A;
+$chinese-font-family: PingFangSC-Regular, Noto Sans CJK, STHeiti, STHeiti Light;
+$english-font-family: San Francisco, Helvetica Neue, Roboto, Avenir Next;
+$num-font-family: Din, Helvetica Neue;
+
+html, body {
+  font-family: $chinese-font-family+$english-font-family+$num-font-family;
+  height: 100%;
+}
+
+#wrap {
+  position: relative;
+  width: 100%;
+  min-height: 100%;
+  padding-bottom: 100px;
+  box-sizing: border-box;
+
+  header {
+    width: 100%;
+  }
+
+  #main {
+    width: 100%;
+  }
+
+  footer {
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+  }
+}
+
+.bg-header {
+  background-color: $custom-blue;
+  background-image: linear-gradient(135deg, $custom-green 0%, $custom-blue 100%);
+}
+
+.bg-footer {
+  background-color: $custom-yellow;
+  background-image: linear-gradient(90deg, $custom-yellow 0%, $custom-pink 100%);
+}
+
+.navbar-dark .navbar-nav .nav-link {
+  //text-decoration: underline;
+}
+
+footer {
+  .fa{
+    font-size: 24px;
+  }
+}
