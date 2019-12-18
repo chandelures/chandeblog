@@ -1,9 +1,11 @@
 from django import forms
-# 引入 User 模型
-from django.contrib.auth.models import User
+
+from userprofile.models import User
 
 
-# 登录表单，继承了 forms.Form 类
-class UserLoginForm(forms.Form):
-    username = forms.CharField()
-    password = forms.CharField()
+class ProfileForm(forms.Form):
+    class Meta:
+        # 关联的数据库模型，这里是用户模型
+        model = User
+        # 前端显示、可以修改的字段（admin中）
+        fields = ['nickname''link', 'avatar']

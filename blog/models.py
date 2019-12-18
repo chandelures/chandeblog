@@ -1,10 +1,14 @@
 from django.db import models
-from django.contrib.auth.models import User
+
 from django.urls import reverse
 import django.utils.timezone as timezone
 
+from mdeditor.fields import MDTextField
 from uuslug import slugify
 
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
 from taggit.managers import TaggableManager
 
 
@@ -62,7 +66,7 @@ class Post(models.Model):
         on_delete=models.CASCADE,
         auto_created=True)
     abstract = models.TextField(verbose_name='摘要')
-    body = models.TextField(verbose_name='正文')
+    body = MDTextField(verbose_name='正文')
     category = models.ForeignKey(
         'Category',
         verbose_name='分类',

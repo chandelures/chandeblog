@@ -9,7 +9,6 @@ https://docs.djangoproject.com/en/3.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
-
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -49,6 +48,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.github',
+    'mdeditor',
     # 'avatar',
 
 ]
@@ -96,7 +96,6 @@ DATABASES = {
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -109,9 +108,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
     {
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
-    {
-        'NAME': 'allauth.account.auth_backends.AuthenticationBackend',
     }
 ]
 
@@ -139,6 +135,9 @@ STATICFILES_DIR = [
     os.path.join(BASE_DIR, 'static')
 ]
 
+# User Model Setting
+AUTH_USER_MODEL = 'userprofile.User'
+
 # Media files
 MEDIA_URL = '/media/'
 
@@ -150,59 +149,43 @@ TAGGIT_CASE_INSENSITIVE = True
 
 # Log Configuration
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'verbose': {
-            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
-            'style': '{',
-        },
-        'simple': {
-            'format': '{levelname} {message}',
-            'style': '{',
-        },
-    },
-    'filters': {
-        'require_debug_true': {
-            '()': 'django.utils.log.RequireDebugTrue',
-        },
-    },
-    'handlers': {
-        'console': {
-            'level': 'INFO',
-            'filters': ['require_debug_true'],
-            'class': 'logging.StreamHandler',
-            'formatter': 'simple'
-        },
-        'mail_admins': {
-            'level': 'ERROR',
-            'class': 'logging.FileHandler',
-            'filename': os.path.join(BASE_DIR, 'logs/error.log'),
-            'formatter': 'verbose',
-        },
-        'file': {
-            'level': 'WARNING',
-            'class': 'logging.FileHandler',
-            'filename': os.path.join(BASE_DIR, 'logs/debug.log'),
-            'formatter': 'verbose',
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['console'],
-            'propagate': True,
-        },
-        'django.request': {
-            'handlers': ['file', 'mail_admins'],
-            'level': 'WARNING',
-            'propagate': False,
-        },
-    }
-}
 
 # Login configuration
 SITE_ID = 1
 
-# 登录成功后重定向地址
-LOGIN_REDIRECT_URL = '/'
+# django-allauth configuration
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+LOGIN_REDIRECT_URL = '/account/profile'
+
+# MDeditor configuration
+MDEDITOR_CONFIGS = {
+    'default': {
+        'width': '90%',  # 自定义编辑框宽度
+        'heigth': 500,  # 自定义编辑框高度
+        'toolbar': ["undo", "redo", "|",
+                    "bold", "del", "italic", "quote", "ucwords", "uppercase", "lowercase", "|",
+                    "h1", "h2", "h3", "h5", "h6", "|",
+                    "list-ul", "list-ol", "hr", "|",
+                    "link", "reference-link", "image", "code", "preformatted-text", "code-block", "table", "datetime",
+                    "emoji", "html-entities", "pagebreak", "goto-line", "|",
+                    "help", "info",
+                    "||", "preview", "watch", "fullscreen"],  # 自定义编辑框工具栏
+        'upload_image_formats': ["jpg", "jpeg", "gif", "png", "bmp", "webp"],  # 图片上传格式类型
+        'image_folder': 'post',  # 图片保存文件夹名称
+        'theme': 'dark',  # 编辑框主题 ，dark / default
+        'preview_theme': 'default',  # 预览区域主题， dark / default
+        'editor_theme': 'default',  # edit区域主题，pastel-on-dark / default
+        'toolbar_autofixed': True,  # 工具栏是否吸顶
+        'search_replace': True,  # 是否开启查找替换
+        'emoji': True,  # 是否开启表情功能
+        'tex': True,  # 是否开启 tex 图表功能
+        'flow_chart': False,  # 是否开启流程图功能
+        'sequence': False  # 是否开启序列图功能
+    }
+}
+X_FRAME_OPTIONS = "SAMEORIGIN"

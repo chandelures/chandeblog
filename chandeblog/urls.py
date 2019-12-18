@@ -27,9 +27,12 @@ urlpatterns = [
     path('', include('blog.urls', namespace='blog')),
 
     # 用户页面
-    path('account/', include('userprofile.urls', namespace='account')),
+    path('account/', include('userprofile.urls', namespace='accounts')),
     path('account/', include('allauth.urls')),
 
+    # mdeditor
+    path('mdeditor/', include('mdeditor.urls'))
 ]
 
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
