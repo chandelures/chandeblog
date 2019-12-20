@@ -1,15 +1,15 @@
 from django.shortcuts import render
 from django.shortcuts import get_object_or_404
-from django.views.generic import ListView, DetailView
-from django.views.generic import TodayArchiveView, YearArchiveView, MonthArchiveView, DayArchiveView
-from django.views.generic import UpdateView, CreateView, DeleteView
+from django.http import JsonResponse
+from django.views import generic
 from django.db.models import F
 from django.urls import reverse_lazy
+from django.utils.formats import date_format
 
 from blog.models import Post, Category, Column
 
 
-class IndexView(ListView):
+class IndexView(generic.ListView):
     """主页"""
     model = Post
     template_name = 'blog/index.html'
@@ -20,7 +20,42 @@ class IndexView(ListView):
         return super().get_queryset().public()
 
 
-class PostView(DetailView):
+def ajax_post_list(request):
+    if request.is_ajax():
+        index = int(request.GET.get("index", 0))
+        count = int(request.GET.get("count", 0))
+        post_count = Post.objects.count()
+        data = []
+        for i in range(count):
+            if 0 <= index < post_count:
+                post = Post.objects.all()[index]
+                index = index + 1
+                data.append({
+                    "post_count": post_count,
+                    "post_title": post.title,
+                    "post_abstract": post.abstract[:100] + "......",
+                    "post_category_name": post.category.name,
+                    "post_create_date": date_format(post.create_date, format="Y.m.j"),
+                })
+            else:
+                return JsonResponse(data, safe=False)
+        return JsonResponse(data, safe=False)
+    else:
+        return JsonResponse({"status": "error"})
+
+
+def ajax_post_count(request):
+    if request.is_ajax():
+        post_count = Post.objects.count()
+        data = {
+            "post_count": post_count,
+        }
+        return JsonResponse(data)
+    else:
+        return JsonResponse({"status": "error"})
+
+
+class PostView(generic.DetailView):
     """文章详细页面"""
     model = Post
     template_name = 'blog/post.html'
@@ -35,26 +70,26 @@ class PostView(DetailView):
         return response
 
 
-class PostCreate(CreateView):
+class PostCreate(generic.CreateView):
     """文章创建页面"""
     model = Post
     template_name = 'blog/create.html'
 
 
-class PostUpdate(UpdateView):
+class PostUpdate(generic.UpdateView):
     """文章更新页面"""
     model = Post
     template_name = 'blog/post_update.html'
 
 
-class PostDelete(DeleteView):
+class PostDelete(generic.DeleteView):
     """文章删除页面"""
     model = Post
     success_url = reverse_lazy('blog:index')
     template_name_suffix = 'blog/post_check_delete.html'
 
 
-class PostTodayArchive(TodayArchiveView):
+class PostTodayArchive(generic.TodayArchiveView):
     """归档页面"""
     allow_empty = True
     allow_future = False
@@ -67,7 +102,7 @@ class PostTodayArchive(TodayArchiveView):
     make_object_list = True
 
 
-class PostYearArchive(YearArchiveView):
+class PostYearArchive(generic.YearArchiveView):
     """文章归档页面"""
     allow_empty = True
     allow_future = False
@@ -81,7 +116,7 @@ class PostYearArchive(YearArchiveView):
     make_object_list = True
 
 
-class PostMonthArchive(MonthArchiveView):
+class PostMonthArchive(generic.MonthArchiveView):
     """文章归档页面"""
     allow_empty = True
     allow_future = False
@@ -96,7 +131,7 @@ class PostMonthArchive(MonthArchiveView):
     make_object_list = True
 
 
-class PostDayArchive(DayArchiveView):
+class PostDayArchive(generic.DayArchiveView):
     """文章归档页面"""
     allow_empty = True
     allow_future = False

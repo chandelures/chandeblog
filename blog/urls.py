@@ -26,5 +26,7 @@ urlpatterns = [
         views.PostDayArchive.as_view(), name='archive_day'),
     url(r'^today/$', views.PostTodayArchive.as_view(), name='archive_today'),
 
-
+    # api
+    url(r'^api/getpostlist', views.ajax_post_list, name="ajax_post_list"),
+    url(r'^api/getpostcount', views.ajax_post_count, name="ajax_post_count"),
 ]

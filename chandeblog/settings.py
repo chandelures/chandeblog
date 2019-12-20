@@ -168,7 +168,7 @@ AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',
 )
 
-LOGIN_REDIRECT_URL = '/account/profile'
+LOGIN_REDIRECT_URL = '/accounts/profile'
 
 EMAIL_HOST = "smtp.qq.com"
 EMAIL_PORT = 25

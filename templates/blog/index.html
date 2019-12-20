@@ -1,10 +1,50 @@
 {% extends 'blog/base.html' %}
-{% load blog_tags %}
+{% load static %}
+{% load sass_tags %}
 
+{% block css %}
+    <link rel="stylesheet" href="{% sass_src "blog/css/blog-main.scss" %}">
+{% endblock %}
+{% block js %}
+    <script src="{% static 'blog/js/blog-index.js' %}"></script>
+{% endblock %}
 {% block content %}
-    {% for post in post_list %}
-        {% markdown_text post.body as body %}
-        <h2>{{ post.title }}</h2>
-        <p>{{ post.abstract }}</p>
-    {% endfor %}
+    <div class="container p-4">
+        <div class="row">
+            <div class="col-lg-2"></div>
+            <div class="col-lg-8">
+                <div id="post-card-container">
+                    {#                    <div class="post-card p-3">#}
+                    {#                        <div class="post-card-header">#}
+                    {#                            <div class="dropdown-divider pb-5"></div>#}
+                    {#                            <h2><a href="#" class="text-decoration-none">吐血整理 Java笔试题知识点</a></h2>#}
+                    {#                            <p class="text-white mb-2 pt-2 pb-2">#}
+                    {#                                <span class="text-dark bg-white badge">2019.12.20</span>#}
+                    {#                                <a href="#"><span class="badge bg-white text-dark ml-2">测试分类2</span></a>#}
+                    {#                            </p>#}
+                    {#                        </div>#}
+                    {#                        <div class="post-card-abstract pb-3">#}
+                    {#                            <p class="lead text-white">#}
+                    {#                                <i class="fa fa-quote-left" aria-hidden="true"></i>#}
+                    {#                                当在ARM芯片上进行一些例如图像处理等计算的时候，常常会因为计算量太大造成计算帧率较低的情况。因而，需要选择一种更加简单快捷的计算方式以获得处理速度上的提升。ARM#}
+                    {#                                NEON就是一个不错的选择。当在A ......#}
+                    {#                            </p>#}
+                    {#                        </div>#}
+                    {#                        <div class="post-card-read-more text-center mt-3 mb-3">#}
+                    {#                            <button class="btn">READ MORE</button>#}
+                    {#                        </div>#}
+                    {#                    </div>#}
+                </div>
+
+
+                <div class="text-center mt-3">
+                    <div class="dropdown-divider pb-3"></div>
+                    <button class="btn text-white mb-5 bg-transparent border-0" id="load-post-card">
+                        <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="col-lg-2"></div>
+        </div>
+    </div>
 {% endblock content %}

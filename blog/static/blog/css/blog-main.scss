@@ -1,0 +1,42 @@
+@import "base.scss";
+
+.post-card {
+  .post-card-header {
+    h2 {
+      a {
+        color: $custom-white;
+
+        &:hover {
+          color: rgba($custom-green, 0.75);
+        }
+      }
+    }
+
+    span {
+      &:hover {
+        box-shadow: 1px 1px 10px $custom-dark;
+      }
+    }
+  ;
+  }
+
+  .post-card-read-more {
+    button {
+      background: $custom-white;
+
+      &:hover {
+        color: $custom-white;
+        background: rgba($custom-green, 0.5);
+      }
+    }
+  }
+}
+
+#load-post-card {
+  i {
+    font-size: 36pt;
+    &:hover {
+      color: rgba($custom-green, 0.5);
+    }
+  }
+}
