@@ -1,5 +1,7 @@
 $(function () {
-    function load_post_card(load_post_count = 2) {
+    let load_post_count = 2;
+
+    function load_post_card(load_post_count) {
         let index = 0;
         let post_count = 0;
         let api_url = "/api/getpostlist";
@@ -20,7 +22,7 @@ $(function () {
                 "                                " + item["post_abstract"] + "\n" +
                 "                            </p>\n" +
                 "                        </div>\n" +
-                "                        <div class=\"post-card-read-more text-center mt-3 mb-3\">\n" +
+                "                        <div class=\"post-card-read-more text-center mt-2 mb-2\">\n" +
                 "                            <button class=\"btn\">READ MORE</button>\n" +
                 "                        </div>\n" +
                 "                    </div>");
@@ -53,5 +55,5 @@ $(function () {
         }).click();
     }
 
-    load_post_card()
+    load_post_card(load_post_count);
 });
