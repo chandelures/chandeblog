@@ -9,50 +9,36 @@ from django.utils.formats import date_format
 from blog.models import Post, Category, Column
 
 
-class IndexView(generic.ListView):
+class IndexView(generic.TemplateView):
     """主页"""
-    model = Post
     template_name = 'blog/index.html'
-    context_object_name = 'post_list'
-    paginate_by = 5
-
-    def get_queryset(self):
-        return super().get_queryset().public()
 
 
-def ajax_post_list(request):
-    if request.is_ajax():
-        index = int(request.GET.get("index", 0))
-        count = int(request.GET.get("count", 0))
-        post_count = Post.objects.count()
-        data = []
-        for i in range(count):
-            if 0 <= index < post_count:
-                post = Post.objects.all()[index]
-                index = index + 1
-                data.append({
-                    "post_count": post_count,
-                    "post_title": post.title,
-                    "post_abstract": post.abstract[:100] + "......",
-                    "post_category_name": post.category.name,
-                    "post_create_date": date_format(post.create_date, format="Y.m.j"),
-                })
-            else:
-                return JsonResponse(data, safe=False)
-        return JsonResponse(data, safe=False)
-    else:
-        return JsonResponse({"status": "error"})
-
-
-def ajax_post_count(request):
-    if request.is_ajax():
-        post_count = Post.objects.count()
-        data = {
-            "post_count": post_count,
-        }
-        return JsonResponse(data)
-    else:
-        return JsonResponse({"status": "error"})
+class AjaxPostListView(generic.View):
+    def get(self, request):
+        if request.is_ajax():
+            index = int(request.GET.get("index", 0))
+            count = int(request.GET.get("count", 0))
+            post_count = Post.objects.count()
+            data = []
+            for i in range(count):
+                if 0 <= index < post_count:
+                    post = Post.objects.all()[index]
+                    index = index + 1
+                    data.append({
+                        "post_count": post_count,
+                        "post_url": post.get_absolute_url(),
+                        "post_title": post.title,
+                        "post_abstract": post.abstract[:100] + "......",
+                        "post_category_name": post.category.name,
+                        "post_category_url": post.category.get_absolute_url(),
+                        "post_create_date": date_format(post.create_date, format="Y.m.j"),
+                    })
+                else:
+                    return JsonResponse(data, safe=False)
+            return JsonResponse(data, safe=False)
+        else:
+            return JsonResponse({"status": "error"})
 
 
 class PostView(generic.DetailView):
@@ -145,3 +131,11 @@ class PostDayArchive(generic.DayArchiveView):
     day_format = '%d'
     paginate_by = 50
     make_object_list = True
+
+
+class CategoryView(generic.ListView):
+    """主页"""
+    model = Post
+    template_name = 'blog/category.html'
+    context_object_name = 'category_list'
+    paginate_by = 5

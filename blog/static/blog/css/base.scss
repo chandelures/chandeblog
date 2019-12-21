@@ -12,8 +12,8 @@ $bg-footer-deg: 45deg;
 $header-bg-img: linear-gradient($bg-header-deg, $custom-green 0%, $custom-blue 100%);
 $footer-bg-img: linear-gradient($bg-footer-deg, $custom-yellow 0%, $custom-pink 100%);
 
-$chinese-font-family: PingFangSC-Regular, Noto Sans CJK, STHeiti, STHeiti Light;
-$english-font-family: San Francisco, Helvetica Neue, Roboto, Avenir Next, sans-serif;
+$chinese-font-family: PingFangSC-Regular;
+$english-font-family: San Francisco, sans-serif;
 $num-font-family: Din, Helvetica Neue;
 $brand-font: 'Comic Sans MS', sans-serif;
 
@@ -27,7 +27,16 @@ $footer-brand-height: 38px;
 $header-brand-width: 44px;
 $header-brand-height: 44px;
 
-$custom-line-height: 1.8;
+$custom-line-height: 1.6;
+
+$to-up-button-width: 3rem;
+$to-up-button-height: $to-up-button-width;
+$to-up-button-border-radius: 33%;
+$to-up-button-opacity: 0.8;
+$to-up-button-right: 3rem;
+$to-up-button-left: $to-up-button-right;
+$to-up-button-z-index: 999;
+
 
 html, body {
   font-family: $chinese-font-family+$english-font-family+$num-font-family+sans-serif;
@@ -145,4 +154,31 @@ footer {
 
 .brand {
   font-family: $brand-font;
+}
+
+.tips {
+  @media screen and (max-width: 992px) {
+    display: none;
+  }
+
+  #toUp {
+    width: $to-up-button-width;
+    height: $to-up-button-height;
+    border-radius: $to-up-button-border-radius;
+    opacity: $to-up-button-opacity;
+    color: $custom-white;
+    background: $custom-dark;
+    cursor: pointer;
+    position: fixed;
+    right: $to-up-button-right;
+    bottom: $to-up-button-left;
+    font-size: x-large;
+    display: none;
+    z-index: $to-up-button-z-index;
+
+    &:hover {
+      color: $custom-dark;
+      background: $custom-white;
+    }
+  }
 }

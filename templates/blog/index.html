@@ -3,13 +3,15 @@
 {% load sass_tags %}
 
 {% block css %}
-    <link rel="stylesheet" href="{% sass_src "blog/css/blog-main.scss" %}">
-{% endblock %}
+    <link rel="stylesheet" href="{% sass_src "blog/css/blog.scss" %}">
+{% endblock css %}
+
 {% block js %}
     <script src="{% static 'blog/js/blog-index.js' %}"></script>
-{% endblock %}
+{% endblock js %}
+
 {% block content %}
-    <div class="container p-4">
+    <div class="container p-3">
         <div class="row">
             <div class="col-lg-2"></div>
             <div class="col-lg-8">
@@ -17,7 +19,7 @@
                     {#                    <div class="post-card p-3">#}
                     {#                        <div class="post-card-header">#}
                     {#                            <div class="dropdown-divider pb-5"></div>#}
-                    {#                            <h2><a href="#" class="text-decoration-none">吐血整理 Java笔试题知识点</a></h2>#}
+                    {#                            <h2><a href="#">吐血整理 Java笔试题知识点</a></h2>#}
                     {#                            <p class="text-white mb-2 pt-2 pb-2">#}
                     {#                                <span class="text-dark bg-white badge">2019.12.20</span>#}
                     {#                                <a href="#"><span class="badge bg-white text-dark ml-2">测试分类2</span></a>#}
@@ -31,12 +33,10 @@
                     {#                            </p>#}
                     {#                        </div>#}
                     {#                        <div class="post-card-read-more text-center mt-2 mb-2">#}
-                    {#                            <button class="btn">READ MORE</button>#}
+                    {#                            <button class="btn">READ MORE <i class="fa fa-arrow-right" aria-hidden="true"></i></button>#}
                     {#                        </div>#}
                     {#                    </div>#}
                 </div>
-
-
                 <div class="text-center mt-3">
                     <div class="dropdown-divider pb-3"></div>
                     <button class="btn text-white mb-5 bg-transparent border-0" id="load-post-card">

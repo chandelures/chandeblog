@@ -1,18 +1,21 @@
 from django.conf.urls import url
 from django.views.generic.dates import ArchiveIndexView
-from . import views
-from .models import Post
+from blog import views
+from blog.models import Post
+from blog.feed import BlogFeed
 
 """定义url模式"""
 app_name = 'blog'
 
 urlpatterns = [
-
     # 主页
     url(r'^$', views.IndexView.as_view(), name='index'),
 
-    # 文章页
+    # 文章页面
     url(r'^post/(?P<slug>[^\\.]+)/$', views.PostView.as_view(), name='post'),
+
+    # 分类页面
+    url(r'^category/(?P<slug>[^\\.]+)/$', views.CategoryView.as_view(), name='category'),
 
     # 归档页面
     url(r'^archive/$',
@@ -27,6 +30,8 @@ urlpatterns = [
     url(r'^today/$', views.PostTodayArchive.as_view(), name='archive_today'),
 
     # api
-    url(r'^api/getpostlist', views.ajax_post_list, name="ajax_post_list"),
-    url(r'^api/getpostcount', views.ajax_post_count, name="ajax_post_count"),
+    url(r'^api/getpostlist', views.AjaxPostListView.as_view(), name="ajax_post_list"),
+
+    # rss
+    url(r'^rss/$', BlogFeed(), name='rss'),
 ]

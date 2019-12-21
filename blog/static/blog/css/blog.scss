@@ -1,0 +1,79 @@
+@import "base.scss";
+@import "highlight.scss";
+@import "toc.scss";
+
+$load-post-card-icon-size: 48px;
+
+
+.post-card {
+  .post-card-header {
+    h2 {
+      a {
+        color: $custom-white;
+
+        &:hover {
+          color: rgba($custom-white, 0.75);
+        }
+      }
+    }
+
+    span {
+      &:hover {
+        box-shadow: 1px 1px 10px $custom-dark;
+      }
+    }
+  ;
+  }
+
+  .post-card-read-more {
+    button {
+      background: $custom-white;
+
+      &:hover {
+        color: $custom-white;
+        background: rgba($custom-blue, 0.75);
+      }
+    }
+  }
+}
+
+#load-post-card {
+  i {
+    font-size: $load-post-card-icon-size;
+
+    &:hover {
+      color: rgba($custom-blue, 0.75) ;
+    }
+  }
+}
+
+.sidebar {
+  will-change: min-height;
+  position: sticky;
+  top: 10px;
+
+  li {
+    list-style: none;
+
+    a {
+      color: $custom-white;
+      text-decoration-line: none;
+    }
+  }
+
+  .inner-wrapper-sticky {
+    width: 100px;
+  }
+}
+
+.post-detail {
+  word-wrap: break-word;
+
+  .post-detail-header {
+    span {
+      &:hover {
+        box-shadow: 1px 1px 10px $custom-dark;
+      }
+    }
+  }
+}

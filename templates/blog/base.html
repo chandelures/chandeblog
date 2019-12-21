@@ -1,6 +1,8 @@
 {% load static %}
 {% load sass_tags %}
 {% load compress %}
+{% load avatar_tags %}
+
 <!DOCTYPE html>
 <html lang="zh-hans">
 <head>
@@ -12,12 +14,13 @@
         <script src="{% static 'bootstrap/js/jquery-3.3.1.js' %}"></script>
         <script src="{% static 'bootstrap/js/popper.min.js' %}"></script>
         <script src="{% static 'bootstrap/js/bootstrap.js' %}"></script>
+        <script src="{% static 'blog/js/base.js' %}"></script>
         {% block js %}
         {% endblock js %}
     {% endcompress %}
     {% compress css %}
         <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
-        <link rel="stylesheet" href="{% static 'blog/css/monokai.css' %}">
+
         <link rel="stylesheet" href="{% static 'font-awesome-4.7.0/css/font-awesome.min.css' %}">
         {% block css %}
         {% endblock css %}
@@ -47,10 +50,10 @@
                         </li>
                         {% if user.is_authenticated %}
                             <li class="nav-item display-none-md">
-                                <a class="nav-link font-weight-bold mr-3 pb-0" href="#">欢迎, {{ user.username }}</a>
+                                <a class="nav-link font-weight-bold mr-3 pb-0" href="#">{% avatar user 26 %} {{ user.username }}</a>
                             </li>
                             <li class="nav-item display-none-md">
-                                <a class="nav-link font-weight-bold mr-3 pb-0" href="#">注销</a>
+                                <a class="nav-link font-weight-bold mr-3 pb-0" href="{% url 'account_logout' %}">注销</a>
                             </li>
                         {% endif %}
                     </ul>
@@ -59,13 +62,13 @@
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle pb-0" href="#" id="navbarDropdown" role="button"
                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    我的
+                                    {% avatar user 26 %}
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="#">我的信息</a>
                                     <a class="dropdown-item" href="#">更改信息</a>
                                     <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#">注销</a>
+                                    <a class="dropdown-item" href="{% url 'account_logout' %}">注销</a>
                                 </div>
                             </li>
                         {% else %}
@@ -80,7 +83,6 @@
                         {% endif %}
                     </ul>
                 </div>
-
             </div>
         </nav>
         <div class="text-center pt-4 pb-5">
@@ -94,19 +96,22 @@
     <main id="main" class="bg-main">
         {% block content %}
         {% endblock content %}
+        <div class="tips">
+            <button class="position-fixed btn" id="toUp"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
+        </div>
     </main>
     <footer class="navbar-fixed-bottom bg-white pt-4 pb-2 bg-footer position-absolute">
         <div class="container">
             <div class="row text-center">
-                <div class="col-md-4 mt-3">
+                <div class="col-sm-4 mt-3">
                     <div class="text-center">
-                        <a class="h3 text-white font-weight-bolder text-decoration-none brand" href="#"><img
+                        <a class="h2 text-white font-weight-bolder text-decoration-none brand" href="#"><img
                                 class="mb-3 mt-1 text-white"
                                 src="{% static 'img/logo-footer.svg' %}" alt="C">handelure's
                             Blog</a>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-sm-4">
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item border-0 p-1 bg-transparent"><a
                                 class="font-weight-bold text-decoration-none foot-link"
@@ -119,7 +124,7 @@
                                 href="#">关于</a></li>
                     </ul>
                 </div>
-                <div class="col-md-4">
+                <div class="col-sm-4">
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item border-0 p-1 bg-transparent"><a
                                 class="font-weight-bold text-decoration-none foot-link" href="#">RSS订阅</a>
@@ -143,18 +148,18 @@
                         <a class="nav-link text-decoration-none foot-link" href="#">反馈</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-decoration-none foot-link" href="#">站点地图</a>
+                        <a class="nav-link text-decoration-none foot-link" href="{% url 'sitemap' %}">站点地图</a>
                     </li>
                 </ul>
                 <ul class="nav col-md-3">
                 </ul>
                 <ul class="nav col-md-4 d-flex justify-content-center">
                     <li class="nav-item">
-                        <a class="nav-link font-weight-bold text-decoration-none foot-link" href="#"><i
+                        <a class="nav-link font-weight-bold text-decoration-none foot-link" href="https://github.com/chandelures"><i
                                 class="fa fa-github"></i></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link font-weight-bold text-decoration-none foot-link" href="#"><i
+                        <a class="nav-link font-weight-bold text-decoration-none foot-link" href="{% url 'blog:rss' %}"><i
                                 class="fa fa-rss"></i></a>
                     </li>
                     <li class="nav-item">
