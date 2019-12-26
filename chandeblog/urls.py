@@ -32,6 +32,9 @@ urlpatterns = [
     # 博客页面
     path('', include('blog.urls', namespace='blog')),
 
+    # 评论页面
+    path('comment/', include('comment.urls', namespace='comment')),
+
     # 用户页面
     path('accounts/', include('userprofile.urls', namespace='accounts')),
     path('accounts/', include('allauth.urls')),

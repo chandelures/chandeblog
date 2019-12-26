@@ -7,6 +7,7 @@ from django.urls import reverse_lazy
 from django.utils.formats import date_format
 
 from blog.models import Post, Category, Column
+import markdown
 
 
 class IndexView(generic.TemplateView):
@@ -15,11 +16,14 @@ class IndexView(generic.TemplateView):
 
 
 class AjaxPostListView(generic.View):
+    """获取文章列表API"""
+
     def get(self, request):
         if request.is_ajax():
             index = int(request.GET.get("index", 0))
             count = int(request.GET.get("count", 0))
             post_count = Post.objects.count()
+            md = markdown.Markdown()
             data = []
             for i in range(count):
                 if 0 <= index < post_count:
@@ -29,7 +33,7 @@ class AjaxPostListView(generic.View):
                         "post_count": post_count,
                         "post_url": post.get_absolute_url(),
                         "post_title": post.title,
-                        "post_abstract": post.abstract[:100] + "......",
+                        "post_abstract": md.convert(post.abstract),
                         "post_category_name": post.category.name,
                         "post_category_url": post.category.get_absolute_url(),
                         "post_create_date": date_format(post.create_date, format="Y.m.j"),

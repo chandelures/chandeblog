@@ -50,7 +50,8 @@
                         </li>
                         {% if user.is_authenticated %}
                             <li class="nav-item display-none-md">
-                                <a class="nav-link font-weight-bold mr-3 pb-0" href="#">{% avatar user 26 %} {{ user.username }}</a>
+                                <a class="nav-link font-weight-bold mr-3 pb-0"
+                                   href="#">{% avatar user 26 %} {{ user.username }}</a>
                             </li>
                             <li class="nav-item display-none-md">
                                 <a class="nav-link font-weight-bold mr-3 pb-0" href="{% url 'account_logout' %}">注销</a>
@@ -155,7 +156,8 @@
                 </ul>
                 <ul class="nav col-md-4 d-flex justify-content-center">
                     <li class="nav-item">
-                        <a class="nav-link font-weight-bold text-decoration-none foot-link" href="https://github.com/chandelures"><i
+                        <a class="nav-link font-weight-bold text-decoration-none foot-link"
+                           href="https://github.com/chandelures"><i
                                 class="fa fa-github"></i></a>
                     </li>
                     <li class="nav-item">

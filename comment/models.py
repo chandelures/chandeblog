@@ -5,6 +5,7 @@ from blog.models import Post
 from mptt.models import MPTTModel, TreeForeignKey
 
 from django.contrib.auth import get_user_model
+
 User = get_user_model()
 
 
@@ -20,9 +21,8 @@ class Comment(MPTTModel):
         reply_to: 回复的用户
         like: 点赞的数量
         unlike: 点踩的数量
-
     """
-    article = models.ForeignKey(
+    post = models.ForeignKey(
         Post,
         on_delete=models.CASCADE,
         related_name='comments'
@@ -45,14 +45,14 @@ class Comment(MPTTModel):
         User,
         null=True,
         blank=True,
-        on_delete=models.SET_NULL,
+        on_delete=models.CASCADE,
         related_name='replyers'
     )
     like = models.PositiveIntegerField('点赞', editable=False, default=0)
     unlike = models.PositiveIntegerField('踩', editable=False, default=0)
 
     def __str__(self):
-        return self.body[:20]
+        return self.user.username + ": " + self.body[:10]
 
     class MPTTMeta:
         order_insertion_by = ['create_date']

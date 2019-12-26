@@ -45,14 +45,16 @@ INSTALLED_APPS = [
     # other apps
     'mptt',
     'taggit',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.github',
     'mdeditor',
     'sass_processor',
     'compressor',
     'avatar',
+
+    # login and signup app
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.github',
 
 ]
 

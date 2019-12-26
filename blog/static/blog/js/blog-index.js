@@ -21,9 +21,8 @@ $(function () {
                 "                                <a href=\"" + post_category_url + "\"><span class=\"badge bg-white text-dark ml-2\">" + post_category_name + "</span></a>\n" +
                 "                            </p>\n" +
                 "                        </div>\n" +
-                "                        <div class=\"post-card-abstract pb-3\">\n" +
+                "                        <div class=\"post-card-abstract pb-3 post-markdown text-white\">\n" +
                 "                            <p class=\"lead text-white\">\n" +
-                "                                <i class=\"fa fa-quote-left\" aria-hidden=\"true\"></i>\n" +
                 "                                " + post_abstract + "\n" +
                 "                            </p>\n" +
                 "                        </div>\n" +
