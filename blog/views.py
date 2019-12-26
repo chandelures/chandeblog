@@ -23,7 +23,6 @@ class AjaxPostListView(generic.View):
             index = int(request.GET.get("index", 0))
             count = int(request.GET.get("count", 0))
             post_count = Post.objects.count()
-            md = markdown.Markdown()
             data = []
             for i in range(count):
                 if 0 <= index < post_count:
@@ -33,7 +32,7 @@ class AjaxPostListView(generic.View):
                         "post_count": post_count,
                         "post_url": post.get_absolute_url(),
                         "post_title": post.title,
-                        "post_abstract": md.convert(post.abstract),
+                        "post_abstract": self.markdown_text(post.abstract),
                         "post_category_name": post.category.name,
                         "post_category_url": post.category.get_absolute_url(),
                         "post_create_date": date_format(post.create_date, format="Y.m.j"),
@@ -43,6 +42,21 @@ class AjaxPostListView(generic.View):
             return JsonResponse(data, safe=False)
         else:
             return JsonResponse({"status": "error"})
+
+    @staticmethod
+    def markdown_text(text):
+        config = {
+            'codehilite': {
+                'use_pygments': True,
+            },
+        }
+        md = markdown.Markdown(extensions=[
+            'markdown.extensions.extra',
+            'markdown.extensions.codehilite',
+        ],
+            extensions_configs=config)
+        html = md.convert(text)
+        return html
 
 
 class PostView(generic.DetailView):

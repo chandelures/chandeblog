@@ -4,6 +4,7 @@
 {% load blog_tags %}
 {% load mptt_tags %}
 {% load comment_tags %}
+{% load avatar_tags %}
 
 {% block css %}
     <link rel="stylesheet" href="{% sass_src "blog/css/blog.scss" %}">
@@ -11,6 +12,7 @@
 
 {% block js %}
     <script src="{% static 'blog/js/bootstrap-toc.js' %}"></script>
+    <script src="{% static 'ckeditor/ckeditor.js' %}"></script>
     <script src="{% static 'blog/js/blog-detail.js' %}"></script>
 {% endblock js %}
 
@@ -19,15 +21,16 @@
 
     <div class="container-fluid p-4">
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-lg-3">
                 <div class="sidebar p-5" id="sidebar">
                     <div class="sidebar__inner">
-                        {% markdown_text post.body as body %}
+
+                        <p class="text-white pl-3">Content</p>
                         <nav id="toc"></nav>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-lg-6">
                 <div class="post-detail pb-5 pt-5">
                     <div class="post-detail-header">
                         <h1 class="text-white" data-toc-skip>{{ post.title }}</h1>
@@ -37,95 +40,113 @@
                         </p>
                     </div>
                     <div class="post-body post-markdown text-white">
-                        {{ body.html|safe }}
+                        {% markdown_text post.body as body %}
+                        {{ body|safe }}
                     </div>
                 </div>
-
-                <div class="comment-container">
-                    {% get_comments post.id as comments %}
-                    {% get_comments_count post.id as comments_count %}
-                    <h4>评论数量：{{ comments_count }}</h4>
-
-                    {% recursetree comments %}
-                        {% with comment=node %}
-                            <p>{{ comment.user }}: {{ comment.body|safe }} ({{ comment.id }}
-                                - {{ comment.parent.id }})</p>
-                            {% if comment.parent.id %}
-                                <button type="button" class="btn btn-primary" data-toggle="modal"
-                                        data-target="#commentModal" data-postid="{{ post.id }}"
-                                        data-parentcommentid="{{ comment.parent.id }}"
-                                        data-replyusername="{{ comment.parent.user.username }}">new comment
-                                </button>
-                            {% else %}
-                                <button type="button" class="btn btn-primary" data-toggle="modal"
-                                        data-target="#commentModal" data-postid="{{ post.id }}"
-                                        data-parentcommentid="{{ comment.id }}"
-                                        data-replyusername="{{ comment.user.username }}">new comment
-                                </button>
-                            {% endif %}
-                            {% if not comment.is_leaf_node %}
-                                <div class="comment-children">
-                                    {{ children }}
-                                </div>
-                            {% endif %}
-                        {% endwith %}
-                    {% endrecursetree %}
-
+                <div class="post-comment pt-5 border-top">
                     <form action="{% url 'comment:post_comment' post.id %}" method="POST">
                         {% csrf_token %}
-                        <label for="comment_body" class="col-form-label">回复:</label>
-                        <textarea name="body" class="form-control" id="comment_body"></textarea>
-                        <input type="submit">
+                        <div class="row">
+                            <div class="col-1">
+                                <img class="rounded" src="{% avatar_url user 32 %}" alt="">
+                            </div>
+                            <div class="col-11">
+                                <label for="comment_body" class="col-form-label text-white d-none">发表评论</label>
+                                <textarea name="body" class="form-control" id="comment_body"></textarea>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn bg-white m-3">提交评论</button>
+                        </div>
                     </form>
-                    <div class="modal fade" id="commentModal" tabindex="-1" role="dialog"
-                         aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">New Comment</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
+                    <div class="comment-container pt-5">
+
+                        {% get_comments post.id as comments %}
+                        {% get_comments_count post.id as comments_count %}
+
+                        {% recursetree comments %}
+                            {% with comment=node %}
+                                <div class="comment-header text-white d-flex">
+                                    <div class="flex-grow-1 p-2">
+                                        <img class="rounded" src="{% avatar_url comment.user 32 %}" alt="">
+                                        <p class="d-inline ml-3">
+                                            {{ comment.user }}
+                                            {% if comment.is_leaf_node %}
+                                                <span class="pl-2 pr-2"><i class="fa fa-share"
+                                                                           aria-hidden="true"></i></span>
+                                                {{ comment.reply_to }}
+                                            {% endif %}
+                                        </p>
+                                    </div>
+                                    <div class="p-2 pr-4">
+                                        {% get_comment_children_count comment as children_count %}
+                                        {% if children_count %}
+                                            <a class="text-white" data-toggle="collapse"
+                                               href="#comment_children_{{ comment.get_root.id }}"
+                                               role="button" aria-expanded="false"
+                                               aria-controls="comment_children_{{ comment.get_root.id }}">
+                                                <i class="fa fa-bars" aria-hidden="true"></i>
+                                            </a>
+                                        {% endif %}
+                                    </div>
+                                    <div class="p-2">
+                                        {% if comment.parent.id %}
+                                            <a class="text-white" data-toggle="modal" href=""
+                                               data-target="#commentModal" data-postid="{{ post.id }}"
+                                               data-parentcommentid="{{ comment.parent.id }}"
+                                               data-replyusername="{{ comment.user.username }}">
+                                                <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                                            </a>
+                                        {% else %}
+                                            <a class="text-white" data-toggle="modal" href=""
+                                               data-target="#commentModal" data-postid="{{ post.id }}"
+                                               data-parentcommentid="{{ comment.id }}"
+                                               data-replyusername="{{ comment.user.username }}">
+                                                <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                                            </a>
+                                        {% endif %}
+                                    </div>
                                 </div>
-                                <div class="modal-body">
-                                    <form class="form-group" action="" method="POST">{% csrf_token %}
-                                        <label for="modal_comment_body" class="col-form-label">回复:</label>
-                                        <textarea name="body" class="form-control" id="modal_comment_body"></textarea>
-                                        <input class="" type="submit">
-                                    </form>
+                                <div class="text-white pl-5 ml-3">{{ comment.body|safe }}</div>
+                                {% if not comment.is_leaf_node %}
+                                    <div class="collapse comment-children ml-lg-5 ml-4"
+                                         id="comment_children_{{ comment.get_root.id }}">
+                                        {{ children }}
+                                    </div>
+                                {% endif %}
+                            {% endwith %}
+                        {% endrecursetree %}
+
+
+                        <div class="modal fade" id="commentModal" tabindex="-1" role="dialog"
+                             aria-labelledby="CommentModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="CommentModalLabel">New Comment</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form class="form-group" action="" method="POST">{% csrf_token %}
+                                            <label for="modal_comment_body" class="col-form-label d-none">回复:</label>
+                                            <textarea name="body" class="form-control"
+                                                      id="modal_comment_body"></textarea>
+                                            <div class="text-center mt-3">
+                                                <button type="submit" class="btn btn-dark">提交评论</button>
+                                            </div>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
             </div>
-            <div class="col-md-3"></div>
+            <div class="col-lg-3"></div>
         </div>
     </div>
-    <script src="{% static 'ckeditor/ckeditor.js' %}"></script>
-    <script>
-        $(function () {
-            $('#commentModal').on('show.bs.modal', function (event) {
-                var button = $(event.relatedTarget);
-                var postId = button.data('postid');
-                var replyUsername = button.data('replyusername');
-                var parentCommentId = button.data('parentcommentid');
-                var modal = $(this);
-                modal.find("form").attr("action", "/comment/post-comment/" + postId + "/" + parentCommentId);
-                modal.find('.modal-title').text('回复给 ' + replyUsername);
-            });
-            ClassicEditor
-                .create(document.querySelector('#modal_comment_body'))
-                .catch(error => {
-                    console.error(error);
-                });
-            ClassicEditor
-                .create(document.querySelector('#comment_body'), {
-                    toolbar: ['bold', 'numberedList'],
-                })
-                .catch(error => {
-                    console.error(error);
-                });
-        });
-    </script>
 {% endblock %}

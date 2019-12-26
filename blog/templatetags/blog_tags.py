@@ -20,11 +20,7 @@ def markdown_text(text):
     md = markdown.Markdown(extensions=[
         'markdown.extensions.extra',
         'markdown.extensions.codehilite',
-        "markdown.extensions.toc",
     ],
         extensions_configs=config)
     html = md.convert(text)
-    return {
-        "html": html,
-        "toc": md.toc
-    }
+    return html
