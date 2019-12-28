@@ -35,7 +35,8 @@ class AjaxPostListView(generic.View):
                         "post_abstract": self.markdown_text(post.abstract),
                         "post_category_name": post.category.name,
                         "post_category_url": post.category.get_absolute_url(),
-                        "post_create_date": date_format(post.create_date, format="Y.m.j"),
+                        "post_create_date": date_format(post.create_date, format="Y-m-j"),
+                        "post_views": post.views,
                     })
                 else:
                     return JsonResponse(data, safe=False)

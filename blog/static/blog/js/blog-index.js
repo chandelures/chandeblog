@@ -9,8 +9,9 @@ function loadPostCard(loadPostCount) {
             post_category_name = item["post_category_name"],
             post_category_url = item["post_category_url"],
             post_abstract = item["post_abstract"],
-            post_create_date = item["post_create_date"];
-        $("#post-card-container").append("<div class=\"post-card p-3 mt-5\">\n" +
+            post_create_date = item["post_create_date"],
+            post_views = item["post_views"];
+        $("#post-card-container").append("<div class=\"post-card p-2 pt-5 pb-5\">\n" +
             "                        <div class=\"post-card-header text-center\">\n" +
             "                            <h2><a href=\"" + post_url + "\"\n" +
             "                                   class=\"font-weight-bold text-decoration-none\">" + post_title + "</a></h2>\n" +
@@ -19,13 +20,15 @@ function loadPostCard(loadPostCount) {
             "                                 <span class=\"pl-1 pr-1\">|</span>\n" +
             "                                <a class=\"text-muted\" href=\"#\"><span><i class=\"fa fa-file\"\n" +
             "                                                                                 aria-hidden=\"true\"></i> " + post_category_name + "</span></a>\n" +
+            "                                 <span class=\"pl-1 pr-1\">|</span>\n" +
+            "                                <span><i class=\"fa fa-eye\" aria-hidden=\"true\"></i> " + post_views + "</span>\n" +
             "                            </small>\n" +
             "                        </div>\n" +
             "                        <div class=\"post-card-abstract post-markdown pb-3 pt-3 text-white\">\n" + post_abstract +
             "                        </div>\n" +
             "                        <div class=\"post-card-footer text-center\">\n" +
             "                            <a class=\"text-decoration-none p-2 border font-weight-bold\" href=\"" + post_url + "\">阅读全文 »</a>\n" +
-            "                            <div class=\"post-card-divider pt-5\"></div>\n" +
+            "                            <div class=\"post-card-divider\"></div>\n" +
             "                        </div>\n" +
             "                    </div>");
     }

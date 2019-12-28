@@ -41,9 +41,8 @@ $load-post-card-icon-size: 48px;
   }
 }
 
-.sidebar {
+#sidebar {
   will-change: min-height;
-  position: sticky;
   top: 10px;
 
   li {
@@ -58,14 +57,20 @@ $load-post-card-icon-size: 48px;
 
 .post-detail {
   word-wrap: break-word;
-
-  .post-footer .card{
-    border: 1px solid $custom-white;
-  }
 }
 
 .comment-form {
   .cke {
     border: 0;
+  }
+
+  button {
+    background-color: transparent;
+    color: $custom-white;
+
+    &:hover {
+      background-color: $custom-white;
+      color: $custom-dark;
+    }
   }
 }

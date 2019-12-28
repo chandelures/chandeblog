@@ -22,70 +22,105 @@
     <div class="container-fluid p-4">
         <div class="row">
             <div class="col-lg-3 d-none d-lg-block">
-                <div class="sidebar p-5" id="sidebar">
+                <div class="sidebar p-5 position-sticky" id="sidebar">
                     <div class="sidebar__inner">
-                        <p class="text-white pl-3">Content</p>
                         <nav id="toc"></nav>
                     </div>
                 </div>
             </div>
             <div class="col-lg-6">
-                <div class="post-detail pb-5 pt-5">
+                <div class="post-detail pb-5 pt-5" id="post-detail">
                     <div class="post-header text-center">
                         <h2 class="text-white font-weight-bold" data-toc-skip>{{ post.title }}</h2>
                         <small class="text-muted mb-2 pt-2 pb-2">
-                            <span><i class="fa fa-calendar-o"
-                                     aria-hidden="true"></i> {{ post.create_date | date:"Y-m-j" }}</span>
+                            <span>
+                                <i class="fa fa-calendar-o" aria-hidden="true"></i>
+                                {{ post.create_date | date:"Y-m-j" }}
+                            </span>
                             <span class="pl-1 pr-1">|</span>
-                            <a class="text-muted" href="#"><span class=""><i class="fa fa-file"
-                                                                             aria-hidden="true"></i> {{ post.category.name }}</span></a>
+                            <a class="text-muted" href="#">
+                                <span class="">
+                                <i class="fa fa-file" aria-hidden="true"></i>
+                                {{ post.category.name }}
+                                </span>
+                            </a>
+                            <span class="pl-1 pr-1">|</span>
+                            <span>
+                                <i class="fa fa-eye" aria-hidden="true"></i>
+                                {{ post.views }}
+                            </span>
                         </small>
                     </div>
                     <div class="post-body post-markdown text-white">
                         {% markdown_text post.body as body %}
                         {{ body|safe }}
                     </div>
-                    <div class="post-footer mt-5">
-                        <div class="card text-muted bg-transparent">
+                    <div class="post-footer mt-5 border shadow">
+                        <div class="card text-white bg-transparent">
                             <div class="card-body">
-                                <p class="card-text"><small><i class="fa fa-user" aria-hidden="true"></i>
-                                    作者：{{ post.author }}</small></p>
+                                <p class="card-text">
+                                    <small>
+                                        <i class="fa fa-user" aria-hidden="true"></i>
+                                        作者：{{ post.author }}
+                                    </small>
+                                </p>
                                 {% get_post_tags post as tags %}
-                                <p class="card-text"><small><i class="fa fa-tag" aria-hidden="true"></i> 标签：{{ tags }}
-                                </small></p>
-                                <p class="card-text"><small><i class="fa fa-calendar-o" aria-hidden="true"></i>
-                                    发表日期：{{ post.mod_time | date:"Y-m-j H:m" }}</small></p>
-                                <p class="card-text"><small><i class="fa fa-calendar" aria-hidden="true"></i>
-                                    最后修改日期：{{ post.create_date | date:"Y-m-j H:m" }}</small></p>
-                                <p class="card-text"><small><i class="fa fa-link" aria-hidden="true"></i>
-                                    链接：https://{{ request.get_host }}{{ post.get_absolute_url }}</small></p>
+                                <p class="card-text">
+                                    <small>
+                                        <i class="fa fa-tag" aria-hidden="true"></i>
+                                        标签：{{ tags }}
+                                    </small>
+                                </p>
+                                <p class="card-text">
+                                    <small>
+                                        <i class="fa fa-calendar-o" aria-hidden="true"></i>
+                                        发表日期：{{ post.mod_time | date:"Y-m-j H:m" }}
+                                    </small>
+                                </p>
+                                <p class="card-text">
+                                    <small>
+                                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                                        最后修改日期：{{ post.create_date | date:"Y-m-j H:m" }}
+                                    </small>
+                                </p>
+                                <p class="card-text">
+                                    <small>
+                                        <i class="fa fa-link" aria-hidden="true"></i>
+                                        链接：https://{{ request.get_host }}{{ post.get_absolute_url }}
+                                    </small>
+                                </p>
+                            </div>
+                            <div class="card-footer border-top">
+                                <small class="blockquote-footer">本文版权归{{ post.author }}所有，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出。</small>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="post-comment-divider"></div>
+                <div class="post-comment-divider" id="post-comment-divider"></div>
                 <div class="comment pt-5 pb-5">
                     <div class="comment-header">
                     </div>
-                    <form class="comment-form" action="{% url 'comment:post_comment' post.id %}" method="POST">
-                        {% csrf_token %}
-                        <div class="row text-center">
-                            <div class="col-sm-1">
-                                {% if user.is_authenticated %}
+                    {% if user.is_authenticated %}
+                        <form class="comment-form" action="{% url 'comment:post_comment' post.id %}" method="POST">
+                            {% csrf_token %}
+                            <div class="row text-center">
+                                <div class="col-sm-1">
                                     <img class="rounded d-none d-sm-block" src="{% avatar_url user 32 %}" alt="">
-                                {% else %}
-
-                                {% endif %}
+                                </div>
+                                <div class="col-sm-11">
+                                    <label for="comment_body" class="col-form-label text-white d-none">发表评论</label>
+                                    <textarea name="body" class="form-control" required id="comment_body"></textarea>
+                                </div>
                             </div>
-                            <div class="col-sm-11">
-                                <label for="comment_body" class="col-form-label text-white d-none">发表评论</label>
-                                <textarea name="body" class="form-control" required id="comment_body"></textarea>
+                            <div class="text-center mt-3">
+                                <button type="submit" class="p-1 border"><small>发表评论</small></button>
                             </div>
+                        </form>
+                    {% else %}
+                        <div class="text-center text-white"><a href="{% url 'account_signup' %}"> 注册 </a>或<a
+                                href="{% url 'account_login' %}"> 登录 </a>后参与评论
                         </div>
-                        <div class="text-center">
-                            <button type="submit" class="btn bg-white m-3">提交评论</button>
-                        </div>
-                    </form>
+                    {% endif %}
                     <div class="comment-container pt-5">
                         {% get_comments post.id as comments %}
                         {% get_comments_count post.id as comments_count %}
@@ -119,12 +154,13 @@
                                                 </a>
                                             {% endif %}
                                         </div>
+
                                         <div class="p-2">
                                             <a class="text-white" data-toggle="modal" href=""
                                                data-target="#commentModal" data-postid="{{ post.id }}"
                                                data-parentcommentid="{{ comment.id }}"
                                                data-replyusername="{{ comment.user.username }}">
-                                                <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                                                <i class="fa fa-commenting" aria-hidden="true"></i>
                                             </a>
                                         </div>
                                     </div>
@@ -149,17 +185,25 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form class="form-group" action="" method="POST">{% csrf_token %}
-                                            <label for="modal_comment_body" class="col-form-label d-none">回复:</label>
-                                            <div id="test1">
+                                        {% if user.is_authenticated %}
+                                            <form class="form-group" action="" method="POST">{% csrf_token %}
+                                                <label for="modal_comment_body"
+                                                       class="col-form-label d-none">回复:</label>
+                                                <div id="test1">
                                                  <textarea name="body" class="form-control" required
                                                            id="modal_comment_body">
                                                  </textarea>
+                                                </div>
+                                                <div class="text-center mt-3">
+                                                    <button type="submit" class="btn btn-dark">提交评论</button>
+                                                </div>
+                                            </form>
+                                        {% else %}
+                                            <div class="text-center"><a href="{% url 'account_signup' %}">
+                                                注册 </a>或<a
+                                                    href="{% url 'account_login' %}"> 登录 </a>后参与评论
                                             </div>
-                                            <div class="text-center mt-3">
-                                                <button type="submit" class="btn btn-dark">提交评论</button>
-                                            </div>
-                                        </form>
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>
