@@ -21,3 +21,14 @@ def markdown_text(text):
         extensions_configs=config)
     html = md.convert(text)
     return html
+
+
+@register.simple_tag
+def get_post_tags(post):
+    result = ''
+    tags = post.tags.all()
+    for tag in tags:
+        result += tag.name
+        if tag != tags.last():
+            result += ", "
+    return result

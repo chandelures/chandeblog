@@ -182,6 +182,7 @@ EMAIL_USE_TLS = True
 EMAIL_FROM = "chandelurewang@qq.com"
 DEFAULT_FROM_EMAIL = "Chandelure博客 <chandelurewang@qq.com>"
 
+LOGIN_URL = "/accounts/login/"
 # MDeditor configuration
 MDEDITOR_CONFIGS = {
     'default': {

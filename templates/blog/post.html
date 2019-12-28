@@ -31,11 +31,11 @@
             </div>
             <div class="col-lg-6">
                 <div class="post-detail pb-5 pt-5">
-                    <div class="post-detail-header text-center">
+                    <div class="post-header text-center">
                         <h2 class="text-white font-weight-bold" data-toc-skip>{{ post.title }}</h2>
                         <small class="text-muted mb-2 pt-2 pb-2">
                             <span><i class="fa fa-calendar-o"
-                                     aria-hidden="true"></i> {{ post.create_date | date:"Y.m.j" }}</span>
+                                     aria-hidden="true"></i> {{ post.create_date | date:"Y-m-j" }}</span>
                             <span class="pl-1 pr-1">|</span>
                             <a class="text-muted" href="#"><span class=""><i class="fa fa-file"
                                                                              aria-hidden="true"></i> {{ post.category.name }}</span></a>
@@ -45,11 +45,29 @@
                         {% markdown_text post.body as body %}
                         {{ body|safe }}
                     </div>
-                    <div class="post-footer">
+                    <div class="post-footer mt-5">
+                        <div class="card text-muted bg-transparent">
+                            <div class="card-body">
+                                <p class="card-text"><small><i class="fa fa-user" aria-hidden="true"></i>
+                                    作者：{{ post.author }}</small></p>
+                                {% get_post_tags post as tags %}
+                                <p class="card-text"><small><i class="fa fa-tag" aria-hidden="true"></i> 标签：{{ tags }}
+                                </small></p>
+                                <p class="card-text"><small><i class="fa fa-calendar-o" aria-hidden="true"></i>
+                                    发表日期：{{ post.mod_time | date:"Y-m-j H:m" }}</small></p>
+                                <p class="card-text"><small><i class="fa fa-calendar" aria-hidden="true"></i>
+                                    最后修改日期：{{ post.create_date | date:"Y-m-j H:m" }}</small></p>
+                                <p class="card-text"><small><i class="fa fa-link" aria-hidden="true"></i>
+                                    链接：https://{{ request.get_host }}{{ post.get_absolute_url }}</small></p>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="pt-5 pb-5 border-top">
-                    <form class="post-comment-form" action="{% url 'comment:post_comment' post.id %}" method="POST">
+                <div class="post-comment-divider"></div>
+                <div class="comment pt-5 pb-5">
+                    <div class="comment-header">
+                    </div>
+                    <form class="comment-form" action="{% url 'comment:post_comment' post.id %}" method="POST">
                         {% csrf_token %}
                         <div class="row text-center">
                             <div class="col-sm-1">

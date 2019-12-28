@@ -19,7 +19,6 @@ $load-post-card-icon-size: 48px;
   }
 
 
-
   .post-card-footer {
     a {
       color: $custom-white;
@@ -59,9 +58,13 @@ $load-post-card-icon-size: 48px;
 
 .post-detail {
   word-wrap: break-word;
+
+  .post-footer .card{
+    border: 1px solid $custom-white;
+  }
 }
 
-.post-comment-form {
+.comment-form {
   .cke {
     border: 0;
   }
