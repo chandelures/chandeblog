@@ -16,22 +16,17 @@ $load-post-card-icon-size: 48px;
         }
       }
     }
-
-    span {
-      &:hover {
-        box-shadow: 1px 1px 10px $custom-dark;
-      }
-    }
-  ;
   }
 
-  .post-card-read-more {
-    button {
-      background: $custom-white;
+
+
+  .post-card-footer {
+    a {
+      color: $custom-white;
 
       &:hover {
-        color: $custom-white;
-        background: rgba($custom-blue, 0.75);
+        background-color: $custom-white;
+        color: $custom-dark;
       }
     }
   }
@@ -42,7 +37,7 @@ $load-post-card-icon-size: 48px;
     font-size: $load-post-card-icon-size;
 
     &:hover {
-      color: rgba($custom-blue, 0.75) ;
+      color: rgba($custom-white, 0.75);
     }
   }
 }
@@ -60,20 +55,14 @@ $load-post-card-icon-size: 48px;
       text-decoration-line: none;
     }
   }
-
-  .inner-wrapper-sticky {
-    width: 100px;
-  }
 }
 
 .post-detail {
   word-wrap: break-word;
+}
 
-  .post-detail-header {
-    span {
-      &:hover {
-        box-shadow: 1px 1px 10px $custom-dark;
-      }
-    }
+.post-comment-form {
+  .cke {
+    border: 0;
   }
 }

@@ -1,4 +1,4 @@
-from django.conf.urls import url
+from django.urls import path, re_path, include
 from . import views
 from django.contrib.auth.views import LoginView, LogoutView
 
@@ -8,9 +8,6 @@ app_name = 'userprofile'
 urlpatterns = [
 
     # 个人信息
-    url(r'^profile/$', views.ProfileView.as_view(), name='profile'),
-
-    # 注销
-    # url(r'^logout/$', LogoutView.as_view(next_page='/'), name='logout'),
+    re_path(r'^profile/$', views.ProfileView.as_view(), name='profile'),
 
 ]

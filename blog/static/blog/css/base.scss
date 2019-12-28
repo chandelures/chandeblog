@@ -56,13 +56,6 @@ html, body {
   box-shadow: none;
 }
 
-.display-none-md {
-  display: none;
-  @media screen and (max-width: 992px) {
-    display: block;
-  }
-}
-
 .bg-header {
   background-color: $custom-blue;
   background-image: $header-bg-img;
@@ -104,9 +97,6 @@ header {
     }
 
     .dropdown {
-      @media screen and (max-width: 1200px) {
-        display: none;
-      }
 
       .nav-link {
         color: $custom-white;
@@ -157,9 +147,6 @@ footer {
 }
 
 .tips {
-  @media screen and (max-width: 992px) {
-    display: none;
-  }
 
   #toUp {
     width: $to-up-button-width;

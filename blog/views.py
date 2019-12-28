@@ -6,7 +6,7 @@ from django.db.models import F
 from django.urls import reverse_lazy
 from django.utils.formats import date_format
 
-from blog.models import Post, Category, Column
+from blog.models import Post
 import markdown
 
 
@@ -22,11 +22,11 @@ class AjaxPostListView(generic.View):
         if request.is_ajax():
             index = int(request.GET.get("index", 0))
             count = int(request.GET.get("count", 0))
-            post_count = Post.objects.count()
+            post_count = Post.objects.public().count()
             data = []
             for i in range(count):
                 if 0 <= index < post_count:
-                    post = Post.objects.all()[index]
+                    post = Post.objects.public()[index]
                     index = index + 1
                     data.append({
                         "post_count": post_count,

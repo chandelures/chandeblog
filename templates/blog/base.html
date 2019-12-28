@@ -20,7 +20,6 @@
     {% endcompress %}
     {% compress css %}
         <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
-
         <link rel="stylesheet" href="{% static 'font-awesome-4.7.0/css/font-awesome.min.css' %}">
         {% block css %}
         {% endblock css %}
@@ -42,43 +41,42 @@
                             <a class="nav-link font-weight-bold mr-3 pb-0"
                                href="{% url 'blog:index' %}">主页</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link font-weight-bold mr-3 pb-0" href="#">专栏</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link font-weight-bold mr-3 pb-0" href="#">关于</a>
-                        </li>
+{#                        <li class="nav-item">#}
+{#                            <a class="nav-link font-weight-bold mr-3 pb-0" href="#">专栏</a>#}
+{#                        </li>#}
+{#                        <li class="nav-item">#}
+{#                            <a class="nav-link font-weight-bold mr-3 pb-0" href="#">关于</a>#}
+{#                        </li>#}
                         {% if user.is_authenticated %}
-                            <li class="nav-item display-none-md">
+                            <li class="nav-item d-lg-none">
                                 <a class="nav-link font-weight-bold mr-3 pb-0"
                                    href="#">{% avatar user 26 %} {{ user.username }}</a>
                             </li>
-                            <li class="nav-item display-none-md">
+                            <li class="nav-item d-lg-none">
                                 <a class="nav-link font-weight-bold mr-3 pb-0" href="{% url 'account_logout' %}">注销</a>
                             </li>
                         {% endif %}
                     </ul>
                     <ul class="navbar-nav mr-2">
                         {% if user.is_authenticated %}
-                            <li class="nav-item dropdown">
+                            <li class="nav-item dropdown d-none d-lg-block">
                                 <a class="nav-link dropdown-toggle pb-0" href="#" id="navbarDropdown" role="button"
                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    {% avatar user 26 %}
+                                    <img class="rounded" src="{% avatar_url user 26 %}" alt="">
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="#">我的信息</a>
-                                    <a class="dropdown-item" href="#">更改信息</a>
+                                    <a class="dropdown-item" href="{% url 'avatar_change' %}">更换头像</a>
                                     <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="{% url 'account_logout' %}">注销</a>
                                 </div>
                             </li>
                         {% else %}
                             <li class="nav-item">
-                                <a class="nav-link text-white font-weight-bold  mr-2 pb-0"
+                                <a class="nav-link font-weight-bold  mr-2 pb-0"
                                    href="{% url 'account_login' %}">登录</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-white font-weight-bold  mr-2 pb-0"
+                                <a class="nav-link font-weight-bold  mr-2 pb-0"
                                    href="{% url 'account_signup' %}">注册</a>
                             </li>
                         {% endif %}
@@ -97,7 +95,7 @@
     <main id="main" class="bg-main">
         {% block content %}
         {% endblock content %}
-        <div class="tips">
+        <div class="tips d-none d-lg-block">
             <button class="position-fixed btn" id="toUp"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
         </div>
     </main>
@@ -106,48 +104,21 @@
             <div class="row text-center">
                 <div class="col-sm-12 mt-3">
                     <div class="text-center">
-                        <a class="h2 text-white font-weight-bolder text-decoration-none brand" href="#"><img
+                        <a class="h2 text-white font-weight-bolder text-decoration-none brand" href="{% url 'blog:index' %}"><img
                                 class="mb-3 mt-1 text-white"
                                 src="{% static 'img/logo-footer.svg' %}" alt="C">handelure's
                             Blog</a>
                     </div>
                 </div>
-{#                <div class="col-sm-4">#}
-{#                    <ul class="list-group list-group-flush">#}
-{#                        <li class="list-group-item border-0 p-1 bg-transparent"><a#}
-{#                                class="font-weight-bold text-decoration-none foot-link"#}
-{#                                href="#">主页</a></li>#}
-{#                        <li class="list-group-item border-0 p-1 bg-transparent"><a#}
-{#                                class="font-weight-bold text-decoration-none foot-link"#}
-{#                                href="#">专栏</a></li>#}
-{#                        <li class="list-group-item border-0 p-1 bg-transparent"><a#}
-{#                                class="font-weight-bold text-decoration-none foot-link"#}
-{#                                href="#">关于</a></li>#}
-{#                    </ul>#}
-{#                </div>#}
-{#                <div class="col-sm-4">#}
-{#                    <ul class="list-group list-group-flush">#}
-{#                        <li class="list-group-item border-0 p-1 bg-transparent"><a#}
-{#                                class="font-weight-bold text-decoration-none foot-link" href="#">RSS订阅</a>#}
-{#                        </li>#}
-{#                        <li class="list-group-item border-0 p-1 bg-transparent"><a#}
-{#                                class="font-weight-bold text-decoration-none foot-link"#}
-{#                                href="#">标签云</a>#}
-{#                        </li>#}
-{#                        <li class="list-group-item border-0 p-1 bg-transparent"><a#}
-{#                                class="font-weight-bold text-decoration-none foot-link"#}
-{#                                href="#">归档</a></li>#}
-{#                    </ul>#}
-{#                </div>#}
             </div>
             <div class="row mt-3">
                 <ul class="nav col-md-5 d-flex justify-content-center">
                     <li class="nav-item">
                         <a class="nav-link text-decoration-none text-white">©2019 by chandelure</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-decoration-none foot-link" href="#">反馈</a>
-                    </li>
+{#                    <li class="nav-item">#}
+{#                        <a class="nav-link text-decoration-none foot-link" href="#">反馈</a>#}
+{#                    </li>#}
                     <li class="nav-item">
                         <a class="nav-link text-decoration-none foot-link" href="{% url 'sitemap' %}">站点地图</a>
                     </li>

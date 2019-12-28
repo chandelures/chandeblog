@@ -11,11 +11,8 @@ register = template.Library()
 def markdown_text(text):
     config = {
         'codehilite': {
-            'use_pygments': True,
+            'use_pygments': False,
         },
-        'toc': {
-            'toc_depth': 3,
-        }
     }
     md = markdown.Markdown(extensions=[
         'markdown.extensions.extra',

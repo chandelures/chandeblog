@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'sass_processor',
     'compressor',
     'avatar',
+    'notifications',
 
     # login and signup app
     'allauth',
@@ -171,7 +172,7 @@ AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',
 )
 
-LOGIN_REDIRECT_URL = '/accounts/profile'
+LOGIN_REDIRECT_URL = '/'
 
 EMAIL_HOST = "smtp.qq.com"
 EMAIL_PORT = 25

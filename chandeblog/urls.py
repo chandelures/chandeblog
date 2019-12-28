@@ -35,6 +35,9 @@ urlpatterns = [
     # 评论页面
     path('comment/', include('comment.urls', namespace='comment')),
 
+    # 消息通知
+    path('inbox/notifications/', include('notifications.urls', namespace='notifications')),
+
     # 用户页面
     path('accounts/', include('userprofile.urls', namespace='accounts')),
     path('accounts/', include('allauth.urls')),
@@ -44,6 +47,9 @@ urlpatterns = [
 
     # favicon
     path('favicon.ico', RedirectView.as_view(url=r'static/img/favicon.ico')),
+
+    # avatar
+    path('avatar/', include('avatar.urls')),
 
     # sitemap
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='sitemap')

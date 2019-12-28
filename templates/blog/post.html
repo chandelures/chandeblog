@@ -8,23 +8,22 @@
 
 {% block css %}
     <link rel="stylesheet" href="{% sass_src "blog/css/blog.scss" %}">
+    <link rel="stylesheet" href="{% static "ckeditor/plugins/codesnippet/lib/highlight/styles/monokai.css" %}">
 {% endblock css %}
 
 {% block js %}
     <script src="{% static 'blog/js/bootstrap-toc.js' %}"></script>
     <script src="{% static 'ckeditor/ckeditor.js' %}"></script>
+    <script src="{% static 'ckeditor/plugins/codesnippet/lib/highlight/highlight.pack.js' %}"></script>
     <script src="{% static 'blog/js/blog-detail.js' %}"></script>
 {% endblock js %}
 
 {% block content %}
-
-
     <div class="container-fluid p-4">
         <div class="row">
-            <div class="col-lg-3">
+            <div class="col-lg-3 d-none d-lg-block">
                 <div class="sidebar p-5" id="sidebar">
                     <div class="sidebar__inner">
-
                         <p class="text-white pl-3">Content</p>
                         <nav id="toc"></nav>
                     </div>
@@ -32,28 +31,37 @@
             </div>
             <div class="col-lg-6">
                 <div class="post-detail pb-5 pt-5">
-                    <div class="post-detail-header">
-                        <h1 class="text-white" data-toc-skip>{{ post.title }}</h1>
-                        <p class="text-white mb-2 pt-2 pb-2">
-                            <span class="text-dark bg-white badge">{{ post.create_date | date:"Y.m.j" }}</span>
-                            <a href="#"><span class="badge bg-white text-dark ml-2">{{ post.category.name }}</span></a>
-                        </p>
+                    <div class="post-detail-header text-center">
+                        <h2 class="text-white font-weight-bold" data-toc-skip>{{ post.title }}</h2>
+                        <small class="text-muted mb-2 pt-2 pb-2">
+                            <span><i class="fa fa-calendar-o"
+                                     aria-hidden="true"></i> {{ post.create_date | date:"Y.m.j" }}</span>
+                            <span class="pl-1 pr-1">|</span>
+                            <a class="text-muted" href="#"><span class=""><i class="fa fa-file"
+                                                                             aria-hidden="true"></i> {{ post.category.name }}</span></a>
+                        </small>
                     </div>
                     <div class="post-body post-markdown text-white">
                         {% markdown_text post.body as body %}
                         {{ body|safe }}
                     </div>
+                    <div class="post-footer">
+                    </div>
                 </div>
-                <div class="post-comment pt-5 border-top">
-                    <form action="{% url 'comment:post_comment' post.id %}" method="POST">
+                <div class="pt-5 pb-5 border-top">
+                    <form class="post-comment-form" action="{% url 'comment:post_comment' post.id %}" method="POST">
                         {% csrf_token %}
-                        <div class="row">
-                            <div class="col-1">
-                                <img class="rounded" src="{% avatar_url user 32 %}" alt="">
+                        <div class="row text-center">
+                            <div class="col-sm-1">
+                                {% if user.is_authenticated %}
+                                    <img class="rounded d-none d-sm-block" src="{% avatar_url user 32 %}" alt="">
+                                {% else %}
+
+                                {% endif %}
                             </div>
-                            <div class="col-11">
+                            <div class="col-sm-11">
                                 <label for="comment_body" class="col-form-label text-white d-none">发表评论</label>
-                                <textarea name="body" class="form-control" id="comment_body"></textarea>
+                                <textarea name="body" class="form-control" required id="comment_body"></textarea>
                             </div>
                         </div>
                         <div class="text-center">
@@ -61,64 +69,57 @@
                         </div>
                     </form>
                     <div class="comment-container pt-5">
-
                         {% get_comments post.id as comments %}
                         {% get_comments_count post.id as comments_count %}
-
                         {% recursetree comments %}
                             {% with comment=node %}
-                                <div class="comment-header text-white d-flex">
-                                    <div class="flex-grow-1 p-2">
-                                        <img class="rounded" src="{% avatar_url comment.user 32 %}" alt="">
-                                        <p class="d-inline ml-3">
-                                            {{ comment.user }}
-                                            {% if comment.is_leaf_node %}
-                                                <span class="pl-2 pr-2"><i class="fa fa-share"
-                                                                           aria-hidden="true"></i></span>
-                                                {{ comment.reply_to }}
+                                <div id="comment_{{ comment.id }}" class="mt-2">
+                                    <div class="comment-header text-white d-flex">
+                                        <div class="flex-grow-1 p-2">
+                                            <img class="rounded" src="{% avatar_url comment.user 32 %}" alt="">
+                                            <p class="d-inline ml-3">
+                                                {{ comment.user }}
+                                                {% get_comment_children_count comment as children_count %}
+                                                {% if not comment.is_root_node %}
+                                                    <span class="pl-2 d-none d-sm-inline">
+                                                        <i class="fa fa-share pr-2" aria-hidden="true"></i>
+                                                        {{ comment.reply_to }}
+                                                    </span>
+                                                {% endif %}
+                                                <small>
+                                                    <span class="pl-2 comment-date text-muted">{{ comment.create_date|time_since }}</span>
+                                                </small>
+                                            </p>
+                                        </div>
+                                        <div class="p-2 pr-4">
+                                            {% if children_count %}
+                                                <a class="text-white" data-toggle="collapse"
+                                                   href="#comment_children_{{ comment.get_root.id }}"
+                                                   role="button" aria-expanded="false"
+                                                   aria-controls="comment_children_{{ comment.get_root.id }}">
+                                                    <i class="fa fa-bars" aria-hidden="true"></i>
+                                                </a>
                                             {% endif %}
-                                        </p>
-                                    </div>
-                                    <div class="p-2 pr-4">
-                                        {% get_comment_children_count comment as children_count %}
-                                        {% if children_count %}
-                                            <a class="text-white" data-toggle="collapse"
-                                               href="#comment_children_{{ comment.get_root.id }}"
-                                               role="button" aria-expanded="false"
-                                               aria-controls="comment_children_{{ comment.get_root.id }}">
-                                                <i class="fa fa-bars" aria-hidden="true"></i>
-                                            </a>
-                                        {% endif %}
-                                    </div>
-                                    <div class="p-2">
-                                        {% if comment.parent.id %}
-                                            <a class="text-white" data-toggle="modal" href=""
-                                               data-target="#commentModal" data-postid="{{ post.id }}"
-                                               data-parentcommentid="{{ comment.parent.id }}"
-                                               data-replyusername="{{ comment.user.username }}">
-                                                <i class="fa fa-paper-plane" aria-hidden="true"></i>
-                                            </a>
-                                        {% else %}
+                                        </div>
+                                        <div class="p-2">
                                             <a class="text-white" data-toggle="modal" href=""
                                                data-target="#commentModal" data-postid="{{ post.id }}"
                                                data-parentcommentid="{{ comment.id }}"
                                                data-replyusername="{{ comment.user.username }}">
                                                 <i class="fa fa-paper-plane" aria-hidden="true"></i>
                                             </a>
-                                        {% endif %}
+                                        </div>
                                     </div>
+                                    <div class="text-white pl-5 ml-3">{{ comment.body|safe }}</div>
+                                    {% if not comment.is_leaf_node %}
+                                        <div class="collapse comment-children ml-lg-5 ml-4"
+                                             id="comment_children_{{ comment.get_root.id }}">
+                                            {{ children }}
+                                        </div>
+                                    {% endif %}
                                 </div>
-                                <div class="text-white pl-5 ml-3">{{ comment.body|safe }}</div>
-                                {% if not comment.is_leaf_node %}
-                                    <div class="collapse comment-children ml-lg-5 ml-4"
-                                         id="comment_children_{{ comment.get_root.id }}">
-                                        {{ children }}
-                                    </div>
-                                {% endif %}
                             {% endwith %}
                         {% endrecursetree %}
-
-
                         <div class="modal fade" id="commentModal" tabindex="-1" role="dialog"
                              aria-labelledby="CommentModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
@@ -132,8 +133,11 @@
                                     <div class="modal-body">
                                         <form class="form-group" action="" method="POST">{% csrf_token %}
                                             <label for="modal_comment_body" class="col-form-label d-none">回复:</label>
-                                            <textarea name="body" class="form-control"
-                                                      id="modal_comment_body"></textarea>
+                                            <div id="test1">
+                                                 <textarea name="body" class="form-control" required
+                                                           id="modal_comment_body">
+                                                 </textarea>
+                                            </div>
                                             <div class="text-center mt-3">
                                                 <button type="submit" class="btn btn-dark">提交评论</button>
                                             </div>
@@ -144,7 +148,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
             <div class="col-lg-3"></div>
         </div>
