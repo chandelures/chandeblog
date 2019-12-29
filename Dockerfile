@@ -5,7 +5,7 @@ ENV PYTHONUNBUFFERED 1
 RUN mkdir /chandeblog
 WORKDIR /chandeblog
 
-ADD requirements.txt /chandelure/
+ADD requirements.txt /chandeblog/
 
 RUN pip install pip -U -i https://pypi.tuna.tsinghua.edu.cn/simple \
  && pip install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
