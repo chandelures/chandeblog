@@ -63,7 +63,7 @@ class Post(models.Model):
         User,
         verbose_name='作者',
         null=True,
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         auto_created=True)
     abstract = models.TextField(verbose_name='摘要')
     body = MDTextField(verbose_name='正文')
@@ -71,7 +71,7 @@ class Post(models.Model):
         'Category',
         verbose_name='分类',
         null=True,
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         related_name='post'
     )
     tags = TaggableManager()
@@ -79,7 +79,7 @@ class Post(models.Model):
         'Column',
         null=True,
         blank=True,
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         verbose_name="栏目",
         related_name='post'
     )

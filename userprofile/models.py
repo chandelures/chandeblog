@@ -4,11 +4,9 @@ from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
     """用户个人信息
-
     Attributes:
         link: 个人网站的网址
         resume： 简介
-
     """
     link = models.URLField('个人网址', blank=True)
     resume = models.TextField('简介', max_length=500, blank=True)

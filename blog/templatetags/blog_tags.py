@@ -1,8 +1,9 @@
 from ..models import Post, Category
 from django.db.models.aggregates import Count
+from django.utils.html import strip_tags
 from django import template
+
 import markdown
-from markdown.extensions.toc import TocExtension
 
 register = template.Library()
 
@@ -23,5 +24,13 @@ def get_post_tags(post):
     for tag in tags:
         result += tag.name
         if tag != tags.last():
-            result += ", "
+            result += ","
     return result
+
+
+@register.simple_tag
+def get_descriptions(text):
+    md = markdown.Markdown(extensions=[
+        'markdown.extensions.extra',
+    ])
+    return strip_tags(md.convert(text)).replace("\n", "")

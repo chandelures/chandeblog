@@ -7,8 +7,18 @@
 {% load avatar_tags %}
 
 {% block title %}
-    {{ post.title }}
+    <title>{{ post.title }} | Chandelure的个人博客</title>
 {% endblock title %}
+
+{% block description %}
+    {% get_descriptions post.abstract as description %}
+    <meta name="description" content="{{ description|truncatechars:120 }}">
+{% endblock description %}
+
+{% block keywords %}
+    {% get_post_tags post as tags %}
+    <meta name="keywords" content="{{ tags }}">
+{% endblock keywords %}
 
 {% block css %}
     <link rel="stylesheet" href="{% sass_src "blog/css/blog.scss" %}">
@@ -68,10 +78,11 @@
                                         作者：{{ post.author }}
                                     </small>
                                 </p>
-                                {% get_post_tags post as tags %}
+
                                 <p class="card-text">
                                     <small>
                                         <i class="fa fa-tag" aria-hidden="true"></i>
+                                        {% get_post_tags post as tags %}
                                         标签：{{ tags }}
                                     </small>
                                 </p>

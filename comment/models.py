@@ -1,9 +1,6 @@
 from django.db import models
-
 from blog.models import Post
-
 from mptt.models import MPTTModel, TreeForeignKey
-
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -45,7 +42,7 @@ class Comment(MPTTModel):
         User,
         null=True,
         blank=True,
-        on_delete=models.CASCADE,
+        on_delete=models.SET_NULL,
         related_name='replyers'
     )
     like = models.PositiveIntegerField('点赞', editable=False, default=0)
