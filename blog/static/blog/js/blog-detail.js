@@ -1,4 +1,5 @@
 hljs.initHighlightingOnLoad(); //初始化代码块
+
 function initToc() {
     //初始化文章目录
     let navSelector = "#toc",
@@ -39,28 +40,30 @@ function initCommentForm() {
     let commentModal = $('#commentModal');
     commentModal.on('show.bs.modal', function (event) {
         let button = $(event.relatedTarget);
-        let postId = button.data('postid');
-        let replyUsername = button.data('replyusername');
-        let parentCommentId = button.data('parentcommentid');
+        let postId = button.data('postid'),
+            replyUsername = button.data('replyusername'),
+            parentCommentId = button.data('parentcommentid');
         let modal = $(this);
+        modal.removeAttr('tabindex');
         modal.find("form").attr("action", "/comment/post-comment/" + postId + "/" + parentCommentId);
         modal.find('.modal-title').text('回复 ' + replyUsername);
     });
+}
 
-    $(document).on('focusin.modal', function (e) {
-        let parent = $(e.target.parentNode);
-        console.log(parent.hasClass('cke_dialog_ui_input_textarea'));
-        if (commentModal[0] !== e.target && !commentModal.has(e.target).length &&
-            !parent.hasClass('cke_dialog_ui_input_select') && !parent.hasClass('cke_dialog_ui_input_textarea')) {
-            commentModal.focus();
-        }
-        else {
-            $(document).off('focusin.modal')
-        }
+function hoverComment(){
+    //处理鼠标悬停评论事件
+    $(".comment").each(function () {
+        $(this).hover(function () {
+            $(this).find(".comment-toolbar").removeClass("d-none")
+        });
+        $(this).mouseleave(function () {
+            $(this).find(".comment-toolbar").addClass("d-none")
+        })
     })
 }
 
 $(function () {
     initCommentForm();
-    initToc()
+    initToc();
+    hoverComment();
 });
