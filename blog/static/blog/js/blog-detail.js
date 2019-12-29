@@ -23,16 +23,6 @@ function initToc() {
 
 function initCommentForm() {
     //初始化评论表单
-    $('#commentModal').on('show.bs.modal', function (event) {
-        let button = $(event.relatedTarget);
-        let postId = button.data('postid');
-        let replyUsername = button.data('replyusername');
-        let parentCommentId = button.data('parentcommentid');
-        let modal = $(this);
-        modal.find("form").attr("action", "/comment/post-comment/" + postId + "/" + parentCommentId);
-        modal.find('.modal-title').text('回复 ' + replyUsername);
-    });
-
     let replaceTextarea = function (textareaId) {
         //替换文本框为富文本编辑器
         if ($("#" + textareaId).length > 0) {
@@ -43,10 +33,31 @@ function initCommentForm() {
             });
         }
     };
-
     replaceTextarea('modal_comment_body');
     replaceTextarea('comment_body');
 
+    let commentModal = $('#commentModal');
+    commentModal.on('show.bs.modal', function (event) {
+        let button = $(event.relatedTarget);
+        let postId = button.data('postid');
+        let replyUsername = button.data('replyusername');
+        let parentCommentId = button.data('parentcommentid');
+        let modal = $(this);
+        modal.find("form").attr("action", "/comment/post-comment/" + postId + "/" + parentCommentId);
+        modal.find('.modal-title').text('回复 ' + replyUsername);
+    });
+
+    $(document).on('focusin.modal', function (e) {
+        let parent = $(e.target.parentNode);
+        console.log(parent.hasClass('cke_dialog_ui_input_textarea'));
+        if (commentModal[0] !== e.target && !commentModal.has(e.target).length &&
+            !parent.hasClass('cke_dialog_ui_input_select') && !parent.hasClass('cke_dialog_ui_input_textarea')) {
+            commentModal.focus();
+        }
+        else {
+            $(document).off('focusin.modal')
+        }
+    })
 }
 
 $(function () {

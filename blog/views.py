@@ -46,16 +46,9 @@ class AjaxPostListView(generic.View):
 
     @staticmethod
     def markdown_text(text):
-        config = {
-            'codehilite': {
-                'use_pygments': True,
-            },
-        }
         md = markdown.Markdown(extensions=[
             'markdown.extensions.extra',
-            'markdown.extensions.codehilite',
-        ],
-            extensions_configs=config)
+        ])
         html = md.convert(text)
         return html
 

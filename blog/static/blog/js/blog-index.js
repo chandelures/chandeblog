@@ -1,3 +1,5 @@
+hljs.initHighlightingOnLoad(); //初始化代码块
+
 function loadPostCard(loadPostCount) {
     let index = 0,
         postCount = 0,
@@ -52,7 +54,7 @@ function loadPostCard(loadPostCount) {
                     }
                 });
                 if (ret.length === 0 || index === postCount)
-                    loadPostCard.remove();
+                    loadPostCard.addClass('d-none');
             }
         });
     }
@@ -64,6 +66,5 @@ function loadPostCard(loadPostCount) {
 
 $(function () {
     let load_post_count = 5;
-
     loadPostCard(load_post_count);
 });
