@@ -72,38 +72,42 @@
                     <div class="post-footer mt-5 border shadow">
                         <div class="card text-white bg-transparent">
                             <div class="card-body">
-                                <p class="card-text">
+                                <h6 class="card-text" data-toc-skip>
+                                    <small>
+                                        <i class="fa fa-book" aria-hidden="true"></i>
+                                        标题：{{ post.title }}
+                                    </small>
+                                </h6>
+                                <h6 class="card-text" data-toc-skip>
                                     <small>
                                         <i class="fa fa-user" aria-hidden="true"></i>
                                         作者：{{ post.author }}
                                     </small>
-                                </p>
-
-                                <p class="card-text">
-                                    <small>
-                                        <i class="fa fa-tag" aria-hidden="true"></i>
-                                        {% get_post_tags post as tags %}
-                                        标签：{{ tags }}
-                                    </small>
-                                </p>
-                                <p class="card-text">
+                                </h6>
+                                <h6 class="card-text" data-toc-skip>
                                     <small>
                                         <i class="fa fa-calendar-o" aria-hidden="true"></i>
                                         发表日期：{{ post.mod_time | date:"Y-m-j H:m" }}
                                     </small>
-                                </p>
-                                <p class="card-text">
+                                </h6>
+                                <h6 class="card-text" data-toc-skip>
                                     <small>
                                         <i class="fa fa-calendar" aria-hidden="true"></i>
                                         最后修改日期：{{ post.create_date | date:"Y-m-j H:m" }}
                                     </small>
-                                </p>
-                                <p class="card-text">
+                                </h6>
+                                <h6 class="card-text" data-toc-skip>
                                     <small>
                                         <i class="fa fa-link" aria-hidden="true"></i>
                                         链接：https://{{ request.get_host }}{{ post.get_absolute_url }}
                                     </small>
-                                </p>
+                                </h6>
+                                <h6 class="card-text" data-toc-skip>
+                                    <small>
+                                        <i class="fa fa-id-card-o" aria-hidden="true"></i>
+                                        协议：非商业性使用 4.0 国际许可协议
+                                    </small>
+                                </h6>
                             </div>
                             <div class="card-footer border-top">
                                 <small class="blockquote-footer">本文版权归{{ post.author }}所有，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出。</small>
