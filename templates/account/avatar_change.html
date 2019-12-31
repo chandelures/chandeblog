@@ -1,0 +1,56 @@
+{% extends 'account/base.html' %}
+
+{% load static %}
+{% load sass_tags %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% sass_src 'account/css/account.scss' %}">
+{% endblock css %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4"></div>
+            <div class="col-lg-4">
+                <div class="text-center">
+                    <img class="rounded img-avatar" width="100px" src="{{ user.avatar.url }}" alt="">
+                </div>
+                <form id="avatar_change_form" class="d-none">
+                    {% csrf_token %}
+                    <input type="file" name="avatar" id="avatar_change_input">
+                </form>
+                <div class="text-center">
+                    <button id="avatar_change">更改头像</button>
+                </div>
+            </div>
+            <div class="col-lg-4"></div>
+        </div>
+    </div>
+{% endblock content %}
+
+{% block js %}
+    <script>
+        $(function () {
+            $("#avatar_change").click(function () {
+                $("#avatar_change_input").click();
+            });
+            $("#avatar_change_input").change(function () {
+                let avatar = $("#avatar_change_input").val();
+                if (avatar) {
+                    let data = new FormData($("#avatar_change_form")[0]);
+                    $.ajax({
+                        url: "/accounts/avatar_change/",
+                        type: "POST",
+                        data: data,
+                        processData: false,
+                        contentType: false,
+                        dataType: "json",
+                        success: function (data, status) {
+                            window.location.reload();
+                        }
+                    });
+                }
+            });
+        })
+    </script>
+{% endblock js %}

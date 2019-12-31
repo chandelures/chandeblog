@@ -4,6 +4,10 @@ $custom-green: #2AF598;
 $header-logo-width: 50px;
 $header-logo-height: $header-logo-width;
 
+.img-circle {
+  border-radius: 50% !important;
+}
+
 header {
   .logo {
     width: $header-logo-width;

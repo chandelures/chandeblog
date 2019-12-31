@@ -48,7 +48,6 @@ INSTALLED_APPS = [
     'mdeditor',
     'sass_processor',
     'compressor',
-    'avatar',
     'notifications',
 
     # login and signup app

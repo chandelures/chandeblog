@@ -1,4 +1,3 @@
-{% load avatar_tags %}
 {% load comment_tags %}
 {% load mptt_tags %}
 
@@ -8,7 +7,7 @@
             {% csrf_token %}
             <div class="row text-center">
                 <div class="col-sm-1">
-                    <img class="rounded d-none d-sm-block" src="{% avatar_url user 32 %}" alt="">
+                    <img class="img-circle d-none d-sm-block img-avatar" src="{{ user.avatar.url }}" alt="">
                 </div>
                 <div class="col-sm-11">
                     <label for="comment_body" class="col-form-label text-white d-none">发表评论</label>
@@ -32,7 +31,7 @@
                 <div id="comment_{{ comment.id }}" class="comment">
                     <div class="comment-header text-white d-flex">
                         <div class="flex-grow-1 p-2">
-                            <img class="rounded" src="{% avatar_url comment.user 32 %}" alt="">
+                            <img class="img-circle img-avatar" src="{{ user.avatar.url }}" alt="">
                             <p class="d-inline ml-3">
                                 {{ comment.user }}
                                 {% get_comment_children_count comment as children_count %}
@@ -68,7 +67,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="comment-body text-white pl-5 ml-3">
+                    <div class="comment-body text-white pl-5 ml-4">
                         {{ comment.body | safe }}
                     </div>
                     {% if not comment.is_leaf_node %}

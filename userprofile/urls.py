@@ -6,8 +6,8 @@ from django.contrib.auth.views import LoginView, LogoutView
 app_name = 'userprofile'
 
 urlpatterns = [
-
     # 个人信息
-    re_path(r'^profile/$', views.ProfileView.as_view(), name='profile'),
+    path('profile/', views.ProfileView.as_view(), name='profile'),
 
+    path('avatar_change/', views.AjaxAvatarChange.as_view(), name='avatar_change')
 ]

@@ -76,6 +76,10 @@ button.active.focus,
   background-color: $custom-main-bg-color;
 }
 
+.img-circle {
+  border-radius: 50% !important;
+}
+
 #wrap {
   position: relative;
   width: 100%;
@@ -120,6 +124,11 @@ header {
       width: $header-brand-width;
       height: $header-brand-height;
     }
+  }
+
+  .img-avatar {
+    width: 36px;
+    height: 36px;
   }
 }
 

@@ -6,4 +6,4 @@ from userprofile.models import User
 class ProfileForm(forms.Form):
     class Meta:
         model = User
-        fields = ['link', 'resume']
+        fields = ['link', 'resume', 'avatar']
