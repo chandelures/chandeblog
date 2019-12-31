@@ -1,0 +1,67 @@
+{% load avatar_tags %}
+{% load static %}
+
+<header class="bg-header">
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container text-center">
+            <button class="btn navbar-toggler border-0" type="button" data-toggle="collapse"
+                    data-target="#navbarContent"
+                    aria-controls="navbarContent" aria-expanded="true" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon text-white"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link font-weight-bold mr-3 pb-0" href="{% url 'blog:index' %}">主页</a>
+                    </li>
+                    {#                        <li class="nav-item">#}
+                    {#                            <a class="nav-link font-weight-bold mr-3 pb-0" href="#">专栏</a>#}
+                    {#                        </li>#}
+                    {#                        <li class="nav-item">#}
+                    {#                            <a class="nav-link font-weight-bold mr-3 pb-0" href="#">关于</a>#}
+                    {#                        </li>#}
+                    {% if user.is_authenticated %}
+                        <li class="nav-item d-lg-none">
+                            <a class="nav-link font-weight-bold mr-3 pb-0"
+                               href="#">{% avatar user 26 %} {{ user.username }}</a>
+                        </li>
+                        <li class="nav-item d-lg-none">
+                            <a class="nav-link font-weight-bold mr-3 pb-0" href="{% url 'account_logout' %}">注销</a>
+                        </li>
+                    {% endif %}
+                </ul>
+                <ul class="navbar-nav mr-2">
+                    {% if user.is_authenticated %}
+                        <li class="nav-item dropdown d-none d-lg-block">
+                            <a class="nav-link dropdown-toggle pb-0" href="#" id="navbarDropdown" role="button"
+                               data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img class="rounded" src="{% avatar_url user 26 %}" alt="">
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{% url 'avatar_change' %}">更换头像</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{% url 'account_logout' %}">注销</a>
+                            </div>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link font-weight-bold  mr-2 pb-0"
+                               href="{% url 'account_login' %}">登录</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link font-weight-bold  mr-2 pb-0"
+                               href="{% url 'account_signup' %}">注册</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="text-center pt-4 pb-5">
+        <a class="h1 text-white font-weight-bolder text-decoration-none p-3 brand"
+           href="{% url 'blog:index' %}">
+            <img class="mb-3 mt-1 text-white" src="{% static 'img/logo.svg' %}" alt="C">handelure's
+            Blog
+        </a>
+    </div>
+</header>

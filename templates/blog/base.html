@@ -1,7 +1,6 @@
 {% load static %}
 {% load sass_tags %}
 {% load compress %}
-{% load avatar_tags %}
 <!DOCTYPE html>
 <html lang="zh-hans">
 <head>
@@ -21,70 +20,7 @@
 </head>
 <body>
 <div id="wrap">
-    <header class="bg-header">
-        <nav class="navbar navbar-expand-lg navbar-dark">
-            <div class="container text-center">
-                <button class="btn navbar-toggler border-0" type="button" data-toggle="collapse"
-                        data-target="#navbarContent"
-                        aria-controls="navbarContent" aria-expanded="true" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon text-white"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarContent">
-                    <ul class="navbar-nav mr-auto">
-                        <li class="nav-item">
-                            <a class="nav-link font-weight-bold mr-3 pb-0" href="{% url 'blog:index' %}">主页</a>
-                        </li>
-                        {#                        <li class="nav-item">#}
-                        {#                            <a class="nav-link font-weight-bold mr-3 pb-0" href="#">专栏</a>#}
-                        {#                        </li>#}
-                        {#                        <li class="nav-item">#}
-                        {#                            <a class="nav-link font-weight-bold mr-3 pb-0" href="#">关于</a>#}
-                        {#                        </li>#}
-                        {% if user.is_authenticated %}
-                            <li class="nav-item d-lg-none">
-                                <a class="nav-link font-weight-bold mr-3 pb-0"
-                                   href="#">{% avatar user 26 %} {{ user.username }}</a>
-                            </li>
-                            <li class="nav-item d-lg-none">
-                                <a class="nav-link font-weight-bold mr-3 pb-0" href="{% url 'account_logout' %}">注销</a>
-                            </li>
-                        {% endif %}
-                    </ul>
-                    <ul class="navbar-nav mr-2">
-                        {% if user.is_authenticated %}
-                            <li class="nav-item dropdown d-none d-lg-block">
-                                <a class="nav-link dropdown-toggle pb-0" href="#" id="navbarDropdown" role="button"
-                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <img class="rounded" src="{% avatar_url user 26 %}" alt="">
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{% url 'avatar_change' %}">更换头像</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="{% url 'account_logout' %}">注销</a>
-                                </div>
-                            </li>
-                        {% else %}
-                            <li class="nav-item">
-                                <a class="nav-link font-weight-bold  mr-2 pb-0"
-                                   href="{% url 'account_login' %}">登录</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link font-weight-bold  mr-2 pb-0"
-                                   href="{% url 'account_signup' %}">注册</a>
-                            </li>
-                        {% endif %}
-                    </ul>
-                </div>
-            </div>
-        </nav>
-        <div class="text-center pt-4 pb-5">
-            <a class="h1 text-white font-weight-bolder text-decoration-none p-3 brand"
-               href="{% url 'blog:index' %}">
-                <img class="mb-3 mt-1 text-white" src="{% static 'img/logo.svg' %}" alt="C">handelure's
-                Blog
-            </a>
-        </div>
-    </header>
+    {% include 'blog/header.html' %}
     <main id="main" class="bg-main">
         {% block content %}
         {% endblock content %}
@@ -92,52 +28,7 @@
             <button class="position-fixed btn" id="toUp"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
         </div>
     </main>
-    <footer class="navbar-fixed-bottom pt-4 pb-2 bg-footer position-absolute">
-        <div class="container">
-            <div class="row text-center">
-                <div class="col-sm-12 mt-3">
-                    <div class="text-center">
-                        <a class="h2 text-white font-weight-bolder text-decoration-none brand"
-                           href="{% url 'blog:index' %}">
-                            <img class="mb-2 text-white" src="{% static 'img/logo-footer.svg' %}" alt="C">handelure's
-                            Blog
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="row mt-3">
-                <ul class="nav col-md-5 d-flex justify-content-center">
-                    <li class="nav-item">
-                        <a class="nav-link text-decoration-none text-white">©2019 by chandelure</a>
-                    </li>
-                    {#                    <li class="nav-item">#}
-                    {#                        <a class="nav-link text-decoration-none foot-link" href="#">反馈</a>#}
-                    {#                    </li>#}
-                    <li class="nav-item">
-                        <a class="nav-link text-decoration-none foot-link" href="{% url 'sitemap' %}">站点地图</a>
-                    </li>
-                </ul>
-                <ul class="nav col-md-3">
-                </ul>
-                <ul class="nav col-md-4 d-flex justify-content-center">
-                    <li class="nav-item">
-                        <a class="nav-link font-weight-bold text-decoration-none foot-link"
-                           href="https://github.com/chandelures"><i
-                                class="fa fa-github"></i></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link font-weight-bold text-decoration-none foot-link" href="{% url 'blog:rss' %}"><i
-                                class="fa fa-rss"></i></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link font-weight-bold text-decoration-none foot-link"
-                           href="mailto:chandelurewang@gmail.com"><i
-                                class="fa fa-envelope-o"></i></a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </footer>
+    {% include 'blog/footer.html' %}
 </div>
 {% compress js %}
     <script src="{% static 'bootstrap/js/jquery-3.3.1.js' %}"></script>

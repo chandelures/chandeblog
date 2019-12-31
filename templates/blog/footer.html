@@ -1,0 +1,48 @@
+{% load static %}
+
+<footer class="navbar-fixed-bottom pt-4 pb-2 bg-footer position-absolute">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-sm-12 mt-3">
+                    <div class="text-center">
+                        <a class="h2 text-white font-weight-bolder text-decoration-none brand"
+                           href="{% url 'blog:index' %}">
+                            <img class="mb-2 text-white" src="{% static 'img/logo-footer.svg' %}" alt="C">handelure's
+                            Blog
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <ul class="nav col-md-5 d-flex justify-content-center">
+                    <li class="nav-item">
+                        <a class="nav-link text-decoration-none text-white">©2019 by chandelure</a>
+                    </li>
+                    {#                    <li class="nav-item">#}
+                    {#                        <a class="nav-link text-decoration-none foot-link" href="#">反馈</a>#}
+                    {#                    </li>#}
+                    <li class="nav-item">
+                        <a class="nav-link text-decoration-none foot-link" href="{% url 'sitemap' %}">站点地图</a>
+                    </li>
+                </ul>
+                <ul class="nav col-md-3">
+                </ul>
+                <ul class="nav col-md-4 d-flex justify-content-center">
+                    <li class="nav-item">
+                        <a class="nav-link font-weight-bold text-decoration-none foot-link"
+                           href="https://github.com/chandelures"><i
+                                class="fa fa-github"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link font-weight-bold text-decoration-none foot-link" href="{% url 'blog:rss' %}"><i
+                                class="fa fa-rss"></i></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link font-weight-bold text-decoration-none foot-link"
+                           href="mailto:chandelurewang@gmail.com"><i
+                                class="fa fa-envelope-o"></i></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </footer>

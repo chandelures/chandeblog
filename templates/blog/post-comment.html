@@ -1,0 +1,116 @@
+{% load avatar_tags %}
+{% load comment_tags %}
+{% load mptt_tags %}
+
+<div class="pt-5 pb-5" id="post-comment">
+    {% if user.is_authenticated %}
+        <form class="comment-form" action="{% url 'comment:post_comment' post.id %}" method="POST">
+            {% csrf_token %}
+            <div class="row text-center">
+                <div class="col-sm-1">
+                    <img class="rounded d-none d-sm-block" src="{% avatar_url user 32 %}" alt="">
+                </div>
+                <div class="col-sm-11">
+                    <label for="comment_body" class="col-form-label text-white d-none">发表评论</label>
+                    <textarea name="body" class="form-control" required id="comment_body"></textarea>
+                </div>
+            </div>
+            <div class="text-center mt-3">
+                <button type="submit" class="p-1 border"><small>发表评论</small></button>
+            </div>
+        </form>
+    {% else %}
+        <div class="text-center text-white"><a href="{% url 'account_signup' %}"> 注册 </a>或<a
+                href="{% url 'account_login' %}"> 登录 </a>后参与评论
+        </div>
+    {% endif %}
+    <div class="comment-container pt-5">
+        {% get_comments post.id as comments %}
+        {% get_comments_count post.id as comments_count %}
+        {% recursetree comments %}
+            {% with comment=node %}
+                <div id="comment_{{ comment.id }}" class="comment">
+                    <div class="comment-header text-white d-flex">
+                        <div class="flex-grow-1 p-2">
+                            <img class="rounded" src="{% avatar_url comment.user 32 %}" alt="">
+                            <p class="d-inline ml-3">
+                                {{ comment.user }}
+                                {% get_comment_children_count comment as children_count %}
+                                {% if not comment.is_root_node %}
+                                    <span class="pl-2 d-none d-sm-inline">
+                                                        <i class="fa fa-share pr-2" aria-hidden="true"></i>
+                                                        {{ comment.reply_to }}
+                                                    </span>
+                                {% endif %}
+                                <small>
+                                    <span class="pl-2 comment-date text-muted">{{ comment.create_date|time_since }}</span>
+                                </small>
+                            </p>
+                        </div>
+                        <div class="comment-toolbar d-none">
+                            <div class="p-2 pr-4 d-inline">
+                                {% if children_count %}
+                                    <a class="text-white text-decoration-none" data-toggle="collapse"
+                                       href="#comment_children_{{ comment.get_root.id }}"
+                                       role="button" aria-expanded="false"
+                                       aria-controls="comment_children_{{ comment.id }}">
+                                        <i class="fa fa-bars" aria-hidden="true"></i>
+                                    </a>
+                                {% endif %}
+                            </div>
+                            <div class="p-2 d-inline">
+                                <a class="text-white" data-toggle="modal" href=""
+                                   data-target="#commentModal" data-postid="{{ post.id }}"
+                                   data-parentcommentid="{{ comment.id }}"
+                                   data-replyusername="{{ comment.user.username }}">
+                                    <i class="fa fa-commenting" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment-body text-white pl-5 ml-3">
+                        {{ comment.body | safe }}
+                    </div>
+                    {% if not comment.is_leaf_node %}
+                        <div class="collapse comment-children ml-lg-5 ml-4"
+                             id="comment_children_{{ comment.id }}">
+                            {{ children }}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endwith %}
+        {% endrecursetree %}
+        <div class="modal fade" id="commentModal" tabindex="-1" role="dialog"
+             aria-labelledby="CommentModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="CommentModalLabel">New Comment</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        {% if user.is_authenticated %}
+                            <form class="form-group" action="" method="POST">{% csrf_token %}
+                                <label for="modal_comment_body"
+                                       class="col-form-label d-none">回复:</label>
+                                <textarea name="body" class="form-control" required
+                                          id="modal_comment_body">
+                                                 </textarea>
+                                <div class="text-center mt-3">
+                                    <button type="submit" class="btn btn-info">发表评论</button>
+                                </div>
+                            </form>
+                        {% else %}
+                            <div class="text-center"><a href="{% url 'account_signup' %}">
+                                注册 </a>或<a
+                                    href="{% url 'account_login' %}"> 登录 </a>后参与评论
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
