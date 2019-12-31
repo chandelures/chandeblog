@@ -31,7 +31,7 @@
                 <div id="comment_{{ comment.id }}" class="comment">
                     <div class="comment-header text-white d-flex">
                         <div class="flex-grow-1 p-2">
-                            <img class="img-circle img-avatar" src="{{ user.avatar.url }}" alt="">
+                            <img class="img-circle img-avatar" src="{{ comment.user.avatar.url }}" alt="">
                             <p class="d-inline ml-3">
                                 {{ comment.user }}
                                 {% get_comment_children_count comment as children_count %}
