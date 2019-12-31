@@ -182,6 +182,7 @@ EMAIL_FROM = "chandelurewang@qq.com"
 DEFAULT_FROM_EMAIL = "Chandelure博客 <chandelurewang@qq.com>"
 
 LOGIN_URL = "/accounts/login/"
+
 # MDeditor configuration
 MDEDITOR_CONFIGS = {
     'default': {
@@ -204,7 +205,7 @@ MDEDITOR_CONFIGS = {
         'toolbar_autofixed': True,  # 工具栏是否吸顶
         'search_replace': True,  # 是否开启查找替换
         'emoji': True,  # 是否开启表情功能
-        'tex': True,  # 是否开启 tex 图表功能
+        'tex': False,  # 是否开启 tex 图表功能
         'flow_chart': False,  # 是否开启流程图功能
         'sequence': False  # 是否开启序列图功能
     }

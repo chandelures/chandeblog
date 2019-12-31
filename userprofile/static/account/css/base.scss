@@ -1,0 +1,13 @@
+$header-logo-width: 50px;
+$header-logo-height: $header-logo-width;
+
+header {
+  .logo {
+    width: $header-logo-width;
+    height: $header-logo-height;
+  }
+}
+
+main {
+  min-height: 250px;
+}
