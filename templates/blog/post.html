@@ -4,9 +4,7 @@
 {% load blog_tags %}
 {% load avatar_tags %}
 
-{% block title %}
-    <title>{{ post.title }} | Chandelure的个人博客</title>
-{% endblock title %}
+{% block title %}{{ post.title }} | Chandelure的个人博客{% endblock title %}
 
 {% block description %}
     {% get_descriptions post.abstract as description %}
@@ -41,78 +39,7 @@
                 </div>
             </div>
             <div class="col-lg-6">
-                <div class="post-detail pb-5 pt-5" id="post-detail">
-                    <div class="post-header text-center">
-                        <h2 class="text-white font-weight-bold" data-toc-skip>{{ post.title }}</h2>
-                        <small class="text-muted mb-2 pt-2 pb-2">
-                            <span>
-                                <i class="fa fa-calendar-o" aria-hidden="true"></i>
-                                {{ post.create_date | date:"Y-m-j" }}
-                            </span>
-                            <span class="pl-1 pr-1">|</span>
-                            <a class="text-muted" href="#">
-                                <span class="">
-                                <i class="fa fa-file" aria-hidden="true"></i>
-                                {{ post.category.name }}
-                                </span>
-                            </a>
-                            <span class="pl-1 pr-1">|</span>
-                            <span>
-                                <i class="fa fa-eye" aria-hidden="true"></i>
-                                {{ post.views }}
-                            </span>
-                        </small>
-                    </div>
-                    <div class="post-body post-markdown text-white">
-                        {% markdown_text post.body as body %}
-                        {{ body|safe }}
-                    </div>
-                    <div class="post-footer mt-5 border shadow">
-                        <div class="card text-white bg-transparent">
-                            <div class="card-body">
-                                <h6 class="card-text" data-toc-skip>
-                                    <small>
-                                        <i class="fa fa-book" aria-hidden="true"></i>
-                                        标题：{{ post.title }}
-                                    </small>
-                                </h6>
-                                <h6 class="card-text" data-toc-skip>
-                                    <small>
-                                        <i class="fa fa-user" aria-hidden="true"></i>
-                                        作者：{{ post.author }}
-                                    </small>
-                                </h6>
-                                <h6 class="card-text" data-toc-skip>
-                                    <small>
-                                        <i class="fa fa-calendar-o" aria-hidden="true"></i>
-                                        发表日期：{{ post.mod_time | date:"Y-m-j H:m" }}
-                                    </small>
-                                </h6>
-                                <h6 class="card-text" data-toc-skip>
-                                    <small>
-                                        <i class="fa fa-calendar" aria-hidden="true"></i>
-                                        最后修改日期：{{ post.create_date | date:"Y-m-j H:m" }}
-                                    </small>
-                                </h6>
-                                <h6 class="card-text" data-toc-skip>
-                                    <small>
-                                        <i class="fa fa-link" aria-hidden="true"></i>
-                                        链接：https://{{ request.get_host }}{{ post.get_absolute_url }}
-                                    </small>
-                                </h6>
-                                <h6 class="card-text" data-toc-skip>
-                                    <small>
-                                        <i class="fa fa-id-card-o" aria-hidden="true"></i>
-                                        协议：非商业性使用 4.0 国际许可协议
-                                    </small>
-                                </h6>
-                            </div>
-                            <div class="card-footer border-top">
-                                <small class="blockquote-footer">本文版权归{{ post.author }}所有，欢迎转载，但未经作者同意必须保留此段声明，且在文章页面明显位置给出。</small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {% include 'blog/post-detail.html' %}
                 <div class="post-comment-divider" id="post-comment-divider"></div>
                 {% include 'blog/post-comment.html' %}
             </div>
