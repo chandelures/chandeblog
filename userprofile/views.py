@@ -36,6 +36,7 @@ class AjaxAvatarChangeView(View):
         if request.is_ajax():
             avatar_file = request.FILES['avatar']
             user = request.user
+            user.avatar.delete(save=False)
             user.avatar = avatar_file
             user.save()
             return JsonResponse({'status': 'success'})
