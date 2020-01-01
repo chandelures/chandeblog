@@ -1,15 +1,13 @@
 from comment.models import Comment
 from django.views.generic.base import View
 from django.shortcuts import get_object_or_404, redirect
-from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.http import HttpResponse
 from comment.forms import CommentForm
+from userprofile.models import User
 from blog.models import Post
 from notifications.signals import notify
-
-User = get_user_model()
 
 
 class PostCommentView(View):

@@ -33,9 +33,6 @@ class Column(models.Model):
     def __str__(self):
         return self.name
 
-    # def get_absolute_url(self):
-    #     return reverse('blog:column', args=[self.slug])
-
     def save(self, *args, **kwargs):
         """自动保存slug"""
         self.slug = slugify(self.name)
@@ -61,9 +58,6 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
-
-    # def get_absolute_url(self):
-    #     return reverse('blog:category', args=[self.slug])
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
