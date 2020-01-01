@@ -22,3 +22,7 @@ $btn-logout-height: $btn-logout-width;
 .btn-signup {
    @extend .btn-login
 }
+
+.btn-update {
+   @extend .btn-login
+}

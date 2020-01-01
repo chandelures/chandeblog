@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 from django.contrib.auth.models import AbstractUser
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
@@ -23,6 +24,9 @@ class User(AbstractUser):
         if len(self.avatar.name.split('/')) == 1:
             self.avatar.name = self.username + '/' + self.avatar.name
         super().save()
+
+    def get_absolute_url(self):
+        return reverse('userprofile:profile')
 
     def __str__(self):
         return self.username

@@ -1,3 +1,4 @@
+from taggit.managers import TaggableManager
 from django.db import models
 
 from django.urls import reverse
@@ -9,7 +10,6 @@ from uuslug import slugify
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
-from taggit.managers import TaggableManager
 
 
 class PostQuerySet(models.QuerySet):

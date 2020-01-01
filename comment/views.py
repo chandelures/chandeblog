@@ -35,7 +35,8 @@ class PostCommentView(View):
                 #         target=post,
                 #         action_object=new_comment,
                 #     )
-                return redirect(post.get_absolute_url() + '#comment_' + str(new_comment.parent_id))
+                return redirect(post.get_absolute_url() +
+                                '#comment_' + str(new_comment.parent_id))
 
             new_comment.save()
 
@@ -48,6 +49,7 @@ class PostCommentView(View):
             #         action_object=new_comment,
             #     )
 
-            return redirect(post.get_absolute_url() + '#comment_' + str(new_comment.id))
+            return redirect(post.get_absolute_url() +
+                            '#comment_' + str(new_comment.id))
         else:
             return HttpResponse("表单内容有误，请重新填写。")

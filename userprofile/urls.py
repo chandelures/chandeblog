@@ -9,5 +9,5 @@ urlpatterns = [
     # 个人信息
     path('profile/', views.ProfileView.as_view(), name='profile'),
 
-    path('avatar_change/', views.AjaxAvatarChange.as_view(), name='avatar_change')
+    path('avatar_change/', views.AjaxAvatarChangeView.as_view(), name='avatar_change')
 ]
