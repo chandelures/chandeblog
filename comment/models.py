@@ -1,9 +1,7 @@
 from django.db import models
 from blog.models import Post
 from mptt.models import MPTTModel, TreeForeignKey
-from django.contrib.auth import get_user_model
-
-User = get_user_model()
+from userprofile.models import User
 
 
 class Comment(MPTTModel):

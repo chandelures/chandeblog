@@ -1,20 +1,25 @@
-$(function () {
-    let fadeInTime = 300;
-    let fadeOutTime = 300;
-    let scroll = 300;
-    let animateTime = 500;
-    function toUp(fadeInTime, fadeOutTime, scroll, animateTime) {
-        $('#toUp').click(function () {
+(function () {
+    "use strict";
+
+    function toUpButtonInit() {
+        let button = $('#toUp');
+        let fadeInTime = 300,
+            fadeOutTime = 300,
+            scrollSpace = 300,
+            animateTime = 500;
+        button.click(function () {
             $('html,body').animate({scrollTop: 0}, animateTime);
         });
         $(window).scroll(function () {
-            if ($(this).scrollTop() > scroll) {
-                $('#toUp').fadeIn(fadeInTime);
+            if ($(this).scrollTop() > scrollSpace) {
+                button.fadeIn(fadeInTime);
             } else {
-                $('#toUp').stop().fadeOut(fadeOutTime);
+                button.stop().fadeOut(fadeOutTime);
             }
         }).scroll();
     }
 
-    toUp(fadeInTime, fadeOutTime, scroll, animateTime)
-});
+    $(function () {
+        toUpButtonInit()
+    });
+})();

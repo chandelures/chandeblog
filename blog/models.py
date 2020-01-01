@@ -7,9 +7,7 @@ import django.utils.timezone as timezone
 from mdeditor.fields import MDTextField
 from uuslug import slugify
 
-from django.contrib.auth import get_user_model
-
-User = get_user_model()
+from userprofile.models import User
 
 
 class PostQuerySet(models.QuerySet):
@@ -75,14 +73,15 @@ class Post(models.Model):
         related_name='post'
     )
     tags = TaggableManager()
-    column = models.ForeignKey(
-        'Column',
-        null=True,
-        blank=True,
-        on_delete=models.SET_NULL,
-        verbose_name="栏目",
-        related_name='post'
-    )
+    # column = models.ForeignKey(
+    #     'Column',
+    #     null=True,
+    #     blank=True,
+    #     on_delete=models.SET_NULL,
+    #     verbose_name="栏目",
+    #     related_name='post'
+    # )
+
     views = models.PositiveIntegerField('浏览量', default=0)
     create_date = models.DateTimeField('创建日期', default=timezone.now)
     mod_time = models.DateTimeField('最后修改时间', auto_now=True)
@@ -125,9 +124,6 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
-    def get_absolute_url(self):
-        return reverse('blog:category', args=[self.slug])
-
     def save(self, *args, **kwargs):
         """自动保存slug"""
         self.slug = slugify(self.name)
@@ -135,74 +131,4 @@ class Category(models.Model):
 
     class Meta:
         verbose_name = '分类'
-        verbose_name_plural = verbose_name
-
-
-class Column(models.Model):
-    """专栏模型
-
-    Attributes:
-        name: 名称.
-        slug: url字符串.
-        create_date: 创建日期
-        cover: 封面图片
-
-    """
-    name = models.CharField(verbose_name='名称', max_length=20)
-    slug = models.SlugField(editable=False)
-    create_date = models.DateTimeField('创建日期', auto_now_add=True, null=True)
-    cover = models.ImageField(
-        verbose_name="封面图片",
-        null=False,
-        upload_to="column/cover")
-    category = models.ForeignKey(
-        'ColumnCategory',
-        verbose_name='分类',
-        null=True,
-        on_delete=models.SET_NULL,
-        related_name='post'
-    )
-    tags = TaggableManager()
-
-    def __str__(self):
-        return self.name
-
-    def get_absolute_url(self):
-        return reverse('blog:column', args=[self.slug])
-
-    def save(self, *args, **kwargs):
-        """自动保存slug"""
-        self.slug = slugify(self.name)
-        super().save(*args, **kwargs)
-
-    class Meta:
-        verbose_name = '栏目'
-        verbose_name_plural = verbose_name
-
-
-class ColumnCategory(models.Model):
-    """栏目分类模型
-
-    Attributes:
-        name: 名称.
-        slug: url字符串.
-        create_date: 创建日期
-
-    """
-    name = models.CharField(verbose_name='名称', max_length=20)
-    slug = models.SlugField(editable=False)
-    create_date = models.DateTimeField('创建日期', auto_now_add=True, null=True)
-
-    def __str__(self):
-        return self.name
-
-    def get_absolute_url(self):
-        return reverse('blog:category', args=[self.slug])
-
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
-        super().save(*args, **kwargs)
-
-    class Meta:
-        verbose_name = '栏目分类'
         verbose_name_plural = verbose_name
