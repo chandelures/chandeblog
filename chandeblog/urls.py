@@ -48,9 +48,6 @@ urlpatterns = [
     # favicon
     path('favicon.ico', RedirectView.as_view(url=r'static/img/favicon.ico')),
 
-    # avatar
-    path('avatar/', include('avatar.urls')),
-
     # sitemap
     path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='sitemap')
 ]

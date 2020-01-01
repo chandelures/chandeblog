@@ -7,8 +7,6 @@ import django.utils.timezone as timezone
 from mdeditor.fields import MDTextField
 from uuslug import slugify
 
-from userprofile.models import User
-
 
 class PostQuerySet(models.QuerySet):
     """文章查询类"""
@@ -58,7 +56,7 @@ class Post(models.Model):
     title = models.CharField(verbose_name='标题', max_length=100)
     slug = models.SlugField(editable=False)
     author = models.ForeignKey(
-        User,
+        'userprofile.User',
         verbose_name='作者',
         null=True,
         on_delete=models.SET_NULL,
@@ -73,15 +71,14 @@ class Post(models.Model):
         related_name='post'
     )
     tags = TaggableManager()
-    # column = models.ForeignKey(
-    #     'Column',
-    #     null=True,
-    #     blank=True,
-    #     on_delete=models.SET_NULL,
-    #     verbose_name="栏目",
-    #     related_name='post'
-    # )
-
+    column = models.ForeignKey(
+        'column.Column',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        verbose_name="栏目",
+        related_name='post'
+    )
     views = models.PositiveIntegerField('浏览量', default=0)
     create_date = models.DateTimeField('创建日期', default=timezone.now)
     mod_time = models.DateTimeField('最后修改时间', auto_now=True)

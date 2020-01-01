@@ -1,5 +1,7 @@
 from django.db import models
 from uuslug import slugify
+from imagekit.models import ProcessedImageField
+from imagekit.processors import ResizeToFill
 
 
 class Column(models.Model):
@@ -15,10 +17,11 @@ class Column(models.Model):
     name = models.CharField(verbose_name='名称', max_length=20)
     slug = models.SlugField(editable=False)
     create_date = models.DateTimeField('创建日期', auto_now_add=True, null=True)
-    cover = models.ImageField(
-        verbose_name="封面图片",
-        null=False,
-        upload_to="column/cover")
+    cover = ProcessedImageField(
+        upload_to='column', default='column/default.png', verbose_name='封面',
+        processors=[ResizeToFill(400, 300)],
+        format='JPEG',
+        options={'quality': 95})
     category = models.ForeignKey(
         'Category',
         verbose_name='分类',

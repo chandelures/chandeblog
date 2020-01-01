@@ -5,7 +5,6 @@ defusedxml==0.6.0
 Django==2.2.8
 django-allauth==0.40.0
 django-appconf==1.0.3
-django-avatar==4.1.0
 django-compressor==2.3
 django-imagekit==4.0.2
 django-js-asset==1.2.2
