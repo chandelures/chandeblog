@@ -21,12 +21,12 @@ class AjaxPostListView(generic.View):
             index = int(request.GET.get("index", 0))
             count = int(request.GET.get("count", 0))
             post_count = Post.objects.public().count()
-            data = []
+            data = {"post_count": post_count, "post_list": []}
             for i in range(count):
                 if 0 <= index < post_count:
                     post = Post.objects.public()[index]
                     index = index + 1
-                    data.append({
+                    data['post_list'].append({
                         "post_count": post_count,
                         "post_url": post.get_absolute_url(),
                         "post_title": post.title,

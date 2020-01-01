@@ -19,9 +19,10 @@
                     "index": index,
                     'count': loadPostCount
                 },
-                success: function (ret) {
-                    $.each(ret, function (i, item) {
-                        postCount = item["post_count"];
+                success: function (data) {
+                    postCount = data["post_count"];
+                    let postList = data["post_list"];
+                    $.each(postList, function (i, item) {
                         if (index < postCount) {
                             index += 1;
                             let post_url = item["post_url"],
@@ -54,9 +55,9 @@
                             postCardContainer.append(postCardDom);
                             loadPostCardButton.removeClass('d-none');
                         }
+                        if (postList.length === 0 || index === postCount)
+                            loadPostCardButton.addClass('d-none');
                     });
-                    if (ret.length === 0 || index === postCount)
-                        loadPostCardButton.addClass('d-none');
                 }
             });
         }).click();
@@ -65,4 +66,5 @@
     $(function () {
         loadPostCard();
     });
-})();
+})
+();
