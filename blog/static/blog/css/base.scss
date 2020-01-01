@@ -5,6 +5,7 @@ $custom-yellow: #FEE140;
 $custom-pink: #FA709A;
 $custom-dark: #000;
 $custom-main-bg-color: #444444;
+$custom-light: #f8f9fa;
 
 $bg-header-deg: 135deg;
 $bg-footer-deg: 45deg;
@@ -107,14 +108,21 @@ header {
     }
 
     .dropdown {
-
       .nav-link {
         color: $custom-white;
       }
 
       .dropdown-menu {
-        left: -100px;
+        left: -40px;
+        min-width: 130px;
 
+      }
+
+      .dropdown-item {
+        &:focus {
+          background-color: $custom-light;
+          color: $custom-dark;
+        }
       }
     }
   }

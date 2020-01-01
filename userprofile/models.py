@@ -4,9 +4,6 @@ from django.contrib.auth.models import AbstractUser
 from imagekit.models import ProcessedImageField
 from imagekit.processors import ResizeToFill
 
-from django.db.models.signals import pre_delete
-from django.dispatch.dispatcher import receiver
-
 
 class User(AbstractUser):
     """用户个人信息
@@ -38,4 +35,3 @@ class User(AbstractUser):
         app_label = "userprofile"
         verbose_name = "用户"
         verbose_name_plural = verbose_name
-
