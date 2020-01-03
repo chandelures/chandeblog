@@ -10,23 +10,23 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 import os
-from . import config
+import json
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+with open('config.json', 'r', encoding='utf-8') as f:
+    config = json.load(f)
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-if config.SECRET_KEY:
-    SECRET_KEY = config.SECRET_KEY
+
+SECRET_KEY = config.get('SECRET_KEY', '')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-if config.DEBUG:
-    DEBUG = config.DEBUG
-else:
-    DEBUG = False
+
+DEBUG = config.get('DEBUG', False)
 
 ALLOWED_HOSTS = ['*']
 
@@ -185,14 +185,14 @@ ACCOUNT_LOGIN_ON_PASSWORD_RESET = True
 
 # Email configuration
 
-if config.EMAIL_SETTING:
-    EMAIL_HOST = config.EMAIL_HOST
-    EMAIL_PORT = config.EMAIL_PORT
-    EMAIL_HOST_USER = config.EMAIL_HOST_USER
-    EMAIL_HOST_PASSWORD = config.EMAIL_HOST_PASSWORD
-    EMAIL_USE_SSL = config.EMAIL_USE_SSL
-    EMAIL_FROM = config.EMAIL_FROM
-    DEFAULT_FROM_EMAIL = config.DEFAULT_FROM_EMAIL
+
+EMAIL_HOST = config.get('EMAIL_HOST')
+EMAIL_PORT = config.get('EMAIL_PORT')
+EMAIL_HOST_USER = config.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config.get('EMAIL_HOST_PASSWORD')
+EMAIL_USE_SSL = config.get('EMAIL_USE_SSL')
+EMAIL_FROM = config.get('EMAIL_FROM')
+DEFAULT_FROM_EMAIL = config.get('DEFAULT_FROM_EMAIL')
 
 LOGIN_URL = "/accounts/login/"
 
