@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 import os
+from . import config
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -18,10 +19,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'k-dl!o**@h_nsrtxir_1ts$%(bw1*ug6^n^(zn08#3$w3n*$n#'
+if config.SECRET_KEY:
+    SECRET_KEY = config.SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+if config.DEBUG:
+    DEBUG = config.DEBUG
+else:
+    DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -173,13 +178,21 @@ AUTHENTICATION_BACKENDS = (
 
 LOGIN_REDIRECT_URL = '/'
 
-EMAIL_HOST = "smtp.qq.com"
-EMAIL_PORT = 25
-EMAIL_HOST_USER = "chandelurewang@qq.com"
-EMAIL_HOST_PASSWORD = "kacqzrmzzwxzbbja"
-EMAIL_USE_TLS = True
-EMAIL_FROM = "chandelurewang@qq.com"
-DEFAULT_FROM_EMAIL = "Chandelure博客 <chandelurewang@qq.com>"
+ACCOUNT_AUTHENTICATION_METHOD = "username_email"
+ACCOUNT_EMAIL_VERIFICATION = "optional"
+ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
+ACCOUNT_LOGIN_ON_PASSWORD_RESET = True
+
+# Email configuration
+
+if config.EMAIL_SETTING:
+    EMAIL_HOST = config.EMAIL_HOST
+    EMAIL_PORT = config.EMAIL_PORT
+    EMAIL_HOST_USER = config.EMAIL_HOST_USER
+    EMAIL_HOST_PASSWORD = config.EMAIL_HOST_PASSWORD
+    EMAIL_USE_SSL = config.EMAIL_USE_SSL
+    EMAIL_FROM = config.EMAIL_FROM
+    DEFAULT_FROM_EMAIL = config.DEFAULT_FROM_EMAIL
 
 LOGIN_URL = "/accounts/login/"
 
@@ -212,6 +225,3 @@ MDEDITOR_CONFIGS = {
 }
 
 X_FRAME_OPTIONS = "SAMEORIGIN"
-
-# Django-avatar configuration
-AVATAR_DEFAULT_URL = "https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&f=y"
