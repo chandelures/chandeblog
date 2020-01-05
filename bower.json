@@ -1,0 +1,22 @@
+{
+  "name": "chandeblog",
+  "homepage": "https://github.com/chandelures/chandeblog",
+  "authors": [
+    "chandelurewang@gmail.com"
+  ],
+  "description": "a personal blog website",
+  "main": "",
+  "license": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "static/",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "semantic": "semantic-ui#^2.4.1"
+  }
+}
