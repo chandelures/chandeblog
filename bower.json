@@ -17,6 +17,8 @@
     "tests"
   ],
   "dependencies": {
-    "semantic": "semantic-ui#^2.4.1"
+    "semantic": "semantic-ui#^2.4.1",
+    "highlight": "^9.17.1",
+    "ckeditor": "^4.13.1"
   }
 }

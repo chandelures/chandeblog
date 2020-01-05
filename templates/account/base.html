@@ -1,3 +1,51 @@
+{#{% load static %}#}
+{#{% load compress %}#}
+{#{% load sass_tags %}#}
+{##}
+{#<!DOCTYPE html>#}
+{#<html lang="zh-hans">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <meta http-equiv="x-ua-compatible" content="ie=edge">#}
+{#    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">#}
+{#    {% block description %}{% endblock description %}#}
+{#    {% block keywords %}{% endblock keywords %}#}
+{#    <title>{% block title %}{% endblock title %}</title>#}
+{#    <link rel="icon" sizes="32x32" href="{% static 'img/favicon.ico' %}">#}
+{#    {% compress css %}#}
+{#        <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">#}
+{#        {% block css %}#}
+{#        {% endblock css %}#}
+{#    {% endcompress %}#}
+{#</head>#}
+{#<body class="bg-light">#}
+{#<div id="wrap">#}
+{#    <header>#}
+{#        <div class="container">#}
+{#            <div class="text-center">#}
+{#                <a href="{% url 'blog:index' %}"><img class="logo mt-4" src="{% static 'img/logo.svg' %}" alt=""></a>#}
+{#                <div class="h3 mt-3 font-weight-light">{% block page_title %}{% endblock page_title %}</div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </header>#}
+{#    <main>#}
+{#        {% block content %}#}
+{#        {% endblock content %}#}
+{#    </main>#}
+{#    <footer>#}
+{#        <div class="container text-center">#}
+{#            <small>©2019 by chandelure</small>#}
+{#        </div>#}
+{#    </footer>#}
+{#</div>#}
+{#{% compress js %}#}
+{#    <script src="{% static 'bootstrap/js/jquery-3.3.1.js' %}"></script>#}
+{#    <script src="{% static 'bootstrap/js/popper.min.js' %}"></script>#}
+{#    <script src="{% static 'bootstrap/js/bootstrap.js' %}"></script>#}
+{#    {% block js %}#}
+{#    {% endblock js %}#}
+{#{% endcompress %}#}
+{#</body>#}
 {% load static %}
 {% load compress %}
 {% load sass_tags %}
@@ -13,35 +61,15 @@
     <title>{% block title %}{% endblock title %}</title>
     <link rel="icon" sizes="32x32" href="{% static 'img/favicon.ico' %}">
     {% compress css %}
-        <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
+        <link rel="stylesheet" href="{% static 'lib/semantic/dist/semantic.min.css' %}">
         {% block css %}
         {% endblock css %}
     {% endcompress %}
 </head>
-<body class="bg-light">
-<div id="wrap">
-    <header>
-        <div class="container">
-            <div class="text-center">
-                <a href="{% url 'blog:index' %}"><img class="logo mt-4" src="{% static 'img/logo.svg' %}" alt=""></a>
-                <div class="h3 mt-3 font-weight-light">{% block page_title %}{% endblock page_title %}</div>
-            </div>
-        </div>
-    </header>
-    <main>
-        {% block content %}
-        {% endblock content %}
-    </main>
-    <footer>
-        <div class="container text-center">
-            <small>©2019 by chandelure</small>
-        </div>
-    </footer>
-</div>
+<body>
 {% compress js %}
-    <script src="{% static 'bootstrap/js/jquery-3.3.1.js' %}"></script>
-    <script src="{% static 'bootstrap/js/popper.min.js' %}"></script>
-    <script src="{% static 'bootstrap/js/bootstrap.js' %}"></script>
+    <script src="{% static 'lib/jquery/dist/jquery.min.js' %}"></script>
+    <script src="{% static 'lib/semantic/dist/semantic.min.js' %}"></script>
     {% block js %}
     {% endblock js %}
 {% endcompress %}

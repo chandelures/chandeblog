@@ -1,40 +1,40 @@
-{% extends 'account/base.html' %}
-{% load static %}
-{% load sass_tags %}
-{% load account socialaccount %}
-
-{% block title %}注册 | Chandelure的个人博客{% endblock title %}
-
-{% block css %}
-    <link rel="stylesheet" href="{% static 'font-awesome-4.7.0/css/font-awesome.min.css' %}">
-    <link rel="stylesheet" href="{% sass_src 'account/css/account.scss' %}">
-{% endblock css %}
-
-{% block js %}
-    <script src="{% static 'account/js/account.js' %}"></script>
-{% endblock js %}
-
-{% block page_title %}注册 Chandelure's Blog{% endblock page_title %}
-{% block content %}
-    <div class="container pt-5 pb-5">
-        <div class="row">
-            <div class="col-lg-4"></div>
-            <div class="col-lg-4">
-                {% get_providers as socialaccount_providers %}
-                {% if socialaccount_providers %}
-                    <div class="text-center">
-                        {% for provider in socialaccount_providers %}
-                            {% if provider.id == "github" %}
-                                <a title="{{ provider.name }}" class="h1 {{ provider.id }} text-dark"
-                                   href="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params %}"><i
-                                        class="fa fa-github" aria-hidden="true"></i> </a>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-                {% endif %}
-                <form method="POST" action="{% url 'account_signup' %}">
-                    {% csrf_token %}
-                    {{ form.as_p }}
+{#{% extends 'account/base.html' %}#}
+{#{% load static %}#}
+{#{% load sass_tags %}#}
+{#{% load account socialaccount %}#}
+{##}
+{#{% block title %}注册 | Chandelure的个人博客{% endblock title %}#}
+{##}
+{#{% block css %}#}
+{#    <link rel="stylesheet" href="{% static 'font-awesome-4.7.0/css/font-awesome.min.css' %}">#}
+{#    <link rel="stylesheet" href="{% sass_src 'account/css/account.scss' %}">#}
+{#{% endblock css %}#}
+{##}
+{#{% block js %}#}
+{#    <script src="{% static 'account/js/account.js' %}"></script>#}
+{#{% endblock js %}#}
+{##}
+{#{% block page_title %}注册 Chandelure's Blog{% endblock page_title %}#}
+{#{% block content %}#}
+{#    <div class="container pt-5 pb-5">#}
+{#        <div class="row">#}
+{#            <div class="col-lg-4"></div>#}
+{#            <div class="col-lg-4">#}
+{#                {% get_providers as socialaccount_providers %}#}
+{#                {% if socialaccount_providers %}#}
+{#                    <div class="text-center">#}
+{#                        {% for provider in socialaccount_providers %}#}
+{#                            {% if provider.id == "github" %}#}
+{#                                <a title="{{ provider.name }}" class="h1 {{ provider.id }} text-dark"#}
+{#                                   href="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params %}"><i#}
+{#                                        class="fa fa-github" aria-hidden="true"></i> </a>#}
+{#                            {% endif %}#}
+{#                        {% endfor %}#}
+{#                    </div>#}
+{#                {% endif %}#}
+{#                <form method="POST" action="{% url 'account_signup' %}">#}
+{#                    {% csrf_token %}#}
+{#                    {{ form.as_p }}#}
                     {#                    <div class="form-group">#}
                     {#                        <label for="{{ form.login.id_for_label }}">用户名</label>#}
                     {#                        {{ form.login }}#}
@@ -43,17 +43,17 @@
                     {#                        <label for="{{ form.password.id_for_label }}">密码</label>#}
                     {#                        {{ form.password }}#}
                     {#                    </div>#}
-                    <div class="form-group text-center pt-2">
-                        <button type="submit" class="btn btn-signup">注册</button>
-                    </div>
-                </form>
-                <div class="text-center p-2">
-                    <small class="text-muted">已经有账号了,直接<a href="{{ login_url }}">登录</a>吧</small>
-                </div>
-            </div>
-            <div class="col-lg-4"></div>
-        </div>
-
-    </div>
-{% endblock content %}
-
+{#                    <div class="form-group text-center pt-2">#}
+{#                        <button type="submit" class="btn btn-signup">注册</button>#}
+{#                    </div>#}
+{#                </form>#}
+{#                <div class="text-center p-2">#}
+{#                    <small class="text-muted">已经有账号了,直接<a href="{{ login_url }}">登录</a>吧</small>#}
+{#                </div>#}
+{#            </div>#}
+{#            <div class="col-lg-4"></div>#}
+{#        </div>#}
+{##}
+{#    </div>#}
+{#{% endblock content %}#}
+{##}

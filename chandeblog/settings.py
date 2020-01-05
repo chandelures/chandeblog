@@ -15,8 +15,13 @@ import json
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-with open('config.json', 'r', encoding='utf-8') as f:
-    config = json.load(f)
+SECRET_CONFIG_FILE_PATH = os.path.join(BASE_DIR, 'config.json')
+if os.path.exists(SECRET_CONFIG_FILE_PATH):
+    with open(SECRET_CONFIG_FILE_PATH, 'r', encoding='utf-8') as f:
+        config = json.load(f)
+else:
+    config = {}
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 

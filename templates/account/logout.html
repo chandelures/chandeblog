@@ -1,35 +1,35 @@
-{% extends 'account/base.html' %}
-{% load static %}
-{% load sass_tags %}
-
-{% block title %}注销 | Chandelure的个人博客{% endblock title %}
-
-{% block css %}
-    <link rel="stylesheet" href="{% sass_src 'account/css/account.scss' %}">
-{% endblock css %}
-
-{% block js %}
-    <script src="{% static 'account/js/account.js' %}"></script>
-{% endblock js %}
-
-{% block page_title %}注销 Chandelure's Blog{% endblock page_title %}
-{% block content %}
-    <div class="container pt-5 pb-5">
-        <div class="row">
-            <div class="col-lg-4"></div>
-            <div class="col-lg-4">
-                <form method="post" class="mt-4" action="{% url 'account_logout' %}">
-                    {% csrf_token %}
-                    {% if redirect_field_value %}
-                        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
-                    {% endif %}
-                    <div class="form-group text-center">
-                        <button type="submit" class="btn btn-danger btn-logout">注销</button>
-                    </div>
-                </form>
-            </div>
-            <div class="col-lg-4"></div>
-        </div>
-    </div>
-{% endblock content %}
-
+{#{% extends 'account/base.html' %}#}
+{#{% load static %}#}
+{#{% load sass_tags %}#}
+{##}
+{#{% block title %}注销 | Chandelure的个人博客{% endblock title %}#}
+{##}
+{#{% block css %}#}
+{#    <link rel="stylesheet" href="{% sass_src 'account/css/account.scss' %}">#}
+{#{% endblock css %}#}
+{##}
+{#{% block js %}#}
+{#    <script src="{% static 'account/js/account.js' %}"></script>#}
+{#{% endblock js %}#}
+{##}
+{#{% block page_title %}注销 Chandelure's Blog{% endblock page_title %}#}
+{#{% block content %}#}
+{#    <div class="container pt-5 pb-5">#}
+{#        <div class="row">#}
+{#            <div class="col-lg-4"></div>#}
+{#            <div class="col-lg-4">#}
+{#                <form method="post" class="mt-4" action="{% url 'account_logout' %}">#}
+{#                    {% csrf_token %}#}
+{#                    {% if redirect_field_value %}#}
+{#                        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>#}
+{#                    {% endif %}#}
+{#                    <div class="form-group text-center">#}
+{#                        <button type="submit" class="btn btn-danger btn-logout">注销</button>#}
+{#                    </div>#}
+{#                </form>#}
+{#            </div>#}
+{#            <div class="col-lg-4"></div>#}
+{#        </div>#}
+{#    </div>#}
+{#{% endblock content %}#}
+{##}

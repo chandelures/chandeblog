@@ -1,3 +1,45 @@
+{#{% load static %}#}
+{#{% load sass_tags %}#}
+{#{% load compress %}#}
+{#<!DOCTYPE html>#}
+{#<html lang="zh-hans">#}
+{#<head>#}
+{#    <meta charset="UTF-8">#}
+{#    <meta http-equiv="x-ua-compatible" content="ie=edge">#}
+{#    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">#}
+{#    {% block description %}{% endblock description %}#}
+{#    {% block keywords %}{% endblock keywords %}#}
+{#    <title>{% block title %}{% endblock title %}</title>#}
+{#    <link rel="icon" sizes="32x32" href="{% static 'img/favicon.ico' %}">#}
+{#    {% compress css %}#}
+{#        <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">#}
+{#        <link rel="stylesheet" href="{% static 'font-awesome-4.7.0/css/font-awesome.min.css' %}">#}
+{#        {% block css %}#}
+{#        {% endblock css %}#}
+{#    {% endcompress %}#}
+{#</head>#}
+{#<body>#}
+{#<div id="wrap">#}
+{#    {% include 'blog/header.html' %}#}
+{#    <main id="main" class="bg-main">#}
+{#        {% block content %}#}
+{#        {% endblock content %}#}
+{#        <div class="tips d-none d-lg-block">#}
+{#            <button class="position-fixed btn" id="toUp"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>#}
+{#        </div>#}
+{#    </main>#}
+{#    {% include 'blog/footer.html' %}#}
+{#</div>#}
+{#{% compress js %}#}
+{#    <script src="{% static 'bootstrap/js/jquery-3.3.1.js' %}"></script>#}
+{#    <script src="{% static 'bootstrap/js/popper.min.js' %}"></script>#}
+{#    <script src="{% static 'bootstrap/js/bootstrap.js' %}"></script>#}
+{#    <script src="{% static 'blog/js/base.js' %}"></script>#}
+{#    {% block js %}#}
+{#    {% endblock js %}#}
+{#{% endcompress %}#}
+{#</body>#}
+{#</html>#}
 {% load static %}
 {% load sass_tags %}
 {% load compress %}
@@ -12,29 +54,16 @@
     <title>{% block title %}{% endblock title %}</title>
     <link rel="icon" sizes="32x32" href="{% static 'img/favicon.ico' %}">
     {% compress css %}
-        <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.css' %}">
-        <link rel="stylesheet" href="{% static 'font-awesome-4.7.0/css/font-awesome.min.css' %}">
+        <link rel="stylesheet" href="{% static 'lib/semantic/dist/semantic.min.css' %}">
         {% block css %}
         {% endblock css %}
     {% endcompress %}
 </head>
 <body>
-<div id="wrap">
-    {% include 'blog/header.html' %}
-    <main id="main" class="bg-main">
-        {% block content %}
-        {% endblock content %}
-        <div class="tips d-none d-lg-block">
-            <button class="position-fixed btn" id="toUp"><i class="fa fa-arrow-up" aria-hidden="true"></i></button>
-        </div>
-    </main>
-    {% include 'blog/footer.html' %}
-</div>
+
 {% compress js %}
-    <script src="{% static 'bootstrap/js/jquery-3.3.1.js' %}"></script>
-    <script src="{% static 'bootstrap/js/popper.min.js' %}"></script>
-    <script src="{% static 'bootstrap/js/bootstrap.js' %}"></script>
-    <script src="{% static 'blog/js/base.js' %}"></script>
+    <script src="{% static 'lib/jquery/dist/jquery.min.js' %}"></script>
+    <script src="{% static 'lib/semantic/dist/semantic.min.js' %}"></script>
     {% block js %}
     {% endblock js %}
 {% endcompress %}

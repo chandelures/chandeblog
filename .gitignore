@@ -8,6 +8,6 @@ package-lock.json
 logs/
 docs/
 node_modules/
-/static/
+lib/
 scripts/
 config.json
