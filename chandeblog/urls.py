@@ -36,7 +36,7 @@ urlpatterns = [
     path('comment/', include('comment.urls', namespace='comment')),
 
     # 消息通知
-    path('inbox/notifications/', include('notifications.urls', namespace='notifications')),
+    # path('inbox/notifications/', include('notifications.urls', namespace='notifications')),
 
     # 用户页面
     path('accounts/', include('userprofile.urls', namespace='accounts')),

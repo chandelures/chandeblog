@@ -27,13 +27,13 @@ else:
 
 # SECURITY WARNING: keep the secret key used in production secret!
 
-SECRET_KEY = config.get('SECRET_KEY', '')
+SECRET_KEY = config.get('SECRET_KEY', 'ja+uzzxyqar=kcb=-jji)&+f@c!2c8_p=8sr!5myed6l0v2qd^')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
 DEBUG = config.get('DEBUG', False)
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = config.get('ALLOWED_HOSTS', [])
 
 # Application definition
 
@@ -59,7 +59,7 @@ INSTALLED_APPS = [
     'mdeditor',
     'sass_processor',
     'compressor',
-    'notifications',
+    # 'notifications',
 
     # login and signup app
     'allauth',
@@ -144,7 +144,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'collected_static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 STATICFILES_DIR = [
     os.path.join(BASE_DIR, 'static')
