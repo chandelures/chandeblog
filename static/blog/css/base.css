@@ -1,0 +1,9 @@
+header {
+  min-height: 500px; }
+  header h1.ui.header {
+    margin-top: 3em !important;
+    margin-bottom: 0;
+    font-size: 3em;
+    font-weight: normal; }
+
+/*# sourceMappingURL=base.css.map */
