@@ -1,10 +1,49 @@
+@import "variables.scss";
+
 header {
   min-height: 500px;
 
+  @media screen and (max-width: $screen-md){
+    min-height: 350px;
+  }
+
   h1.ui.header {
-    margin-top: 3em !important;
+    margin-top: $margin-6 !important;
     margin-bottom: 0;
-    font-size: 3em;
+    font-size: $font-size-5;
     font-weight: normal;
+
+    @media screen and (max-width: $screen-md){
+      margin-top: $margin-4 !important;
+      font-size: $font-size-4;
+    }
+  }
+
+  .ui.secondary {
+    .item:not(.toc):not(.right){
+      @media screen and (max-width: $screen-md){
+        display: none!important;
+      }
+    }
+    .toc.item {
+      display: none;
+      @media screen and (max-width: $screen-md){
+        display: block;
+      }
+    }
+  }
+
+  .ui.menu{
+    margin-left: $margin-2 !important;
+    @media screen and (max-width: $screen-md){
+      margin-left: $margin-1 !important;
+    }
+  }
+
+  .ui.button {
+    margin-left: $margin-2 !important;
+    @media screen and (max-width: $screen-md){
+      margin-left: $margin-1 !important;
+    }
   }
 }
