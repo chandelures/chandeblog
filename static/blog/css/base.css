@@ -2,16 +2,16 @@ header {
   min-height: 500px; }
   @media screen and (max-width: 48em) {
     header {
-      min-height: 350px; } }
+      min-height: 300px; } }
   header h1.ui.header {
     margin-top: 3em !important;
     margin-bottom: 0;
     font-size: 3em;
-    font-weight: normal; }
+    font-weight: bold; }
     @media screen and (max-width: 48em) {
       header h1.ui.header {
         margin-top: 2em !important;
-        font-size: 2.5em; } }
+        font-size: 2em; } }
   @media screen and (max-width: 48em) {
     header .ui.secondary .item:not(.toc):not(.right) {
       display: none !important; } }
