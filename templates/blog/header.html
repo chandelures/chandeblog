@@ -64,7 +64,24 @@
 {#        </a>#}
 {#    </div>#}
 {#</header>#}
+<!-- Following Menu -->
+<div class="ui large top fixed hidden menu">
+    <div class="ui container">
+        <a class="active item">主页</a>
+        <a class="item">专栏</a>
+        <div class="right menu">
+            <div class="item">
+                <a class="ui button" href="{% url 'account_login' %}">登录</a>
+            </div>
+            <div class="item">
+                <a class="ui primary button" href="{% url 'account_signup' %}">注册</a>
+            </div>
+        </div>
+    </div>
+</div>
+
 <header class="ui inverted vertical masthead center aligned segment">
+
 
     <div class="ui container">
         <div class="ui large secondary inverted pointing menu">

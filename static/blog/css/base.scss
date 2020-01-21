@@ -1,8 +1,23 @@
 @import "variables.scss";
 
+//Fix Menu
+.ui.hidden.fixed.menu {
+  display: none;
+}
+
+.ui.fixed.menu {
+  @media screen and (max-width: $screen-md) {
+    visibility: hidden !important;
+  }
+}
+
 //Header Style
 header {
   min-height: 500px;
+
+  @media screen and (max-width: $screen-lg) {
+    min-height: 400px;
+  }
 
   @media screen and (max-width: $screen-md) {
     min-height: 300px;
@@ -13,6 +28,11 @@ header {
     margin-bottom: 0;
     font-size: $font-size-5;
     font-weight: bold;
+
+    @media screen and (max-width: $screen-lg) {
+      margin-top: $margin-5 !important;
+      font-size: $font-size-4;
+    }
 
     @media screen and (max-width: $screen-md) {
       margin-top: $margin-4 !important;

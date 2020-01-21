@@ -61,9 +61,11 @@
     {% endcompress %}
 </head>
 <body>
+
 {% include 'blog/sidebar.html' %}
 <div class="pusher">
     {% include 'blog/header.html' %}
+<div style="height: 1000px;"></div>
         {% block content %}
         {% endblock content %}
 {#    {% include 'blog/footer.html' %}#}
@@ -71,8 +73,8 @@
 {% compress js %}
     <script src="{% static 'lib/jquery/dist/jquery.min.js' %}"></script>
     <script src="{% static 'lib/semantic/dist/semantic.min.js' %}"></script>
+    <script src="{% static 'blog/js/base.js' %}"></script>
     {% block js %}
-        <script src="{% static 'blog/js/base.js' %}"></script>
     {% endblock js %}
 {% endcompress %}
 </body>
