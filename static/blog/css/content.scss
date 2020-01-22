@@ -7,7 +7,9 @@
     font-size: $font-size-4;
     margin-top: $margin-5;
     margin-bottom: $margin-3;
-    margin-left: $margin-6;
+    margin-left: $margin-5;
+    padding-left: $padding-1;
+    border-left: black 4px solid;
 
     @media screen and (max-width: $screen-lg) {
       margin-top: $margin-4;
@@ -31,6 +33,7 @@
     border: none;
     margin-left: $margin-6*2.5;
     margin-right: $margin-6*2.5;
+    padding: 0;
     @media screen and (max-width: $screen-lg) {
       margin-left: $margin-5*2.5;
       margin-right: $margin-5*2.5;
@@ -44,6 +47,31 @@
       margin-right: $margin-1*2.5;
     }
 
+    .four.wide.column {
+      border-left: black 1px solid;
+    }
+
+    .ui.divider {
+      margin-bottom: $margin-4;
+    }
+
+    .category,
+    time {
+      font-family: $muted-font-family;
+    }
+
+    time:before {
+      position: absolute;
+      content: '';
+      display: block;
+      width: 1rem;
+      height: 1rem;
+      background-color: white;
+      border: 1px solid black;
+      border-radius: 50%;
+      top: 0;
+      left: calc(-0.8rem + 3px);
+    }
 
     h3 {
       font-weight: bold;
