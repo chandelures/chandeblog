@@ -1,11 +1,17 @@
 @import "variables.scss";
 
-//Fix Menu
-.ui.hidden.fixed.menu {
+.ui.hidden {
   display: none;
 }
 
+//Top Menu
 .ui.fixed.menu {
+  .right.menu {
+    .item::before {
+      width: 0 !important;
+    }
+  }
+
   @media screen and (max-width: $screen-md) {
     visibility: hidden !important;
   }
@@ -68,4 +74,32 @@ header {
       margin-left: $margin-1 !important;
     }
   }
+}
+
+//Footer Style
+footer.segment {
+  margin-top: $margin-6*2 !important;
+  padding: $padding-4 0 !important;
+
+
+  a.item {
+    font-size: $font-size-1*0.9;
+    color: white;
+    margin-left: $margin-2;
+
+    &:hover {
+      color: #0d71bb;
+      text-decoration: none;
+    }
+  }
+
+  i {
+    color: white;
+    font-size: x-large;
+
+    &:hover {
+      color: white;
+    }
+  }
+
 }

@@ -1,0 +1,56 @@
+@import "variables";
+
+//Post list
+.ui.container.post-list {
+  h1 {
+    font-weight: bolder;
+    font-size: $font-size-4;
+    margin-top: $margin-5;
+    margin-bottom: $margin-3;
+    margin-left: $margin-6;
+
+    @media screen and (max-width: $screen-lg) {
+      margin-top: $margin-4;
+      margin-bottom: $margin-3;
+      margin-left: $margin-5;
+    }
+
+    @media screen and (max-width: $screen-md) {
+      margin-top: $margin-3;
+      margin-bottom: $margin-2;
+      margin-left: $margin-4;
+    }
+    @media screen and (max-width: $screen-sm) {
+      margin-top: $margin-2;
+      margin-bottom: $margin-2;
+      margin-left: $margin-1;
+    }
+  }
+
+  .ui.row {
+    border: none;
+    margin-left: $margin-6*2.5;
+    margin-right: $margin-6*2.5;
+    @media screen and (max-width: $screen-lg) {
+      margin-left: $margin-5*2.5;
+      margin-right: $margin-5*2.5;
+    }
+    @media screen and (max-width: $screen-md) {
+      margin-left: $margin-4*2.5;
+      margin-right: $margin-4*2.5;
+    }
+    @media screen and (max-width: $screen-sm) {
+      margin-left: $margin-1*2.5;
+      margin-right: $margin-1*2.5;
+    }
+
+
+    h3 {
+      font-weight: bold;
+    }
+
+    p {
+      line-height: 2;
+    }
+  }
+}

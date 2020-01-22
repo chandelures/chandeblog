@@ -1,5 +1,8 @@
-.ui.hidden.fixed.menu {
+.ui.hidden {
   display: none; }
+
+.ui.fixed.menu .right.menu .item::before {
+  width: 0 !important; }
 
 @media screen and (max-width: 48em) {
   .ui.fixed.menu {
@@ -44,5 +47,20 @@ header {
     @media screen and (max-width: 48em) {
       header .ui.button {
         margin-left: 0.5em !important; } }
+footer.segment {
+  margin-top: 6em !important;
+  padding: 2em 0 !important; }
+  footer.segment a.item {
+    font-size: 0.9em;
+    color: white;
+    margin-left: 1em; }
+    footer.segment a.item:hover {
+      color: #0d71bb;
+      text-decoration: none; }
+  footer.segment i {
+    color: white;
+    font-size: x-large; }
+    footer.segment i:hover {
+      color: white; }
 
 /*# sourceMappingURL=base.css.map */

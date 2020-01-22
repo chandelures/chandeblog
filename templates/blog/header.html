@@ -64,6 +64,7 @@
 {#        </a>#}
 {#    </div>#}
 {#</header>#}
+
 <!-- Following Menu -->
 <div class="ui large top fixed hidden menu">
     <div class="ui container">
@@ -71,10 +72,11 @@
         <a class="item">专栏</a>
         <div class="right menu">
             <div class="item">
-                <a class="ui button" href="{% url 'account_login' %}">登录</a>
-            </div>
-            <div class="item">
-                <a class="ui primary button" href="{% url 'account_signup' %}">注册</a>
+                <div class="ui action left icon input">
+                    <i class="search icon"></i>
+                    <input type="text" placeholder="Search">
+                    <button class="ui primary button">搜索</button>
+                </div>
             </div>
         </div>
     </div>

@@ -34,12 +34,63 @@
 {#{% endblock content %}#}
 {% extends 'blog/base.html' %}
 
+{% load sass_tags %}
 {% block title %}主页 | Chandelure的个人博客{% endblock title %}
 {% block css %}
+    <link rel="stylesheet" href="{% sass_src 'blog/css/content.scss' %}">
 {% endblock css %}
 {% block js %}
 {% endblock js %}
 
 {% block content %}
+    <div class="ui stackable container post-list">
+        <h1>All Posts</h1>
+        <div class="ui stackable grid">
+            <div class="ui row">
+                <div class="four wide column">
+                    <p>January 17, 2020</p>
+                </div>
+                <div class="ten wide column">
+                    <h3>这是一个标题</h3>
+                    <p>最近升级到了 macOS Catalina 10.15，发现我的 MX Master 2S 鼠标在 10.15 系统下，使用 Unifying
+                        优联模式，光标和左右按键全部失效，而功能键正常（蓝牙模式一切正常）。尝试了重装 Logi Option on Mac ，结果还是一样
 
+                        网上找到很多中文的资料，但罗技中文的论坛几乎没人谈这个 bug。差点就要回滚系统的时候，在罗技的美国官网论坛，发现了解决方案。</p>
+                    <h4 class="ui horizontal header divider">
+                        <a href="#">Read More »</a>
+                    </h4>
+                </div>
+            </div>
+            <div class="ui row">
+                <div class="four wide column">
+                    <p>January 17, 2020</p>
+                </div>
+                <div class="ten wide column">
+                    <h3>这是一个标题</h3>
+                    <p>最近升级到了 macOS Catalina 10.15，发现我的 MX Master 2S 鼠标在 10.15 系统下，使用 Unifying
+                        优联模式，光标和左右按键全部失效，而功能键正常（蓝牙模式一切正常）。尝试了重装 Logi Option on Mac ，结果还是一样
+
+                        网上找到很多中文的资料，但罗技中文的论坛几乎没人谈这个 bug。差点就要回滚系统的时候，在罗技的美国官网论坛，发现了解决方案。</p>
+                    <h4 class="ui horizontal header divider">
+                        <a href="#">Read More »</a>
+                    </h4>
+                </div>
+            </div>
+            <div class="ui row">
+                <div class="four wide column">
+                    <p>January 17, 2020</p>
+                </div>
+                <div class="ten wide column">
+                    <h3>这是一个标题</h3>
+                    <p>最近升级到了 macOS Catalina 10.15，发现我的 MX Master 2S 鼠标在 10.15 系统下，使用 Unifying
+                        优联模式，光标和左右按键全部失效，而功能键正常（蓝牙模式一切正常）。尝试了重装 Logi Option on Mac ，结果还是一样
+
+                        网上找到很多中文的资料，但罗技中文的论坛几乎没人谈这个 bug。差点就要回滚系统的时候，在罗技的美国官网论坛，发现了解决方案。</p>
+                    <h4 class="ui horizontal header divider">
+                        <a href="#">Read More »</a>
+                    </h4>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock content %}

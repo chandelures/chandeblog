@@ -65,10 +65,10 @@
 {% include 'blog/sidebar.html' %}
 <div class="pusher">
     {% include 'blog/header.html' %}
-<div style="height: 1000px;"></div>
-        {% block content %}
-        {% endblock content %}
-{#    {% include 'blog/footer.html' %}#}
+    {% block content %}
+    {% endblock content %}
+{#    <div style="height: 1000px;"></div>#}
+    {% include 'blog/footer.html' %}
 </div>
 {% compress js %}
     <script src="{% static 'lib/jquery/dist/jquery.min.js' %}"></script>
