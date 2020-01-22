@@ -30,6 +30,12 @@
   }
 
   .ui.row {
+    &:last-child {
+      .ui.divider {
+        margin-bottom: 0;
+      }
+    }
+
     border: none;
     margin-left: $margin-6*2.5;
     margin-right: $margin-6*2.5;

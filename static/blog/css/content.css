@@ -26,6 +26,8 @@
   margin-left: 7.5em;
   margin-right: 7.5em;
   padding: 0; }
+  .ui.container.post-list .ui.row:last-child .ui.divider {
+    margin-bottom: 0; }
   @media screen and (max-width: 65em) {
     .ui.container.post-list .ui.row {
       margin-left: 6.25em;
