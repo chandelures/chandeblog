@@ -34,6 +34,7 @@ header {
     margin-bottom: 0;
     font-size: $font-size-5;
     font-weight: bold;
+    font-family: $header-font-family !important;
 
     @media screen and (max-width: $screen-lg) {
       margin-top: $margin-5 !important;
@@ -78,9 +79,12 @@ header {
 
 //Footer Style
 footer.segment {
-  margin-top: $margin-6*2 !important;
+  margin-top: $margin-5*2 !important;
   padding: $padding-4 0 !important;
 
+  h2 {
+    font-family: $header-font-family;
+  }
 
   a.item {
     font-size: $font-size-1*0.9;

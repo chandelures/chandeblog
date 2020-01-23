@@ -2,6 +2,7 @@
 
 //Post list
 .ui.container.post-list {
+  min-height: 500px;
   h1 {
     font-weight: bolder;
     font-size: $font-size-4;
@@ -27,6 +28,10 @@
       margin-bottom: $margin-2;
       margin-left: $margin-1;
     }
+  }
+
+  .ui.sticky {
+    margin-top: 58px!important;
   }
 
   .ui.row {
@@ -55,6 +60,9 @@
 
     .four.wide.column {
       border-left: black 1px solid;
+      @media screen and (max-width: $screen-md) {
+        border-left: none;
+      }
     }
 
     .ui.divider {
@@ -77,6 +85,10 @@
       border-radius: 50%;
       top: 0;
       left: calc(-0.8rem + 3px);
+
+      @media screen and (max-width: $screen-md) {
+        display: none;
+      }
     }
 
     h3 {
@@ -85,6 +97,19 @@
 
     p {
       line-height: 2;
+    }
+  }
+
+  .ui.load {
+    margin-top: $margin-6*2;
+
+    button {
+      border: 0;
+      background-color: transparent;
+    }
+
+    i {
+      font-size: x-large;
     }
   }
 }
