@@ -1,13 +1,32 @@
 (function () {
     "use strict";
 
-
     var ready = function () {
-        var $uiSticky = $(".ui.sticky"),
+        var $tocSticky = $(".post-detail .ui.sticky"),
+            $toUpButton = $("#toUp"),
             $loadPostListButton = $("#loadPostListButton");
 
+        var loadPostCount = 5;
+
         var handler = {
-            loadPostList: function ($button, loadPostCount) {
+            toUp: function ($button) {
+                var fadeInTime = 300,
+                    fadeOutTime = 300,
+                    scrollSpace = 300,
+                    animateTime = 500;
+                $button.click(function () {
+                    $('html,body').animate({scrollTop: 0}, animateTime);
+                });
+                $(window).scroll(function () {
+                    if ($(this).scrollTop() > scrollSpace) {
+                        $button.fadeIn(fadeInTime);
+                    } else {
+                        $button.stop().fadeOut(fadeOutTime);
+                    }
+                }).scroll();
+
+            },
+            loadPostList: function ($button, loadPostCount = 5) {
                 var index = 0,
                     postCount = 0,
                     apiURL = "/api/getpostlist";
@@ -39,8 +58,8 @@
                                             "                    <p class=\"category\">" + post_category_name + "</p>\n" +
                                             "                </div>\n" +
                                             "                <div class=\"eleven wide column\">\n" +
-                                            "                    <h3>" + post_title + "</h3>\n" +
-                                            "                    <p>" + post_abstract + "</p>\n" +
+                                            "                    <h3><a href=\"" + post_url + "\">" + post_title + "</a></h3>\n" +
+                                            "                    <div>" + post_abstract + "</div>\n" +
                                             "                    <h4 class=\"ui horizontal header divider\">\n" +
                                             "                        <a href=\"" + post_url + "\">Read More »</a>\n" +
                                             "                    </h4>\n" +
@@ -58,14 +77,17 @@
             }
         };
 
-        handler.loadPostList($loadPostListButton, 5);
+        handler.loadPostList($loadPostListButton, loadPostCount);
+        handler.toUp($toUpButton);
 
-        $uiSticky
+        $tocSticky
             .sticky({
-                context: '#postList'
+                context: '#postDetail'
             })
         ;
     };
+
+    hljs.initHighlightingOnLoad();
 
     $(function () {
         ready();

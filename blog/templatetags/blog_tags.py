@@ -10,11 +10,20 @@ register = template.Library()
 
 @register.simple_tag
 def markdown_text(text):
+    config = {
+        'toc': {
+            'toc_depth': 3,
+        }
+    }
     md = markdown.Markdown(extensions=[
         'markdown.extensions.extra',
-    ])
+        'markdown.extensions.toc'
+    ], extension_configs=config)
     html = md.convert(text)
-    return html
+    return {
+        "html": html,
+        "toc": md.toc
+    }
 
 
 @register.simple_tag

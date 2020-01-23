@@ -46,3 +46,46 @@
 {#        </div>#}
 {#    </div>#}
 {#{% endblock %}#}
+{% extends 'blog/base.html' %}
+
+{% load sass_tags %}
+{% load static %}
+{% load blog_tags %}
+{% block title %}主页 | Chandelure的个人博客{% endblock title %}
+{% block css %}
+    <link rel="stylesheet" href="{% static 'lib/ckeditor/plugins/codesnippet/lib/highlight/styles/default.css' %}">
+    <link rel="stylesheet" href="{% sass_src 'blog/css/post.scss' %}">
+{% endblock css %}
+{% block js %}
+    <script src="{% static 'lib/ckeditor/plugins/codesnippet/lib/highlight/highlight.pack.js' %}"></script>
+    <script src="{% static 'blog/js/blog.js' %}"></script>
+{% endblock js %}
+
+{% block content %}
+    <div class="ui container post-detail grid stackable" id="postDetail">
+        <div class="row">
+            {% markdown_text post.body as body %}
+            <div class="four wide column left">
+            </div>
+            <div class="eleven wide column right">
+                <div class="ui left rail">
+                    <div class="ui sticky">
+                        <h4>目录</h4>
+                        {{ body.toc|safe }}
+                    </div>
+                </div>
+                <div class="markdown">
+                    <h1>{{ post.title }}</h1>
+                    {{ body.html|safe }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+
+{% block extra %}
+    <div>
+        <button class="ui button grey hidden" id="toUp"><i class="angle up icon"></i></button>
+    </div>
+{% endblock extra %}

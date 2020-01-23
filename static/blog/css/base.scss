@@ -4,6 +4,22 @@
   display: none;
 }
 
+button:focus,
+button:active:focus,
+button.active:focus,
+button.focus,
+button:active.focus,
+button.active.focus,
+.btn:focus,
+.btn:active:focus,
+.btn.active:focus,
+.btn.focus,
+.btn:active.focus,
+.btn.active.focus {
+  outline: none;
+  box-shadow: none;
+}
+
 //Top Menu
 .ui.fixed.menu {
   .right.menu {

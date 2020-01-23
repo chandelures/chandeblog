@@ -67,7 +67,9 @@
     {% include 'blog/header.html' %}
     {% block content %}
     {% endblock content %}
-{#    <div style="height: 1000px;"></div>#}
+    {#    <div style="height: 1000px;"></div>#}
+    {% block extra %}
+    {% endblock extra %}
     {% include 'blog/footer.html' %}
 </div>
 {% compress js %}
