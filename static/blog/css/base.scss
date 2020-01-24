@@ -64,13 +64,13 @@ header {
   }
 
   .ui.secondary {
-    .item:not(.toc):not(.right) {
+    .item:not(.expand):not(.right) {
       @media screen and (max-width: $screen-md) {
         display: none !important;
       }
     }
 
-    .toc.item {
+    .expand.item {
       display: none;
       @media screen and (max-width: $screen-md) {
         display: block;

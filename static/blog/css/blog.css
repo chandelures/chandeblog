@@ -7,8 +7,7 @@
   .markdown h1 {
     font-size: 2.2em;
     font-weight: 700;
-    line-height: 1.1;
-    margin-bottom: 4px; }
+    line-height: 1.1; }
   .markdown h2, .markdown h3, .markdown h4, .markdown h5, .markdown h6 {
     line-height: 1.5em;
     margin-top: 2.2em;
@@ -199,29 +198,29 @@
     border: 0;
     outline: 0; }
 
-.ui.container.post-detail {
+.post-detail {
   margin-top: 5em;
   min-height: 500px; }
-  .ui.container.post-detail .toc {
+  .post-detail li::before {
+    color: transparent !important; }
+  .post-detail a.active {
+    font-weight: bold; }
+  .post-detail .toc {
     font-size: small; }
-    .ui.container.post-detail .toc a.active {
-      font-weight: bold; }
-    .ui.container.post-detail .toc li::before {
-      color: transparent; }
-    .ui.container.post-detail .toc li ul.ui.list {
+    @media screen and (max-width: 65em) {
+      .post-detail .toc {
+        display: none; } }
+    .post-detail .toc li ul.ui.list {
       padding-top: 0.25em;
       padding-bottom: 0.125em; }
-      .ui.container.post-detail .toc li ul.ui.list li {
+      .post-detail .toc li ul.ui.list > li {
         padding-top: 0.25em; }
-  .ui.container.post-detail .right.column .ui.left {
+  .post-detail .right.column .ui.left {
     left: -250px; }
     @media screen and (max-width: 80em) {
-      .ui.container.post-detail .right.column .ui.left {
+      .post-detail .right.column .ui.left {
         left: -180px; } }
-    @media screen and (max-width: 65em) {
-      .ui.container.post-detail .right.column .ui.left {
-        display: none; } }
-  .ui.container.post-detail .right.column h1 {
+  .post-detail .right.column h1 {
     font-size: 2.5em; }
 
 #toUp {
@@ -243,4 +242,4 @@
     margin-top: 2px;
     font-size: 1.25em; }
 
-/*# sourceMappingURL=post.css.map */
+/*# sourceMappingURL=blog.css.map */

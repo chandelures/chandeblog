@@ -54,7 +54,7 @@
 {% block title %}{{ post.title }} | Chandelure的个人博客{% endblock title %}
 {% block css %}
     <link rel="stylesheet" href="{% static 'lib/ckeditor/plugins/codesnippet/lib/highlight/styles/default.css' %}">
-    <link rel="stylesheet" href="{% sass_src 'blog/css/post.scss' %}">
+    <link rel="stylesheet" href="{% sass_src 'blog/css/blog.scss' %}">
 {% endblock css %}
 {% block js %}
     <script src="{% static 'lib/ckeditor/plugins/codesnippet/lib/highlight/highlight.pack.js' %}"></script>
@@ -62,8 +62,8 @@
 {% endblock js %}
 
 {% block content %}
-    <div class="ui container post-detail grid stackable" id="postDetail">
-        <div class="row">
+    <div class="ui container grid stackable">
+        <div class="row post-detail" id="postDetail">
             <div class="three wide column left">
             </div>
             <div class="eleven wide column right">

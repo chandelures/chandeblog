@@ -3,28 +3,32 @@
 
 
 //Post Detail
-.ui.container.post-detail {
+.post-detail {
   margin-top: $margin-5*2;
   min-height: 500px;
 
   //TOC Style
+  li::before {
+    color: transparent !important;
+  }
+
+  a.active {
+    font-weight: bold;
+  }
+
   .toc {
     font-size: small;
 
-    a.active {
-      font-weight: bold;
+    @media screen and (max-width: $screen-lg) {
+      display: none;
     }
 
     li {
-      &::before {
-        color: transparent;
-      }
-
       ul.ui.list {
         padding-top: $padding-1/2;
         padding-bottom: $padding-1/4;
 
-        li {
+        > li {
           padding-top: $padding-1/2;
         }
       }
@@ -39,9 +43,6 @@
         left: -180px;
       }
 
-      @media screen and (max-width: $screen-lg) {
-        display: none;
-      }
     }
 
     h1 {
