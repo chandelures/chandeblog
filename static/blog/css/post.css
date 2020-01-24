@@ -204,11 +204,13 @@
   min-height: 500px; }
   .ui.container.post-detail .toc {
     font-size: small; }
-    .ui.container.post-detail .toc li.item::before {
+    .ui.container.post-detail .toc li::before {
       color: transparent; }
-    .ui.container.post-detail .toc li.item ul.ui {
-      padding-top: 0.5em;
-      padding-bottom: 0.25em; }
+    .ui.container.post-detail .toc li ul.ui.list {
+      padding-top: 0.25em;
+      padding-bottom: 0.125em; }
+      .ui.container.post-detail .toc li ul.ui.list li {
+        padding-top: 0.25em; }
   .ui.container.post-detail .right.column .ui.left {
     left: -250px; }
     @media screen and (max-width: 65em) {

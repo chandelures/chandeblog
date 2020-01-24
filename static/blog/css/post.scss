@@ -9,14 +9,19 @@
 
   .toc {
     font-size: small;
-    li.item {
+
+    li {
       &::before {
         color: transparent;
       }
 
-      ul.ui {
-        padding-top: $padding-1;
-        padding-bottom: $padding-1/2;
+      ul.ui.list {
+        padding-top: $padding-1/2;
+        padding-bottom: $padding-1/4;
+
+        li {
+          padding-top: $padding-1/2;
+        }
       }
     }
   }
