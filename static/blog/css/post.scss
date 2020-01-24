@@ -7,8 +7,13 @@
   margin-top: $margin-5*2;
   min-height: 500px;
 
+  //TOC Style
   .toc {
     font-size: small;
+
+    a.active {
+      font-weight: bold;
+    }
 
     li {
       &::before {
@@ -29,6 +34,10 @@
   .right.column {
     .ui.left {
       left: -250px;
+
+      @media screen and (max-width: $screen-xl) {
+        left: -180px;
+      }
 
       @media screen and (max-width: $screen-lg) {
         display: none;
@@ -52,6 +61,10 @@
   border-radius: 50%;
   cursor: pointer;
   margin: 0 !important;
+
+  @media screen and (max-width: $screen-lg) {
+    display: none !important;
+  }
 
   i {
     display: flex;

@@ -12,6 +12,7 @@
         var loadPostCount = 5;
 
         var handler = {
+            //回到顶部功能
             toUp: function ($button) {
                 var fadeInTime = 300,
                     fadeOutTime = 300,
@@ -33,19 +34,34 @@
 
             },
 
-            activeAnchor: function ($header, $toc, level) {
+            //将指定标签变为激活状态
+            activeAnchor: function ($header) {
                 var id = $header.attr("id");
-                if (level === 1)
-                    $toc.find("ul > li > a").removeClass("active");
-                if (level === 2)
-                    $toc.find("ul > li > ul > li > a").removeClass("active");
                 $("[href='#" + id + "']").addClass("active");
             },
 
+            //将指定标签变为非激活状态
+            deactiveAnchor: function ($toc, level) {
+                if (level === 1) {
+                    $toc.find("ul > li > a").removeClass("active");
+                } else if (level === 2) {
+                    $toc.find("ul > li > ul > li > a").removeClass("active");
+                }
+            },
+
+            //判断页面是否到达底部
+            isArriveBottom: function () {
+                var $window = $(window),
+                    $document = $(document),
+                    error = 2,
+                    condition = $window.scrollTop() + $window.height() - $document.height();
+                return (condition < error && condition > -error);
+            },
+
+            //初始化目录
             initToc: function ($toc, $content) {
                 var
-                    $h2 = $postDetail.find("h2"),
-                    $h3 = $postDetail.find("h3"),
+                    $h = $content.find("h2,h3"),
                     $window = $(window),
                     offset = 60;
                 $toc
@@ -67,22 +83,36 @@
                 ;
                 $window
                     .scroll(function () {
-                        $h2.each(function () {
-                            var $this = $(this);
-                            if ($window.scrollTop() > $this.offset().top - offset) {
-                                handler.activeAnchor($this, $toc, 1);
+                        $h.each(function () {
+                                var $this = $(this);
+                                if (this.tagName === "H2") {
+                                    if ($window.scrollTop() > $this.offset().top - offset) {
+                                        handler.deactiveAnchor($toc, 1);
+                                        handler.activeAnchor($this);
+                                    }
+                                } else if (this.tagName === "H3") {
+                                    if ($window.scrollTop() > $this.offset().top - offset) {
+                                        handler.deactiveAnchor($toc, 2);
+                                        handler.activeAnchor($this);
+                                    }
+                                }
                             }
-                        });
-                        $h3.each(function () {
-                            var $this = $(this);
-                            if ($window.scrollTop() > $this.offset().top - offset ) {
-                                handler.activeAnchor($this, $toc, 2);
+                        );
+                        if (handler.isArriveBottom()) {
+                            var last = $h[$h.length - 1];
+                            if (last.tagName === "H2") {
+                                handler.deactiveAnchor($toc, 1);
+                                handler.activeAnchor($(last));
+                            } else if (last.tagName === "H3") {
+                                handler.deactiveAnchor($toc, 2);
+                                handler.activeAnchor($(last));
                             }
-                        });
+                        }
                     })
                 ;
             },
 
+            //扩展文章列表
             appendPostList: function (item) {
                 var
                     post_url = item.post_url,
@@ -110,6 +140,7 @@
                 ;
             },
 
+            //加载文章列表
             loadPostList: function ($button, loadPostCount = 5) {
                 var index = 0,
                     postCount = 0,
@@ -120,7 +151,7 @@
                             url: apiURL,
                             type: 'get',
                             data: {
-                                "index": index,
+                                'index': index,
                                 'count': loadPostCount
                             },
                             success: function (data) {
