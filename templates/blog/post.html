@@ -64,13 +64,12 @@
 {% block content %}
     <div class="ui container post-detail grid stackable" id="postDetail">
         <div class="row">
-            {% markdown_text post.body as body %}
-            <div class="four wide column left">
+            <div class="three wide column left">
             </div>
             <div class="eleven wide column right">
                 <div class="ui left rail">
-                    <div class="ui sticky">
-                        <h4>目录</h4>
+                    <div class="overlay">
+                        {% markdown_text post.body as body %}
                         {{ body.toc|safe }}
                     </div>
                 </div>

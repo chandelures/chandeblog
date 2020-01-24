@@ -2,7 +2,8 @@
     "use strict";
 
     var ready = function () {
-        var $tocSticky = $(".post-detail .ui.sticky"),
+        var
+            $tocContainer = $(".post-detail .overlay"),
             $toUpButton = $("#toUp"),
             $loadPostListButton = $("#loadPostListButton");
 
@@ -79,10 +80,10 @@
 
         handler.loadPostList($loadPostListButton, loadPostCount);
         handler.toUp($toUpButton);
-
-        $tocSticky
-            .sticky({
-                context: '#postDetail'
+        $tocContainer
+            .visibility({
+                type: 'fixed',
+                offset: 75
             })
         ;
     };
@@ -91,5 +92,7 @@
 
     $(function () {
         ready();
+
+        $(".toc").find("ul").addClass("ui link list").find("li").addClass("item");
     });
 })();

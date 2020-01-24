@@ -2,15 +2,34 @@
 @import "highlight.scss";
 
 
-.ui.fixed.menu {
-  display: none!important;
-}
-
+//Post Detail
 .ui.container.post-detail {
   margin-top: $margin-5*2;
   min-height: 500px;
 
-  .right {
+  .toc {
+    font-size: small;
+    li.item {
+      &::before {
+        color: transparent;
+      }
+
+      ul.ui {
+        padding-top: $padding-1;
+        padding-bottom: $padding-1/2;
+      }
+    }
+  }
+
+  .right.column {
+    .ui.left {
+      left: -250px;
+
+      @media screen and (max-width: $screen-lg) {
+        display: none;
+      }
+    }
+
     h1 {
       font-size: $font-size-4;
     }

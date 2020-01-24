@@ -199,13 +199,22 @@
     border: 0;
     outline: 0; }
 
-.ui.fixed.menu {
-  display: none !important; }
-
 .ui.container.post-detail {
   margin-top: 5em;
   min-height: 500px; }
-  .ui.container.post-detail .right h1 {
+  .ui.container.post-detail .toc {
+    font-size: small; }
+    .ui.container.post-detail .toc li.item::before {
+      color: transparent; }
+    .ui.container.post-detail .toc li.item ul.ui {
+      padding-top: 0.5em;
+      padding-bottom: 0.25em; }
+  .ui.container.post-detail .right.column .ui.left {
+    left: -250px; }
+    @media screen and (max-width: 65em) {
+      .ui.container.post-detail .right.column .ui.left {
+        display: none; } }
+  .ui.container.post-detail .right.column h1 {
     font-size: 2.5em; }
 
 #toUp {
