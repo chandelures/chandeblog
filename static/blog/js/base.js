@@ -180,7 +180,7 @@
                 customConfig: '/static/blog/js/ckeditor_config.js'
             });
             comment_editor.on('required', function (evt) {
-                comment_editor.showNotification( 'This field is required.', 'warning' );
+                comment_editor.showNotification( '请填写此字段', 'warning' );
                 evt.cancel();
             });
         }

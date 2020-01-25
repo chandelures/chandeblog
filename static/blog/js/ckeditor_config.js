@@ -9,7 +9,7 @@ CKEDITOR.editorConfig = function (config) {
     // https://ckeditor.com/docs/ckeditor4/latest/api/CKEDITOR_config.html
 
     // The toolbar groups arrangement, optimized for two toolbar rows.
-    config.language = 'en';
+    config.language = 'zh-cn';
     config.extraPlugins = ['codesnippet', 'emoji', 'notification'];
     config.toolbarGroups = [
         {name: 'basicstyles', groups: ['basicstyles']},
@@ -23,5 +23,5 @@ CKEDITOR.editorConfig = function (config) {
     config.removeButtons = 'Cut,Copy,Paste,Undo,Redo,Anchor,Underline,Strike,Subscript,Superscript,Image,Table,SpecialChar,HorizontalRule';
 
     // Dialog windows are also simplified.
-    config.removeDialogTabs = 'image:advanced;link:advanced';
+    config.removeDialogTabs = 'link:advanced';
 };
