@@ -176,8 +176,12 @@
         },
 
         initTextarea: function ($textarea) {
-            CKEDITOR.replace($textarea.attr("id"), {
+            let comment_editor = CKEDITOR.replace($textarea.attr("id"), {
                 customConfig: '/static/blog/js/ckeditor_config.js'
+            });
+            comment_editor.on('required', function (evt) {
+                comment_editor.showNotification( 'This field is required.', 'warning' );
+                evt.cancel();
             });
         }
 
