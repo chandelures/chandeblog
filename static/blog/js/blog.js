@@ -6,6 +6,7 @@
             $tocContainer = $(".post-detail .overlay"),
             $toc = $(".toc"),
             $postDetail = $("#postDetail"),
+            $commentBodyTextarea = $("#comment_body"),
             $toUpButton = $("#toUp");
 
         blog.handler.toUp($toUpButton);
@@ -20,6 +21,8 @@
         ;
 
         blog.handler.initHighlighting();
+
+        blog.handler.initTextarea($commentBodyTextarea);
     };
 
 

@@ -49,6 +49,23 @@
       font-size: $font-size-4;
     }
   }
+
+  .ui.segment {
+    margin-top: $margin-5;
+    font-family: $muted-font-family;
+  }
+}
+//Post Comment
+.post-comment {
+  margin-top: $margin-5;
+
+  .ui.form {
+    p {
+      color: grey;
+      font-size: small;
+      font-family: $muted-font-family;
+    }
+  }
 }
 
 //ToUp Button Style

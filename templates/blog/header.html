@@ -68,8 +68,10 @@
 <!-- Following Menu -->
 <div class="ui large top fixed hidden menu">
     <div class="ui container">
-        <a class="active item">主页</a>
-        <a class="item">专栏</a>
+        <a class="expand item">
+            <i class="sidebar icon"></i>
+            <b>菜单</b>
+        </a>
         <div class="right menu">
             <div class="item">
                 <div class="ui action left icon input">
@@ -89,6 +91,7 @@
         <div class="ui large secondary inverted pointing menu">
             <a class="expand item">
                 <i class="sidebar icon"></i>
+                <b>菜单</b>
             </a>
             <a class="active item" href="{% url 'blog:index' %}">主页</a>
             <a class="item" href="#">专栏</a>

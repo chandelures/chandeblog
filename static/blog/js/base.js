@@ -28,8 +28,8 @@
 
         },
 
-        initHighlighting: function(){
-          hljs.initHighlightingOnLoad();
+        initHighlighting: function () {
+            hljs.initHighlightingOnLoad();
         },
 
         //将指定标签变为激活状态
@@ -173,7 +173,14 @@
                 })
                 .click()
             ;
+        },
+
+        initTextarea: function ($textarea) {
+            CKEDITOR.replace($textarea.attr("id"), {
+                customConfig: '/static/blog/js/ckeditor_config.js'
+            });
         }
+
     };
 
     var ready = function () {

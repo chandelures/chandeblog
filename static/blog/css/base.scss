@@ -22,8 +22,9 @@ button.active.focus,
 
 //Top Menu
 .ui.fixed.menu {
-  .right.menu {
-    .item::before {
+  .item {
+    border: none!important;
+    &::before{
       width: 0 !important;
     }
   }
