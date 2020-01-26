@@ -13,6 +13,8 @@
         blog.handler.initHighlighting();
     };
 
+    hljs.initHighlightingOnLoad();
+
     $(function () {
         ready();
     });

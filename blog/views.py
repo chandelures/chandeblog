@@ -5,6 +5,7 @@ from django.urls import reverse_lazy
 from django.utils.formats import date_format
 
 from blog.models import Post
+from comment.models import Comment
 import markdown
 
 
@@ -58,6 +59,12 @@ class PostView(generic.DetailView):
 
     def get_queryset(self):
         return super().get_queryset().public()
+
+    def get_context_data(self, **kwargs):
+        context = super(PostView, self).get_context_data(**kwargs)
+        comments = Comment.objects.filter(post=self.object)
+        context['comments'] = comments
+        return context
 
     def get(self, request, *args, **kwargs):
         response = super().get(request, *args, **kwargs)

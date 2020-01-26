@@ -7,18 +7,6 @@ register = template.Library()
 
 
 @register.simple_tag
-def get_comments(post_id):
-    comments = Comment.objects.filter(post=post_id)
-    return comments
-
-
-@register.simple_tag
-def get_comments_count(post_id):
-    count = Comment.objects.filter(post=post_id).count()
-    return count
-
-
-@register.simple_tag
 def get_comment_children_count(comment):
     count = comment.get_children().count()
     return count

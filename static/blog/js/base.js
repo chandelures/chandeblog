@@ -175,13 +175,40 @@
             ;
         },
 
+        //初始化CKEditor
         initTextarea: function ($textarea) {
             let comment_editor = CKEDITOR.replace($textarea.attr("id"), {
                 customConfig: '/static/blog/js/ckeditor_config.js'
             });
             comment_editor.on('required', function (evt) {
-                comment_editor.showNotification( '请填写此字段', 'warning' );
+                comment_editor.showNotification('请填写此字段', 'warning');
                 evt.cancel();
+            });
+        },
+
+
+        //初始化评论模态框
+        initCommentModal: function ($button, $modal) {
+            $button.on("click", function () {
+                $modal
+                    .modal({
+                        onShow: function () {
+                            var
+                                postId = $button.data('postid'),
+                                replyUsername = $button.data('replyusername'),
+                                parentCommentId = $button.data('parentcommentid'),
+                                modalTitleText = '回复给 ' + replyUsername,
+                                action = "/comment/post-comment/" + postId + "/" + parentCommentId,
+                                modal = $(this);
+
+                            // modal.removeAttr('tabindex');
+                            modal.find("form").attr("action", action);
+                            modal.find('.header').text(modalTitleText);
+                            if (modal.find(".cke").length === 0)
+                                blog.handler.initTextarea(modal.find("textarea"));
+                        },
+                    })
+                    .modal('show');
             });
         }
 

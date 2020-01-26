@@ -29,9 +29,14 @@ button.active.focus,
     }
   }
 
-  @media screen and (max-width: $screen-md) {
-    visibility: hidden !important;
+  .ui.input {
+    @media screen and (max-width: $screen-sm) {
+      display: none;
+    }
   }
+  //@media screen and (max-width: $screen-md) {
+  //  visibility: hidden !important;
+  //}
 }
 
 //Header Style

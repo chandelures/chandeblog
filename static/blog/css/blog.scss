@@ -55,6 +55,7 @@
     font-family: $muted-font-family;
   }
 }
+
 //Post Comment
 .post-comment {
   margin-top: $margin-5;
@@ -64,6 +65,16 @@
       color: grey;
       font-size: small;
       font-family: $muted-font-family;
+    }
+  }
+
+  .ui.comments {
+    margin-top: $margin-6;
+
+    a.author {
+      &:hover {
+        color: black;
+      }
     }
   }
 }
