@@ -70,11 +70,17 @@
 
   .ui.comments {
     margin-top: $margin-6;
+    max-width: 700px;
 
     a.author {
       &:hover {
         color: black;
       }
+    }
+
+    code {
+      font-size: $font-size-1;
+      padding: $padding-1 $padding-2;
     }
   }
 }
