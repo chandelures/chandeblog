@@ -1,13 +1,25 @@
 @import "variables.scss";
 @import "highlight.scss";
 
+//Hide Header
+header {
+  display: none;
+}
 
 //Post Detail
 .post-detail {
-  margin-top: $margin-5*2;
+  margin-top: $margin-5*3;
   min-height: 500px;
 
+  @media screen and (max-width: $screen-md){
+    margin-top: $margin-6!important;
+  }
+
   //TOC Style
+  .ui.sticky {
+    margin-top: 60px!important;
+    z-index: 11;
+  }
   li::before {
     color: transparent !important;
   }
@@ -36,15 +48,6 @@
   }
 
   .right.column {
-    .ui.left {
-      left: -250px;
-
-      @media screen and (max-width: $screen-xl) {
-        left: -180px;
-      }
-
-    }
-
     h1 {
       font-size: $font-size-4;
     }

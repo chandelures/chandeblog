@@ -71,7 +71,25 @@
     blog.ready.index = function () {
         var
             $toUpButton = $("#toUp"),
+            $fixMenu = $('.ui.fixed.menu'),
+            $masthead = $("header.masthead"),
             $loadPostListButton = $("#loadPostListButton");
+
+        //顶部导航栏
+        $fixMenu
+            .addClass("hidden")
+        ;
+        $masthead
+            .visibility({
+                once: false,
+                onBottomPassed: function () {
+                    $fixMenu.transition('fade in');
+                },
+                onBottomPassedReverse: function () {
+                    $fixMenu.transition('fade out');
+                }
+            })
+        ;
 
         blog.handler.loadPostList($loadPostListButton, 5);
 

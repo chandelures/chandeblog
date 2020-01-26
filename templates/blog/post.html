@@ -47,15 +47,16 @@
 {#    </div>#}
 {#{% endblock %}#}
 {% extends 'blog/base.html' %}
-
 {% load sass_tags %}
 {% load static %}
 {% load blog_tags %}
 {% block title %}{{ post.title }} | Chandelure的个人博客{% endblock title %}
+
 {% block css %}
     <link rel="stylesheet" href="{% static 'lib/ckeditor/plugins/codesnippet/lib/highlight/styles/default.css' %}">
     <link rel="stylesheet" href="{% sass_src 'blog/css/blog.scss' %}">
 {% endblock css %}
+
 {% block js %}
     <script src="{% static 'lib/ckeditor/ckeditor.js' %}"></script>
     <script src="{% static 'lib/ckeditor/plugins/codesnippet/lib/highlight/highlight.pack.js' %}"></script>
@@ -65,10 +66,8 @@
 {% block content %}
     <div class="ui container grid stackable">
         {% include 'blog/post-detail.html' %}
-        {% include 'blog/post-comment.html' %}
     </div>
 {% endblock content %}
-
 
 {% block extra %}
     <div>

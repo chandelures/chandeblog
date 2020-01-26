@@ -1,6 +1,17 @@
 <div class="ui vertical inverted sidebar menu left">
     <a class="active item" href="{% url 'blog:index' %}">主页</a>
     <a class="item">专栏</a>
-    <a class="item" href="{% url 'account_login' %}">登录</a>
-    <a class="item" href="{% url 'account_signup' %}">注册</a>
+    {% if user.is_authenticated %}
+        <a class="item logout">注销</a>
+        <form method="post" class="ui hidden" action="{% url 'account_logout' %}">
+            {% csrf_token %}
+            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+            <div class="form-group text-center">
+                <button type="submit" class="btn btn-danger btn-logout">注销</button>
+            </div>
+        </form>
+    {% else %}
+        <a class="item" href="{% url 'account_login' %}">登录</a>
+        <a class="item" href="{% url 'account_signup' %}">注册</a>
+    {% endif %}
 </div>

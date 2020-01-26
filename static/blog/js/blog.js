@@ -102,8 +102,8 @@
 
     blog.ready.post = function () {
         var
-            $tocContainer = $(".post-detail .overlay"),
             $toc = $(".toc"),
+            $sticky = $(".ui.sticky"),
             $postDetail = $("#postDetail"),
             $commentBodyTextarea = $("#comment_body"),
             $commentReply = $(".reply"),
@@ -116,13 +116,11 @@
 
         if (!(blog.handler.isIE())) blog.handler.scollToc($postDetail);
 
-        $tocContainer
-            .visibility({
-                type: 'fixed',
-                offset: 75
+        $sticky
+            .sticky({
+                context: '#postDetail'
             })
         ;
-
         blog.handler.initTextarea($commentBodyTextarea);
 
         $commentReply

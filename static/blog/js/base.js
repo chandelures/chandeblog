@@ -51,6 +51,12 @@
             hljs.initHighlightingOnLoad();
         },
 
+        //注销
+        logout: function ($button) {
+            $button.on("click", function () {
+                $button.next("form").find("button[type=submit]").click();
+            });
+        },
     };
 
     blog.before = {
@@ -63,8 +69,8 @@
         base: function () {
             var
                 $sidebar = $(".ui.sidebar"),
-                $fixMenu = $('.ui.fixed.menu'),
-                $masthead = $("header.masthead");
+                $logoutButton = $('.logout');
+
 
             //sidebar的展开和折叠
             if (!(blog.handler.isIE()))
@@ -79,18 +85,7 @@
                     .sidebar('attach events', '.expand.item')
                 ;
 
-            //顶部导航栏
-            $masthead
-                .visibility({
-                    once: false,
-                    onBottomPassed: function () {
-                        $fixMenu.transition('fade in');
-                    },
-                    onBottomPassedReverse: function () {
-                        $fixMenu.transition('fade out');
-                    }
-                })
-            ;
+            blog.handler.logout($logoutButton);
         }
     };
 
