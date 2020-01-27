@@ -1,20 +1,21 @@
+{% load blog_tags %}
 <footer class="ui vertical footer segment">
     <div class="ui stackable container grid">
         <div class="row">
             <div class="five wide column center aligned">
-                <a class="item" href="#">站点地图</a>
+                <a class="item" href="{% url 'sitemap' %}">站点地图</a>
                 <a class="item" href="#">反馈</a>
                 <a class="item" href="#">关于</a>
             </div>
             <div class="six wide column center aligned">
                 <small>© 2019-2020 by chandelure, powered by <b><a href="#">Django</a></b> and <b><a href="#">Semantic-ui</a></b></small>
                 <br>
-                <small><a href="#">浙ICP备12022327号</a></small>
+                <small><a href="#">{% get_setting_value 'BEIAN' %}</a></small>
             </div>
             <div class="five wide column right floated center aligned">
-                <a class="item" href="#"><i class="github icon"></i></a>
-                <a class="item" href="#"><i class="weibo icon"></i></a>
-                <a class="item" href="#"><i class="rss icon"></i></a>
+                <a class="item" href="{% get_setting_value 'GITHUBLINK' %}"><i class="github icon"></i></a>
+                <a class="item" href="{% get_setting_value 'MAILTO' %}"><i class="mail icon"></i></a>
+                <a class="item" href="{% url 'blog:rss' %}"><i class="rss icon"></i></a>
             </div>
         </div>
     </div>

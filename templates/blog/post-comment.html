@@ -1,6 +1,6 @@
 {% load comment_tags %}
 {% load mptt_tags %}
-<div class="post-comment" id="postComment">
+<div class="post-comment-form">
     <b>发表评论 :</b>
     <form class="ui form" action="{% url 'comment:post_comment' post.id %}" method="POST">
         {% csrf_token %}
@@ -18,7 +18,7 @@
         </div>
     </form>
 </div>
-<div class="ui modal">
+<div class="ui modal post-modal">
     <i class="close icon"></i>
     <div class="header">
         回复给
@@ -40,7 +40,7 @@
         </form>
     </div>
 </div>
-<div class="ui threaded comments">
+<div class="ui threaded comments post-comments">
     <h3 class="ui dividing header">评论 ( 共 {{ comments.count }} 条 ）</h3>
     {% recursetree comments %}
         {% with comment=node %}

@@ -230,3 +230,8 @@ MDEDITOR_CONFIGS = {
 }
 
 X_FRAME_OPTIONS = "SAMEORIGIN"
+
+# Site Extra Information
+BEIAN = config.get("BEIAN")
+GITHUBLINK = config.get("GITHUBLINK")
+MAILTO = config.get("MAILTO")

@@ -1,7 +1,7 @@
-from ..models import Post, Category
-from django.db.models.aggregates import Count
 from django.utils.html import strip_tags
 from django import template
+
+from chandeblog import settings
 
 import markdown
 
@@ -43,3 +43,8 @@ def get_descriptions(text):
         'markdown.extensions.extra',
     ])
     return strip_tags(md.convert(text)).replace("\n", "")
+
+
+@register.simple_tag
+def get_setting_value(name):
+    return getattr(settings, name, "")
