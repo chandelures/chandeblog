@@ -49,7 +49,6 @@
 {% load static %}
 {% load compress %}
 {% load sass_tags %}
-
 <!DOCTYPE html>
 <html lang="zh-hans">
 <head>
@@ -62,14 +61,21 @@
     <link rel="icon" sizes="32x32" href="{% static 'img/favicon.ico' %}">
     {% compress css %}
         <link rel="stylesheet" href="{% static 'lib/semantic/dist/semantic.min.css' %}">
+        {% block lib_css %}
+        {% endblock lib_css %}
+        <link rel="stylesheet" href="{% sass_src 'account/css/base.scss' %}">
         {% block css %}
         {% endblock css %}
     {% endcompress %}
 </head>
 <body>
+{% block content %}
+{% endblock content %}
 {% compress js %}
     <script src="{% static 'lib/jquery/dist/jquery.min.js' %}"></script>
     <script src="{% static 'lib/semantic/dist/semantic.min.js' %}"></script>
+    {% block lib_js %}
+    {% endblock lib_js %}
     {% block js %}
     {% endblock js %}
 {% endcompress %}

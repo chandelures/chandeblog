@@ -1,0 +1,55 @@
+@import "base.scss";
+
+.login.grid {
+  height: 100%;
+
+  > .column {
+    max-width: 800px;
+  }
+
+  .ui.divider,
+  .middle.aligned.column {
+    @media screen and (max-width: $screen-md) {
+      display: none;
+    }
+  }
+
+  .ui.message {
+    display: none;
+    @media screen and (max-width: $screen-md) {
+      display: block;
+    }
+  }
+
+  img.logo {
+    width: 50px;
+    height: 50px;
+  }
+
+  .ui.header {
+    font-weight: normal;
+    color: black !important;
+    font-family: $header-font-family;
+  }
+
+  .button.submit {
+    width: 100%;
+  }
+
+  .github.icon {
+    font-size: $font-size-5;
+    color: black;
+
+    &:hover {
+      color: black;
+    }
+  }
+}
+
+.signup.grid {
+  @extend .login.grid;
+
+  .github.icon {
+    margin-top: 15px;
+  }
+}

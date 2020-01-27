@@ -1,61 +1,63 @@
-{#{% extends 'account/base.html' %}#}
-{#{% load static %}#}
-{#{% load sass_tags %}#}
-{#{% load account socialaccount %}#}
-{##}
-{#{% block title %}登录 | Chandelure的个人博客{% endblock title %}#}
-{##}
-{#{% block css %}#}
-{#    <link rel="stylesheet" href="{% static 'font-awesome-4.7.0/css/font-awesome.min.css' %}">#}
-{#    <link rel="stylesheet" href="{% sass_src 'account/css/account.scss' %}">#}
-{#{% endblock css %}#}
-{##}
-{#{% block js %}#}
-{#    <script src="{% static 'account/js/account.js' %}"></script>#}
-{#{% endblock js %}#}
-{##}
-{#{% block page_title %}登录 Chandelure's Blog{% endblock page_title %}#}
-{#{% block content %}#}
-{#    <div class="container pt-5 pb-5">#}
-{#        <div class="row">#}
-{#            <div class="col-lg-4"></div>#}
-{#            <div class="col-lg-4">#}
-{#                {% get_providers as socialaccount_providers %}#}
-{#                {% if socialaccount_providers %}#}
-{#                    <div class="text-center">#}
-{#                        {% for provider in socialaccount_providers %}#}
-{#                            {% if provider.id == "github" %}#}
-{#                                <a title="{{ provider.name }}" class="h1 {{ provider.id }} text-dark"#}
-{#                                   href="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params %}"><i#}
-{#                                        class="fa fa-github" aria-hidden="true"></i></a>#}
-{#                            {% endif %}#}
-{#                        {% endfor %}#}
-{#                    </div>#}
-{#                {% endif %}#}
-{#                <form method="POST" action="{% url 'account_login' %}">#}
-{#                    {% csrf_token %}#}
-{#                    <div class="form-group">#}
-{#                        <label for="{{ form.login.id_for_label }}">用户名</label>#}
-{#                        {{ form.login }}#}
-{#                    </div>#}
-{#                    <div class="form-group">#}
-{#                        <label for="{{ form.password.id_for_label }}">密码</label>#}
-{#                        {{ form.password }}#}
-{#                    </div>#}
-{#                    <div class="form-group form-check text-center">#}
-{#                        {{ form.remember }}#}
-{#                        <label class="form-check-label" for="{{ form.remember.id_for_label }}">记住我</label>#}
-{#                    </div>#}
-{#                    <div class="form-group text-center pt-2">#}
-{#                        <button type="submit" class="btn btn-login">登录</button>#}
-{#                    </div>#}
-{#                </form>#}
-{#                <div class="text-center p-2">#}
-{#                    <small class="text-muted">还没有账号,那就<a href="{% url 'account_signup' %}">注册</a>一个</small>#}
-{#                </div>#}
-{#            </div>#}
-{#            <div class="col-lg-4"></div>#}
-{#        </div>#}
-{#    </div>#}
-{#{% endblock content %}#}
-{##}
+{% extends 'account/base.html' %}
+{% load static %}
+{% load sass_tags %}
+{% load account socialaccount %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% sass_src 'account/css/account.scss' %}">
+{% endblock css %}
+
+{% block content %}
+    <div class="ui middle aligned center aligned grid login">
+        <div class="column">
+            {#            <img class="logo" src="{% static 'img/logo.png' %}" alt="">#}
+            <h1 class="ui header">
+                <div class="content">
+                    登录 Blog
+                </div>
+            </h1>
+            <div class="ui placeholder segment">
+                <div class="ui two column very relaxed stackable grid">
+                    <div class="column">
+                        {% get_providers as socialaccount_providers %}
+                        {% if socialaccount_providers %}
+                            {% for provider in socialaccount_providers %}
+                                {% if provider.id == "github" %}
+                                    <a href="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params %}">
+                                        <i class="github icon"></i>
+                                    </a>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+
+                        <form class="ui form" method="POST" action="{% url 'account_login' %}">
+                            {% csrf_token %}
+                            <div class="field">
+                                <label for="{{ form.login.id_for_label }}"></label>
+                                <div class="ui left icon input">
+                                    {{ form.login }}
+                                    <i class="user icon"></i>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label for="{{ form.password.id_for_label }}"></label>
+                                <div class="ui left icon input">
+                                    {{ form.password }}
+                                    <i class="lock icon"></i>
+                                </div>
+                            </div>
+                            <button class="ui blue submit button" type="submit">登录</button>
+                        </form>
+                    </div>
+                    <div class="middle aligned column">
+                        <a class="ui big button" href="{% url 'account_signup' %}"><i class="sign-in icon"></i>注册</a>
+                    </div>
+                </div>
+                <div class="ui vertical divider">Or</div>
+            </div>
+            <div class="ui message">
+                还没有<a href="{% url 'account_signup' %}">注册</a>?
+            </div>
+        </div>
+    </div>
+{% endblock content %}
