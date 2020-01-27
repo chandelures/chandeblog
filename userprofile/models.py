@@ -15,9 +15,9 @@ class User(AbstractUser):
     link = models.URLField('个人网址', blank=True)
     resume = models.TextField('简介', max_length=500, blank=True)
     avatar = ProcessedImageField(upload_to='avatar', default='avatar/default.png', verbose_name='头像',
-                                 processors=[ResizeToFill(100, 100)],
+                                 processors=[ResizeToFill(300, 300)],
                                  format='JPEG',
-                                 options={'quality': 95},
+                                 options={'quality': 90},
                                  )
 
     def save(self, *args, **kwargs):

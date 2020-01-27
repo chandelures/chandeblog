@@ -63,6 +63,8 @@ class PostView(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super(PostView, self).get_context_data(**kwargs)
         comments = Comment.objects.filter(post=self.object)
+        recent_post_list = Post.objects.public()[:10]
+        context['recent_post_list'] = recent_post_list
         context['comments'] = comments
         return context
 

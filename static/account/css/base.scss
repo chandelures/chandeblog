@@ -1,6 +1,10 @@
 @import "../../blog/css/variables.scss";
 
 body {
-  background: $grey;
+  background: white;
+}
+
+.ui.hidden {
+  display: none;
 }
 

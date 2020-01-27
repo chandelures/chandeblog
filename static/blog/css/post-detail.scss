@@ -11,21 +11,15 @@
 
   @media screen and (max-width: $screen-lg) {
     margin-top: $margin-5*2 !important;
+    .ui.dividing {
+      border: none !important;
+    }
   }
 
-  .ui.sticky.toc-container {
+  .ui.sticky {
     margin-top: 60px !important;
     z-index: 11;
-
-    li::before {
-      color: transparent !important;
-    }
-
-    a.active {
-      font-weight: bold;
-    }
   }
-
 
   .right.column {
     h1 {
@@ -36,5 +30,60 @@
   .ui.segment {
     margin-top: $margin-5;
     font-family: $muted-font-family;
+  }
+}
+
+//TOC Style
+.toc {
+  font-size: small;
+
+  @media screen and (max-width: $screen-lg) {
+    display: none;
+  }
+
+  a.active {
+    font-weight: bold;
+  }
+
+  li {
+    &::before {
+      color: transparent !important;
+    }
+
+    ul.ui.list {
+      padding-top: $padding-1/2;
+      padding-bottom: $padding-1/4;
+
+      > li {
+        padding-top: $padding-1/2;
+      }
+    }
+  }
+}
+
+//Post-Left Style
+.post-left {
+  border-right: $grey 1px solid;
+  margin-right: $margin-5;
+
+  .ui.header {
+    margin-top: $margin-1;
+  }
+
+  @media screen and (max-width: $screen-lg) {
+    border: none;
+    margin-right: 0;
+    .overlay {
+      display: none !important;
+    }
+  }
+
+  ul {
+    font-size: small !important;
+    margin-left: 0 !important;
+
+    a:not(:first-child) {
+      margin-top: $margin-1;
+    }
   }
 }

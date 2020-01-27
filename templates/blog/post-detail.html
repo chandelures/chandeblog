@@ -1,12 +1,37 @@
 {% load blog_tags %}
 <div class="row post-detail" id="postDetail">
-    <div class="three wide column left">
-    </div>
-    <div class="eleven wide column right">
-        <div class="ui left rail">
-            <div class="ui sticky">
+    {% if post.column %}
+        <div class="three wide column left post-left">
+            <div class="overlay">
+                <h3 class="ui header dividing">{{ post.column.name }}</h3>
+                <ul class="ui list link">
+                    {% for column_post in post.column.post.public %}
+                        {% ifequal column_post post %}
+                            <a class="item active"
+                               href="{% url 'blog:post' column_post.slug %}">{{ column_post.title }}</a>
+                        {% else %}
+                            <a class="item" href="{% url 'blog:post' column_post.slug %}">{{ column_post.title }}</a>
+                        {% endifequal %}
+                    {% endfor %}
+                </ul>
             </div>
         </div>
+    {% else %}
+        <div class="two wide column left post-left">
+        </div>
+    {% endif %}
+    <div class="eleven wide column left aligned">
+        {#        <div class="ui left rail dividing">#}
+        {#            <div class="ui sticky">#}
+        {#                {% if post.column %}#}
+        {#                    <ul class="ui list link">#}
+        {#                        {% for column_post in post.column.post.public %}#}
+        {#                            <a class="item" href="#">{{ column_post.title }}</a>#}
+        {#                        {% endfor %}#}
+        {#                    </ul>#}
+        {#                {% endif %}#}
+        {#            </div>#}
+        {#        </div>#}
         <div class="ui right rail dividing">
             <div class="ui sticky toc-container">
                 {% markdown_text post.body as body %}

@@ -71,14 +71,15 @@ class Post(models.Model):
         related_name='post'
     )
     tags = TaggableManager()
-    # column = models.ForeignKey(
-    #     'column.Column',
-    #     null=True,
-    #     blank=True,
-    #     on_delete=models.SET_NULL,
-    #     verbose_name="栏目",
-    #     related_name='post'
-    # )
+    column = models.ForeignKey(
+        'column.Column',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        verbose_name="栏目",
+        related_name='post'
+    )
+    column_position = models.PositiveIntegerField('位置', default=1)
     views = models.PositiveIntegerField('浏览量', default=0)
     create_date = models.DateTimeField('创建日期', default=timezone.now)
     mod_time = models.DateTimeField('最后修改时间', auto_now=True)

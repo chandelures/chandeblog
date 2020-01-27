@@ -88,7 +88,6 @@
                                 action = "/comment/post-comment/" + postId + "/" + parentCommentId,
                                 modal = $(this);
 
-                            // modal.removeAttr('tabindex');
                             modal.find("form").attr("action", action);
                             modal.find('.header').text(modalTitleText);
                             if (modal.find(".cke").length === 0)
@@ -105,6 +104,7 @@
             $toc = $(".toc"),
             $sticky = $(".ui.sticky"),
             $postDetail = $("#postDetail"),
+            $postColumnContainer = $(".post-left .overlay"),
             $commentBodyTextarea = $("#comment_body"),
             $commentReply = $(".reply"),
             $commentModal = $(".ui.modal"),
@@ -128,6 +128,12 @@
                 blog.handler.initCommentModal($(this), $commentModal);
             })
         ;
+
+        $postColumnContainer
+            .visibility({
+                type: 'fixed',
+                offset: 65
+            })
     };
 
     blog.bootstrap();
