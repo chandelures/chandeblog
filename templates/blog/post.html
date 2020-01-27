@@ -1,65 +1,31 @@
-{#{% extends 'blog/base.html' %}#}
-{#{% load static %}#}
-{#{% load sass_tags %}#}
-{#{% load blog_tags %}#}
-{##}
-{#{% block title %}{{ post.title }} | Chandelure的个人博客{% endblock title %}#}
-{##}
-{#{% block description %}#}
-{#    {% get_descriptions post.abstract as description %}#}
-{#    <meta name="description" content="{{ description|truncatechars:120 }}">#}
-{#{% endblock description %}#}
-{##}
-{#{% block keywords %}#}
-{#    {% get_post_tags post as tags %}#}
-{#    <meta name="keywords" content="{{ tags }}">#}
-{#{% endblock keywords %}#}
-{##}
-{#{% block css %}#}
-{#    <link rel="stylesheet" href="{% sass_src "blog/css/blog.scss" %}">#}
-{#    <link rel="stylesheet" href="{% static "highlight/css/monokai.css" %}">#}
-{#{% endblock css %}#}
-{##}
-{#{% block js %}#}
-{#    <script src="{% static 'blog/js/bootstrap-toc.js' %}"></script>#}
-{#    <script src="{% static 'ckeditor/ckeditor.js' %}"></script>#}
-{#    <script src="{% static 'highlight/js/highlight.pack.js' %}"></script>#}
-{#    <script src="{% static 'blog/js/blog-detail.js' %}"></script>#}
-{#{% endblock js %}#}
-{##}
-{#{% block content %}#}
-{#    <div class="container-fluid p-4">#}
-{#        <div class="row">#}
-{#            <div class="col-lg-3 d-none d-lg-block">#}
-{#                <div class="sidebar p-5 position-sticky" id="sidebar">#}
-{#                    <div class="sidebar__inner">#}
-{#                        <nav id="toc"></nav>#}
-{#                    </div>#}
-{#                </div>#}
-{#            </div>#}
-{#            <div class="col-lg-6">#}
-{#                {% include 'blog/post-detail.html' %}#}
-{#                <div class="post-comment-divider" id="post-comment-divider"></div>#}
-{#                {% include 'blog/post-comment.html' %}#}
-{#            </div>#}
-{#            <div class="col-lg-3"></div>#}
-{#        </div>#}
-{#    </div>#}
-{#{% endblock %}#}
 {% extends 'blog/base.html' %}
 {% load sass_tags %}
 {% load static %}
 {% load blog_tags %}
 {% block title %}{{ post.title }} | Chandelure的个人博客{% endblock title %}
 
-{% block css %}
+{% block description %}
+    {% get_descriptions post.abstract as description %}
+    <meta name="description" content="{{ description|truncatechars:120 }}">
+{% endblock description %}
+
+{% block keywords %}
+    {% get_post_tags post as tags %}
+    <meta name="keywords" content="{{ tags }}">
+{% endblock keywords %}
+
+{% block lib_css %}
     <link rel="stylesheet" href="{% static 'lib/ckeditor/plugins/codesnippet/lib/highlight/styles/default.css' %}">
+{% endblock lib_css %}
+{% block css %}
     <link rel="stylesheet" href="{% sass_src 'blog/css/blog.scss' %}">
 {% endblock css %}
 
-{% block js %}
+{% block lib_js %}
     <script src="{% static 'lib/ckeditor/ckeditor.js' %}"></script>
     <script src="{% static 'lib/ckeditor/plugins/codesnippet/lib/highlight/highlight.pack.js' %}"></script>
+{% endblock lib_js %}
+{% block js %}
     <script src="{% static 'blog/js/blog.js' %}"></script>
 {% endblock js %}
 

@@ -1,91 +1,13 @@
 @import "variables.scss";
 @import "highlight.scss";
+@import "footer.scss";
+@import "menu.scss";
+@import "post-detail.scss";
+@import "toc.scss";
 
 //Hide Header
 header {
   display: none;
-}
-
-//Post Detail
-.post-detail {
-  margin-top: $margin-5*3;
-  min-height: 500px;
-
-  @media screen and (max-width: $screen-md){
-    margin-top: $margin-6!important;
-  }
-
-  //TOC Style
-  .ui.sticky {
-    margin-top: 60px!important;
-    z-index: 11;
-  }
-  li::before {
-    color: transparent !important;
-  }
-
-  a.active {
-    font-weight: bold;
-  }
-
-  .toc {
-    font-size: small;
-
-    @media screen and (max-width: $screen-lg) {
-      display: none;
-    }
-
-    li {
-      ul.ui.list {
-        padding-top: $padding-1/2;
-        padding-bottom: $padding-1/4;
-
-        > li {
-          padding-top: $padding-1/2;
-        }
-      }
-    }
-  }
-
-  .right.column {
-    h1 {
-      font-size: $font-size-4;
-    }
-  }
-
-  .ui.segment {
-    margin-top: $margin-5;
-    font-family: $muted-font-family;
-  }
-}
-
-//Post Comment
-.post-comment {
-  margin-top: $margin-5;
-
-  .ui.form {
-    p {
-      color: grey;
-      font-size: small;
-      font-family: $muted-font-family;
-    }
-  }
-
-  .ui.comments {
-    margin-top: $margin-6;
-    max-width: 700px;
-
-    a.author {
-      &:hover {
-        color: black;
-      }
-    }
-
-    code {
-      font-size: $font-size-1;
-      padding: $padding-1 $padding-2;
-    }
-  }
 }
 
 //ToUp Button Style

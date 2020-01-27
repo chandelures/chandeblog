@@ -1,0 +1,36 @@
+@import "variables.scss";
+
+//Post Detail
+.post-detail {
+  margin-top: $margin-5*3;
+  min-height: 500px;
+
+  @media screen and (max-width: $screen-md) {
+    margin-top: $margin-6 !important;
+  }
+
+  .ui.sticky.toc-container {
+    margin-top: 60px !important;
+    z-index: 11;
+
+    li::before {
+      color: transparent !important;
+    }
+
+    a.active {
+      font-weight: bold;
+    }
+  }
+
+
+  .right.column {
+    h1 {
+      font-size: $font-size-4;
+    }
+  }
+
+  .ui.segment {
+    margin-top: $margin-5;
+    font-family: $muted-font-family;
+  }
+}

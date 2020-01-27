@@ -1,0 +1,21 @@
+@import "variables.scss";
+
+//TOC Style
+.toc {
+  font-size: small;
+
+  @media screen and (max-width: $screen-lg) {
+    display: none;
+  }
+
+  li {
+    ul.ui.list {
+      padding-top: $padding-1/2;
+      padding-bottom: $padding-1/4;
+
+      > li {
+        padding-top: $padding-1/2;
+      }
+    }
+  }
+}

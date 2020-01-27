@@ -1,0 +1,33 @@
+@import "variables.scss";
+
+//Footer Style
+footer.segment {
+  margin-top: $margin-5*2 !important;
+  padding: $padding-4 0 !important;
+  border-top: 1px solid $border-grey !important;
+
+  h2 {
+    font-family: $header-font-family;
+  }
+
+  a.item {
+    font-size: $font-size-1*0.9;
+    color: black;
+    margin-left: $margin-2;
+
+    &:hover {
+      color: $blue;
+      text-decoration: none;
+    }
+  }
+
+  i {
+    color: rgba(black, 0.8);
+    font-size: x-large;
+
+    &:hover {
+      color: black;
+    }
+  }
+
+}

@@ -3,9 +3,17 @@
 {% load sass_tags %}
 {% load static %}
 {% block title %}主页 | Chandelure的个人博客{% endblock title %}
+
+{% block lib_css %}
+    <link rel="stylesheet" href="{% static 'lib/ckeditor/plugins/codesnippet/lib/highlight/styles/default.css' %}">
+{% endblock lib_css %}
 {% block css %}
     <link rel="stylesheet" href="{% sass_src 'blog/css/index.scss' %}">
 {% endblock css %}
+
+{% block lib_js %}
+    <script src="{% static 'lib/ckeditor/plugins/codesnippet/lib/highlight/highlight.pack.js' %}"></script>
+{% endblock lib_js %}
 {% block js %}
     <script src="{% static 'blog/js/index.js' %}"></script>
 {% endblock js %}

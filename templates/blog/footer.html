@@ -1,90 +1,20 @@
-{#{% load static %}#}
-{##}
-{#<footer class="navbar-fixed-bottom pt-4 pb-2 bg-footer position-absolute">#}
-{#        <div class="container">#}
-{#            <div class="row text-center">#}
-{#                <div class="col-sm-12 mt-3">#}
-{#                    <div class="text-center">#}
-{#                        <a class="h2 text-white font-weight-bolder text-decoration-none brand"#}
-{#                           href="{% url 'blog:index' %}">#}
-{#                            <img class="mb-2 text-white" src="{% static 'img/logo-footer.svg' %}" alt="C">handelure's#}
-{#                            Blog#}
-{#                        </a>#}
-{#                    </div>#}
-{#                </div>#}
-{#            </div>#}
-{#            <div class="row mt-3">#}
-{#                <ul class="nav col-md-5 d-flex justify-content-center">#}
-{#                    <li class="nav-item">#}
-{#                        <a class="nav-link text-decoration-none text-white">©2019 by chandelure</a>#}
-{#                    </li>#}
-{#                    <li class="nav-item">#}
-{#                        <a class="nav-link text-decoration-none foot-link" href="#">反馈</a>#}
-{#                    </li>#}
-{#                    <li class="nav-item">#}
-{#                        <a class="nav-link text-decoration-none foot-link" href="{% url 'sitemap' %}">站点地图</a>#}
-{#                    </li>#}
-{#                </ul>#}
-{#                <ul class="nav col-md-3">#}
-{#                </ul>#}
-{#                <ul class="nav col-md-4 d-flex justify-content-center">#}
-{#                    <li class="nav-item">#}
-{#                        <a class="nav-link font-weight-bold text-decoration-none foot-link"#}
-{#                           href="https://github.com/chandelures"><i#}
-{#                                class="fa fa-github"></i></a>#}
-{#                    </li>#}
-{#                    <li class="nav-item">#}
-{#                        <a class="nav-link font-weight-bold text-decoration-none foot-link" href="{% url 'blog:rss' %}"><i#}
-{#                                class="fa fa-rss"></i></a>#}
-{#                    </li>#}
-{#                    <li class="nav-item">#}
-{#                        <a class="nav-link font-weight-bold text-decoration-none foot-link"#}
-{#                           href="mailto:chandelurewang@gmail.com"><i#}
-{#                                class="fa fa-envelope-o"></i></a>#}
-{#                    </li>#}
-{#                </ul>#}
-{#            </div>#}
-{#        </div>#}
-{#    </footer>#}
-<footer class="ui inverted vertical footer segment">
+<footer class="ui vertical footer segment">
     <div class="ui stackable container grid">
-        {#        <div class="ui stackable inverted equal height stackable grid">#}
-        {#            <div class="six wide column">#}
-        {#                <h2>Chandelure's Blog</h2>#}
-        {#            </div>#}
-        {#            <div class="four wide column">#}
-        {#                <div class="ui inverted link list">#}
-        {#                    <a href="#" class="item">站点地图</a>#}
-        {#                    <a href="#" class="item">反馈</a>#}
-        {#                </div>#}
-        {#            </div>#}
-        {#            <div class="four wide column">#}
-        {#                <div class="ui inverted link list">#}
-        {#                    <a href="#" class="item">归档</a>#}
-        {#                    <a href="#" class="item">关于</a>#}
-        {#                </div>#}
-        {#            </div>#}
-        {#        </div>#}
         <div class="row">
             <div class="five wide column center aligned">
                 <a class="item" href="#">站点地图</a>
                 <a class="item" href="#">反馈</a>
                 <a class="item" href="#">关于</a>
             </div>
-             <div class="six wide column center aligned">
-                 <h2>Chandelure's Blog</h2>
+            <div class="six wide column center aligned">
+                <small>© 2019-2020 by chandelure, powered by <b><a href="#">Django</a></b> and <b><a href="#">Semantic-ui</a></b></small>
+                <br>
+                <small><a href="#">浙ICP备12022327号</a></small>
             </div>
             <div class="five wide column right floated center aligned">
                 <a class="item" href="#"><i class="github icon"></i></a>
                 <a class="item" href="#"><i class="weibo icon"></i></a>
                 <a class="item" href="#"><i class="rss icon"></i></a>
-            </div>
-        </div>
-        <div class="row">
-            <div class="column center aligned">
-                <small>© 2019-2020 by chandelure, powered by <b><a href="#">Django</a></b> and <b><a href="#">Semantic-ui</a></b></small>
-                <br>
-                <small><a href="#">浙ICP备12022327号</a></small>
             </div>
         </div>
     </div>

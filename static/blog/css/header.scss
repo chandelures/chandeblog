@@ -1,0 +1,61 @@
+@import "variables.scss";
+
+//Header Style
+header {
+  min-height: 500px;
+
+  @media screen and (max-width: $screen-lg) {
+    min-height: 400px;
+  }
+
+  @media screen and (max-width: $screen-md) {
+    min-height: 300px;
+  }
+
+  h1.ui.header {
+    margin-top: $margin-6 !important;
+    margin-bottom: 0;
+    font-size: $font-size-5;
+    font-weight: bold;
+    font-family: $header-font-family !important;
+
+    @media screen and (max-width: $screen-lg) {
+      margin-top: $margin-5 !important;
+      font-size: $font-size-4;
+    }
+
+    @media screen and (max-width: $screen-md) {
+      margin-top: $margin-4 !important;
+      font-size: $font-size-3;
+    }
+  }
+
+  .ui.secondary {
+    .item:not(.expand):not(.right) {
+      @media screen and (max-width: $screen-md) {
+        display: none !important;
+      }
+    }
+
+    .expand.item {
+      display: none;
+      @media screen and (max-width: $screen-md) {
+        display: block;
+      }
+    }
+  }
+
+  .ui.menu {
+    margin-left: $margin-2 !important;
+    @media screen and (max-width: $screen-md) {
+      margin-left: $margin-1 !important;
+    }
+  }
+
+  .ui.button {
+    margin-left: $margin-2 !important;
+    @media screen and (max-width: $screen-md) {
+      margin-left: $margin-1 !important;
+    }
+  }
+}
