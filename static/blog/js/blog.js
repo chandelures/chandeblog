@@ -11,7 +11,7 @@
         //初始化目录
         initToc: function ($toc) {
             var
-                offset = 60;
+                offset = 75;
             $toc
                 .find("ul")
                 .addClass("ui link list")
@@ -36,7 +36,7 @@
             var
                 $window = $(window),
                 $h = $content.find("h2,h3"),
-                offset = 60,
+                offset = 75,
                 activeH2 = $("body"),
                 activeH3 = activeH2;
             $(window)
@@ -98,6 +98,12 @@
             });
         }
     });
+
+    blog.before = {
+        base: function () {
+            blog.handler.initHighlighting();
+        }
+    };
 
     blog.ready.post = function () {
         var

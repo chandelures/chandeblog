@@ -1,150 +1,97 @@
-{#{% extends 'account/base.html' %}#}
-{#{% load static %}#}
-{#{% load sass_tags %}#}
-{##}
-{#{% block css %}#}
-{#    <link rel="stylesheet" href="{% sass_src 'account/css/account.scss' %}">#}
-{#{% endblock css %}#}
-{##}
-{#{% block js %}#}
-{#    <script src="{% static "account/js/account.js" %}"></script>#}
-{#{% endblock js %}#}
-{##}
-{#{% block title %}我的信息{% endblock title %}#}
-{##}
-{#{% block page_title %}我的信息{% endblock page_title %}#}
-{##}
-{#{% block content %}#}
-{#    <div class="container pt-3 pb-5">#}
-{#        <div class="row">#}
-{#            <div class="col-md-3">#}
-{#                <div class="avatar text-center">#}
-{#                    <p class="font-weight-bold">我的头像</p>#}
-{#                    <form id="avatar_change_form" class="d-none">#}
-{#                        {% csrf_token %}#}
-{#                        <input type="file" name="avatar" id="avatar_change_input">#}
-{#                    </form>#}
-{#                    <button id="avatar_change" class="btn border-0 bg-transparent">#}
-{#                        <img class="img-circle img-avatar" src="{{ user.avatar.url }}" alt="">#}
-{#                    </button>#}
-{#                </div>#}
-{#            </div>#}
-{#            <div class="col-md-6">#}
-{#                <div class="profile">#}
-{#                    <form method="post" action="{% url 'userprofile:profile' %}">#}
-{#                        {% csrf_token %}#}
-{#                        <div class="form-group">#}
-{#                            <label class="font-weight-bold" for="{{ form.username.id_for_label }}">用户名</label>#}
-{#                            {{ form.username }}#}
-{#                        </div>#}
-{#                        <div class="form-group">#}
-{#                            <label class="font-weight-bold" for="{{ form.email.id_for_label }}">电子邮箱</label>#}
-{#                            {{ form.email }}#}
-{#                        </div>#}
-{#                        <div class="form-group">#}
-{#                            <label class="font-weight-bold" for="{{ form.link.id_for_label }}">个人链接</label>#}
-{#                            {{ form.link }}#}
-{#                        </div>#}
-{#                        <div class="form-group">#}
-{#                            <label class="font-weight-bold" for="{{ form.resume.id_for_label }}">简介</label>#}
-{#                            {{ form.resume }}#}
-{#                        </div>#}
-{#                        <div class="text-center">#}
-{#                            <button type="submit" class="btn btn-update">保存</button>#}
-{#                        </div>#}
-{#                    </form>#}
-{#                </div>#}
-{#            </div>#}
-{#            <div class="col-md-3"></div>#}
-{#        </div>#}
-{#    </div>#}
-{#{% endblock content %}#}
-{% extends 'account/base.html' %}
+{% extends 'blog/base.html' %}
 {% load static %}
 {% load sass_tags %}
 
 {% block css %}
-    <link rel="stylesheet" href="{% sass_src 'account/css/account.scss' %}">
+    <link rel="stylesheet" href="{% sass_src 'account/css/profile.scss' %}">
 {% endblock css %}
 {% block js %}
-    <script src="{% static 'account/js/account.js' %}"></script>
+    <script src="{% static 'account/js/profile.js' %}"></script>
 {% endblock js %}
 
 {% block content %}
-    <div class="ui middle aligned center aligned grid profile">
-        <div class="column">
-            <h1 class="ui teal image header">
-                <a class="image" href="{% url 'blog:index' %}"><img class="logo" src="{% static 'img/logo.png' %}" alt=""></a>
-                <div class="content">
-                    我的信息
-                </div>
-            </h1>
-            <div class="ui placeholder segment left aligned">
-                <div class="ui two column very relaxed stackable grid">
-                    <div class="column middle aligned">
-                        <div class="ui card">
-                            <div class="ui image blurring dimmable">
-                                <div class="ui dimmer">
-                                    <div class="content">
-                                        <div class="center">
-                                            <button class="ui inverted button change-avatar">更改头像</button>
-                                            <form class="ui hidden avatar-change">
-                                                {% csrf_token %}
-                                                <input type="file" name="avatar" id="id_avatar">
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                                <img src="{{ user.avatar.url }}" alt="">
-                            </div>
-                            <div class="content">
-                                <p class="header">{{ user.username }}</p>
-                                <div class="meta">
-                                    <span class="date">{{ user.date_joined|date:"" }}加入</span>
-                                </div>
-                            </div>
-                            <div class="extra content">
-                                <p><i class="mail icon"></i>{{ user.email }}</p>
-                                {% if user.link %}
-                                    <p><i class="linkify icon"></i>{{ user.link }}</p>
-                                {% endif %}
+    <div class="ui container grid stackable content">
+        <div class="four wide column">
+            <div class="ui vertical fluid tabular menu">
+                <a class="item active" href="{% url 'accounts:profile' %}">基本信息 </a>
+                <a class="item" href="{% url 'account_change_password' %}">修改密码 </a>
+            </div>
+        </div>
+        <div class="ten wide column">
+            <h2 class="ui header dividing">基本信息</h2>
+            <div class="ui grid">
+                <div class="twelve wide column">
+                    <form class="ui form" method="post" action="{% url 'userprofile:profile' %}">
+                        {% csrf_token %}
+                        <div class="field">
+                            <label class="font-weight-bold" for="{{ form.username.id_for_label }}">用户名</label>
+                            <div class="ui left icon input">
+                                {{ form.username }}
+                                <i class="user icon"></i>
                             </div>
                         </div>
-                    </div>
-                    <div class="column">
-                        <form class="ui form" method="post" action="{% url 'userprofile:profile' %}">
-                            {% csrf_token %}
-                            <div class="field">
-                                <label class="font-weight-bold" for="{{ form.username.id_for_label }}">用户名</label>
-                                <div class="ui left icon input">
-                                    {{ form.username }}
-                                    <i class="user icon"></i>
+                        <div class="field">
+                            <label class="font-weight-bold" for="{{ form.email.id_for_label }}">电子邮箱</label>
+                            <div class="ui left icon input">
+                                {{ form.email }}
+                                <i class="mail icon"></i>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="font-weight-bold" for="{{ form.link.id_for_label }}">个人链接</label>
+                            <div class="ui left icon input">
+                                {{ form.link }}
+                                <i class="linkify icon"></i>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label class="font-weight-bold" for="{{ form.resume.id_for_label }}">简介</label>
+                            {{ form.resume }}
+                        </div>
+                        <button class="ui positive submit button" type="submit">更新</button>
+                    </form>
+                </div>
+                <div class="four wide column">
+                    <h4>更改头像</h4>
+                    <div class="ui card">
+                        <div class="ui image blurring dimmable">
+                            <div class="ui dimmer">
+                                <div class="content">
+                                    <div class="center">
+                                        <button class="ui inverted button change-avatar">更改头像</button>
+                                        <form class="ui hidden avatar-change">
+                                            {% csrf_token %}
+                                            <input type="file" name="avatar" id="id_avatar">
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="field">
-                                <label class="font-weight-bold" for="{{ form.email.id_for_label }}">电子邮箱</label>
-                                <div class="ui left icon input">
-                                    {{ form.email }}
-                                    <i class="mail icon"></i>
-                                </div>
-                            </div>
-                            <div class="field">
-                                <label class="font-weight-bold" for="{{ form.link.id_for_label }}">个人链接</label>
-                                <div class="ui left icon input">
-                                    {{ form.link }}
-                                    <i class="linkify icon"></i>
-                                </div>
-                            </div>
-                            <div class="field">
-                                <label class="font-weight-bold" for="{{ form.resume.id_for_label }}">简介</label>
-                                {{ form.resume }}
-                            </div>
-                            <button class="ui blue submit button" type="submit">更新</button>
-                        </form>
+                            <img src="{{ user.avatar.url }}" alt="">
+                        </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
 {% endblock content %}
+
+{% block sidebar %}
+    <div class="ui vertical inverted sidebar menu left">
+        <a class="item" href="{% url 'blog:index' %}">主页</a>
+        <a class="item">专栏</a>
+        {% if user.is_authenticated %}
+            <a class="item logout">注销</a>
+            <form method="post" class="ui hidden" action="{% url 'account_logout' %}">
+                {% csrf_token %}
+                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+                <div>
+                    <button type="submit"></button>
+                </div>
+            </form>
+            <a class="item active" href="{% url 'accounts:profile' %}">我的信息</a>
+        {% else %}
+            <a class="item" href="{% url 'account_login' %}">登录</a>
+            <a class="item" href="{% url 'account_signup' %}">注册</a>
+        {% endif %}
+    </div>
+{% endblock sidebar %}

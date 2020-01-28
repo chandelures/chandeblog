@@ -59,12 +59,6 @@
         },
     };
 
-    blog.before = {
-        base: function () {
-            blog.handler.initHighlighting();
-        }
-    };
-
     blog.ready = {
         base: function () {
             var

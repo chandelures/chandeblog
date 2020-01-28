@@ -1,0 +1,18 @@
+@import "../../blog/css/base.scss";
+@import "../../blog/css/highlight.scss";
+@import "../../blog/css/footer.scss";
+@import "../../blog/css/menu.scss";
+
+//Hide Header
+header {
+  display: none;
+}
+
+.ui.container.stackable.grid.content {
+  margin-top: $margin-4*3 !important;
+
+  .ui.header.dividing {
+    font-weight: lighter;
+    margin-bottom: $margin-1;
+  }
+}

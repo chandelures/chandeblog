@@ -1,7 +1,6 @@
 {% extends 'account/base.html' %}
 {% load static %}
 {% load sass_tags %}
-{% load account socialaccount %}
 
 {% block css %}
     <link rel="stylesheet" href="{% sass_src 'account/css/account.scss' %}">
@@ -11,65 +10,50 @@
     <div class="ui middle aligned center aligned grid signup">
         <div class="column">
             <h1 class="ui teal image header">
-                <a class="image" href="{% url 'blog:index' %}"><img class="logo" src="{% static 'img/logo.png' %}" alt=""></a>
+                <a class="image" href="{% url 'blog:index' %}"><img class="logo" src="{% static 'img/logo.png' %}"
+                                                                    alt=""></a>
                 <div class="content">
-                    我的信息
+                    注册 Blog
                 </div>
             </h1>
-            <div class="ui placeholder segment">
-                <div class="ui two column very relaxed stackable grid">
-                    <div class="middle aligned column">
-                        <a class="ui big button" href="{% url 'account_login' %}"><i class="sign-in icon"></i>登录</a>
-                    </div>
-                    <div class="column">
-                        {% get_providers as socialaccount_providers %}
-                        {% if socialaccount_providers %}
-                            {% for provider in socialaccount_providers %}
-                                {% if provider.id == "github" %}
-                                    <a class="social" href="{% provider_login_url provider.id process=process scope=scope auth_params=auth_params %}">
-                                        <i class="github icon"></i>
-                                    </a>
-                                {% endif %}
-                            {% endfor %}
-                        {% endif %}
-                        <form class="ui form" method="POST" action="{% url 'account_signup' %}">
-                            {% csrf_token %}
-                            <div class="field">
-                                <label for="{{ form.login.id_for_username }}"></label>
-                                <div class="ui left icon input">
-                                    {{ form.username }}
-                                    <i class="user icon"></i>
-                                </div>
+            <div class="ui segment">
+                <div class="column">
+                    <form class="ui form" method="POST" action="{% url 'account_signup' %}">
+                        {% csrf_token %}
+                        <div class="field">
+                            <label for="{{ form.login.id_for_username }}"></label>
+                            <div class="ui left icon input">
+                                {{ form.username }}
+                                <i class="user icon"></i>
                             </div>
-                            <div class="field">
-                                <label for="{{ form.password.id_for_email }}"></label>
-                                <div class="ui left icon input">
-                                    {{ form.email }}
-                                    <i class="mail icon"></i>
-                                </div>
+                        </div>
+                        <div class="field">
+                            <label for="{{ form.password.id_for_email }}"></label>
+                            <div class="ui left icon input">
+                                {{ form.email }}
+                                <i class="mail icon"></i>
                             </div>
-                            <div class="field">
-                                <label for="{{ form.password.id_for_password1 }}"></label>
-                                <div class="ui left icon input">
-                                    {{ form.password1 }}
-                                    <i class="lock icon"></i>
-                                </div>
+                        </div>
+                        <div class="field">
+                            <label for="{{ form.password.id_for_password1 }}"></label>
+                            <div class="ui left icon input">
+                                {{ form.password1 }}
+                                <i class="lock icon"></i>
                             </div>
-                            <div class="field">
-                                <label for="{{ form.password.id_for_password2 }}"></label>
-                                <div class="ui left icon input">
-                                    {{ form.password2 }}
-                                    <i class="lock icon"></i>
-                                </div>
+                        </div>
+                        <div class="field">
+                            <label for="{{ form.password.id_for_password2 }}"></label>
+                            <div class="ui left icon input">
+                                {{ form.password2 }}
+                                <i class="lock icon"></i>
                             </div>
-                            <button class="ui blue submit button" type="submit">注册</button>
-                        </form>
-                    </div>
+                        </div>
+                        <button class="ui blue submit button" type="submit">注册</button>
+                    </form>
                 </div>
-                <div class="ui vertical divider">Or</div>
             </div>
             <div class="ui message">
-                已经注册了? <a href="{% url 'account_login' %}">登录</a>
+                已经注册了, 直接<a href="{% url 'account_login' %}">登录</a>
             </div>
         </div>
     </div>

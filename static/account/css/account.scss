@@ -4,31 +4,20 @@
   height: 100%;
 
   > .column {
-    max-width: 800px;
+    max-width: 450px;
   }
 
-  .ui.divider,
-  .middle.aligned.column {
-    @media screen and (max-width: $screen-md) {
-      display: none;
-    }
-  }
-
-  .ui.message {
-    display: none;
-    @media screen and (max-width: $screen-md) {
-      display: block;
-    }
+  .segment {
+    min-height: 172.2px;
   }
 
   .image {
-     margin-right: -15px!important;
+    margin-right: -15px !important;
   }
 
   img.logo {
     width: 50px;
     height: 50px;
-
   }
 
   .ui.header {
@@ -42,7 +31,8 @@
   }
 
   .github.icon {
-    font-size: $font-size-5;
+    font-size: $font-size-5*1.5;
+    margin-top: $margin-2;
     color: black;
 
     &:hover {
@@ -53,32 +43,17 @@
 
 .signup.grid {
   @extend .login.grid;
-
-  .github.icon {
-    margin-top: 15px;
-  }
 }
 
 .profile.grid {
   @extend .login.grid;
 
-  .ui.card {
-    margin-left: $margin-4;
-    height: 100%;
-    width: 100%;
+  .column {
+    margin-top: $margin-4;
+    max-width: 1000px;
   }
 
-  form {
-    .field {
-      max-width: 100% !important;
-    }
-
-    textarea {
-      max-width: 100% !important;
-    }
-
-    .ui.button {
-      max-width: 100% !important;
-    }
+  .ui.card {
+    width: 100%;
   }
 }

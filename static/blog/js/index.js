@@ -68,6 +68,12 @@
         },
     });
 
+    blog.before = {
+        base: function () {
+            blog.handler.initHighlighting();
+        }
+    };
+
     blog.ready.index = function () {
         var
             $toUpButton = $("#toUp"),
