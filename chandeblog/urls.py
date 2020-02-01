@@ -45,6 +45,9 @@ urlpatterns = [
     # mdeditor
     path('mdeditor/', include('mdeditor.urls')),
 
+    # search
+    path('search/', include('haystack.urls')),
+
     # favicon
     path('favicon.ico', RedirectView.as_view(url=r'static/img/favicon.ico')),
 

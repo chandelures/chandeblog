@@ -17,11 +17,14 @@
         </a>
         <div class="right menu">
             <div class="item">
-                <div class="ui action left icon input">
-                    <i class="search icon"></i>
-                    <input type="text" placeholder="Search">
-                    <button class="ui primary button">搜索</button>
-                </div>
+                <form method="get" action="{% url 'haystack_search' %}">
+                    <div class="ui action left icon input">
+                        <i class="search icon"></i>
+                        <label for="id_q"></label>
+                        <input type="text" id="id_q" placeholder="Search" name="q">
+                        <button class="ui primary button" type="submit">搜索</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -34,17 +37,17 @@
                 <b>菜单</b>
             </a>
             <a class="active item" href="{% url 'blog:index' %}">主页</a>
-            <a class="item" href="#">专栏</a>
+            {#            <a class="item" href="#">专栏</a>#}
             <div class="right item">
                 {% if user.is_authenticated %}
-                    <a class="ui inverted button logout">注销</a>
-                    <form method="post" class="ui hidden" action="{% url 'account_logout' %}">
-                        {% csrf_token %}
-                        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
-                        <div>
-                            <button type="submit"></button>
-                        </div>
-                    </form>
+                    {#                    <a class="ui inverted button logout">注销</a>#}
+                    {#                    <form method="post" class="ui hidden" action="{% url 'account_logout' %}">#}
+                    {#                        {% csrf_token %}#}
+                    {#                        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>#}
+                    {#                        <div>#}
+                    {#                            <button type="submit"></button>#}
+                    {#                        </div>#}
+                    {#                    </form>#}
                     <a class="ui inverted button" href="{% url 'accounts:profile' %}">我的信息</a>
                 {% else %}
                     <a class="ui inverted button" href="{% url 'account_login' %}">登录</a>

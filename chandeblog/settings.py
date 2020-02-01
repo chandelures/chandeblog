@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'mdeditor',
     'sass_processor',
     'compressor',
+    'haystack',
     # 'notifications',
 
     # login and signup app
@@ -235,3 +236,14 @@ X_FRAME_OPTIONS = "SAMEORIGIN"
 BEIAN = config.get("BEIAN")
 GITHUBLINK = config.get("GITHUBLINK")
 MAILTO = config.get("MAILTO")
+
+# Haystack Configurations
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'blog.whoosh_cn_backend.WhooshEngine',
+        'PATH': os.path.join(BASE_DIR, 'whoosh_index'),
+    },
+}
+
+HAYSTACK_SEARCH_RESULTS_PER_PAGE = 8
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
