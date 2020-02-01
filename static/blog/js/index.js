@@ -20,8 +20,7 @@
                     "                <div class=\"eleven wide column\">\n" +
                     "                    <h3><a href=\"" + post_url + "\">" + post_title + "</a></h3>\n" +
                     "                    <div>" + post_abstract + "</div>\n" +
-                    "                    <h4 class=\"ui horizontal header divider\">\n" +
-                    "                        <a href=\"" + post_url + "\">Read More »</a>\n" +
+                    "                    <h4 class=\"ui header divider\">\n" +
                     "                    </h4>\n" +
                     "                </div>\n" +
                     "            </div>";

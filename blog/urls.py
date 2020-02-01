@@ -40,4 +40,7 @@ urlpatterns = [
 
     # rss
     url(r'^rss/$', BlogFeed(), name='rss'),
+
+    # about
+    url(r'^about/$', views.AboutView.as_view(), name="about")
 ]

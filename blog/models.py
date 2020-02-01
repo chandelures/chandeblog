@@ -1,4 +1,3 @@
-from taggit.managers import TaggableManager
 from django.db import models
 
 from django.urls import reverse
@@ -6,33 +5,8 @@ import django.utils.timezone as timezone
 
 from mdeditor.fields import MDTextField
 from uuslug import slugify
-
-
-class PostQuerySet(models.QuerySet):
-    """文章查询类"""
-
-    def public(self):
-        """返回所有状态为公开的文章"""
-        return self.filter(status=True)
-
-    def draft(self):
-        """返回所有状态为草稿的文章"""
-        return self.filter(status=False)
-
-
-class PostManager(models.Manager):
-    """文章管理类"""
-
-    def get_queryset(self):
-        return PostQuerySet(self.model, using=self._db)
-
-    def public(self):
-        """返回所有状态为公开的文章"""
-        return self.get_queryset().public()
-
-    def draft(self):
-        """返回所有状态为草稿的文章"""
-        return self.get_queryset().draft()
+from taggit.managers import TaggableManager
+from blog.manager import PostManager
 
 
 class Post(models.Model):
@@ -79,7 +53,7 @@ class Post(models.Model):
         verbose_name="栏目",
         related_name='post'
     )
-    column_position = models.PositiveIntegerField('位置', default=1)
+    column_position = models.PositiveIntegerField('位置', default=1, null=True, blank=True)
     views = models.PositiveIntegerField('浏览量', default=0)
     create_date = models.DateTimeField('创建日期', default=timezone.now)
     mod_time = models.DateTimeField('最后修改时间', auto_now=True)

@@ -157,3 +157,8 @@ class CategoryView(generic.ListView):
     template_name = 'blog/category.html'
     context_object_name = 'category_list'
     paginate_by = 5
+
+
+class AboutView(generic.TemplateView):
+    """关于页面"""
+    template_name = 'blog/about.html'
