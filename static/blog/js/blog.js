@@ -109,8 +109,7 @@
         var
             $toc = $(".toc"),
             $sticky = $(".ui.sticky"),
-            $postDetail = $("#postDetail"),
-            $postColumnContainer = $(".post-left .overlay"),
+            $postContent = $("#postContent"),
             $commentBodyTextarea = $("#comment_body"),
             $commentReply = $(".reply"),
             $commentModal = $(".ui.modal"),
@@ -120,13 +119,13 @@
 
         blog.handler.initToc($toc);
 
-        if (!(blog.handler.isIE())) blog.handler.scollToc($postDetail);
+        if (!(blog.handler.isIE())) blog.handler.scollToc($postContent);
 
         $sticky
             .sticky({
                 silent: true,
                 offset: 85,
-                context: '#postDetail'
+                context: '#post'
             })
         ;
 
@@ -137,12 +136,6 @@
                 blog.handler.initCommentModal($(this), $commentModal);
             })
         ;
-
-        $postColumnContainer
-            .visibility({
-                type: 'fixed',
-                offset: 65
-            })
     };
 
     blog.bootstrap();

@@ -1,0 +1,5 @@
+{% load blog_tags %}
+<div class="ui sticky toc-container">
+    {% markdown_text post.body as body %}
+    {{ body.toc|safe }}
+</div>

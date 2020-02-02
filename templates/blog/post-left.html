@@ -1,0 +1,18 @@
+<div class="ui sticky">
+    {% if post.column %}
+        <div class="post-column">
+            <h3 class="ui header">{{ post.column.name }}</h3>
+            <ul class="ui list link">
+                {% for column_post in post.column.post.public %}
+                    {% ifequal column_post post %}
+                        <a class="item active"
+                           href="{% url 'blog:post' column_post.slug %}">{{ column_post.title }}</a>
+                    {% else %}
+                        <a class="item"
+                           href="{% url 'blog:post' column_post.slug %}">{{ column_post.title }}</a>
+                    {% endifequal %}
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+</div>

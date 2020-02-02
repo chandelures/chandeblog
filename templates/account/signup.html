@@ -19,7 +19,8 @@
             </h1>
             <div class="ui segment">
                 <div class="column">
-                    <form class="ui form {% if form.errors %}error{% endif %}" method="POST" action="{% url 'account_signup' %}">
+                    <form class="ui form {% if form.errors %}error{% endif %}" method="POST"
+                          action="{% url 'account_signup' %}">
                         {% csrf_token %}
                         {% for k,v in form.errors.items %}
                             <div class="ui error message">

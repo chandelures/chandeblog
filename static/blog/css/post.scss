@@ -2,12 +2,138 @@
 @import "highlight.scss";
 @import "footer.scss";
 @import "menu.scss";
-@import "post-detail.scss";
-@import "post-comment.scss";
 
 //Hide Header
 header {
   display: none;
+}
+
+//Post
+.post {
+  margin-top: $margin-5*3;
+  min-height: 500px;
+
+  @media screen and (max-width: $screen-md) {
+    margin-top: $margin-6 !important;
+  }
+
+  @media screen and (max-width: $screen-lg) {
+    margin-top: $margin-5*2 !important;
+    .ui.dividing {
+      border: none !important;
+    }
+  }
+}
+
+//TOC Style
+.toc {
+  font-size: small;
+
+  @media screen and (max-width: $screen-lg) {
+    display: none;
+  }
+
+  a.active {
+    font-weight: bold;
+  }
+
+  li {
+    &::before {
+      color: transparent !important;
+    }
+
+    ul.ui.list {
+      padding-top: $padding-1/2;
+      padding-bottom: $padding-1/4;
+
+      > li {
+        padding-top: $padding-1/2;
+      }
+    }
+  }
+}
+
+//Post-Left Style
+.post-left {
+  border-right: $grey 1px solid;
+
+  @media screen and (max-width: $screen-lg) {
+    border: none;
+    margin-right: 0;
+    .ui.sticky {
+      display: none !important;
+    }
+  }
+
+  ul {
+    font-size: small !important;
+    margin-left: 0 !important;
+
+    a:not(:first-child) {
+      margin-top: $margin-1;
+    }
+  }
+}
+
+//Post-Center Style
+.post-center {
+  padding-left: $padding-6 !important;
+  padding-right: $padding-6 !important;
+
+  @media screen and (max-width: $screen-lg) {
+    padding: 0;
+  }
+}
+
+//Post Extra Style
+.post-extra {
+  margin-top: $margin-5;
+  font-family: $muted-font-family;
+}
+
+//Post-Right Style
+.post-right {
+  border-left: $grey 1px solid;
+
+  @media screen and (max-width: $screen-lg) {
+    border: none;
+    .ui.sticky {
+      display: none !important;
+    }
+  }
+
+  .ui.sticky {
+    z-index: 11;
+  }
+}
+
+//Post Comment
+.post-comment-form {
+  margin-top: $margin-5;
+
+  .ui.form {
+    p {
+      color: grey;
+      font-size: small;
+      font-family: $muted-font-family;
+    }
+  }
+}
+
+.ui.comments.post-comments {
+  margin-top: $margin-6;
+  max-width: 700px;
+
+  a.author {
+    &:hover {
+      color: black;
+    }
+  }
+
+  code {
+    font-size: $font-size-1;
+    padding: $padding-1 $padding-2;
+  }
 }
 
 //ToUp Button Style

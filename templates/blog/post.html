@@ -30,7 +30,20 @@
 {% endblock js %}
 
 {% block content %}
-    {% include 'blog/post-detail.html' %}
+    <div class="ui container grid stackable">
+        <div class="row post" id="post">
+            <div class="three wide column post-left">
+                {% include 'blog/post-left.html' %}
+            </div>
+            <div class="eleven wide column post-center">
+                {% include 'blog/post-content.html' %}
+                {% include 'blog/post-comment.html' %}
+            </div>
+            <div class="two wide column post-right">
+                {% include 'blog/post-right.html' %}
+            </div>
+        </div>
+    </div>
 {% endblock content %}
 
 {% block extra %}

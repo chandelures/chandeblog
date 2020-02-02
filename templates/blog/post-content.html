@@ -1,0 +1,40 @@
+{% load blog_tags %}
+<div class="markdown post-content" id="postContent">
+    <h1 class="ui header dividing">{{ post.title }}</h1>
+    {% markdown_text post.body as body %}
+    {{ body.html|safe }}
+</div>
+<div class="ui segment post-extra">
+    <div class="ui list">
+        <div class="item">
+            <i class="folder outline icon"></i>
+            <div class="content">
+                本文标题： {{ post.title }}
+            </div>
+        </div>
+        <div class="item">
+            <i class="address card outline icon"></i>
+            <div class="content">
+                本文作者： {{ post.author }}
+            </div>
+        </div>
+        <div class="item">
+            <i class="clock outline icon"></i>
+            <div class="content">
+                发布时间： {{ post.mod_time | date:"Y-m-j H:m" }}
+            </div>
+        </div>
+        <div class="item">
+            <i class="linkify icon"></i>
+            <div class="content">
+                文章链接： https://{{ request.get_host }}{{ post.get_absolute_url }}
+            </div>
+        </div>
+        <div class="item">
+            <i class="closed captioning outline icon"></i>
+            <div class="content">
+                文章协议： 非商业性使用 4.0 国际许可协议
+            </div>
+        </div>
+    </div>
+</div>
