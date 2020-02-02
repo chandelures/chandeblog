@@ -18,11 +18,13 @@
         <div class="right menu">
             <div class="item">
                 <form method="get" action="{% url 'haystack_search' %}">
-                    <div class="ui action left icon input">
+                    <div class="ui search">
+                      <div class="ui icon input">
+                          <label for="id_q"></label>
+                        <input class="prompt" type="text" placeholder="Search..." id="id_q" name="q">
                         <i class="search icon"></i>
-                        <label for="id_q"></label>
-                        <input type="text" id="id_q" placeholder="Search" name="q">
-                        <button class="ui primary button" type="submit">搜索</button>
+                      </div>
+                      <div class="results"></div>
                     </div>
                 </form>
             </div>

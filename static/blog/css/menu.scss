@@ -3,6 +3,8 @@
 //Top Menu
 .ui.fixed.menu {
   .item {
+    padding-bottom: $padding-1;
+    padding-top: $padding-1;
     border: none !important;
 
     &::before {

@@ -124,7 +124,7 @@
         $sticky
             .sticky({
                 silent: true,
-                offset: 85,
+                offset: 75,
                 context: '#post'
             })
         ;
