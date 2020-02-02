@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'column',
     'comment',
     'userprofile',
+    'api',
 
     # other apps
     'mptt',

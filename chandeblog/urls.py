@@ -48,6 +48,9 @@ urlpatterns = [
     # search
     path('search/', include('haystack.urls')),
 
+    # api
+    path('api/', include('api.urls', namespace='api')),
+
     # favicon
     path('favicon.ico', RedirectView.as_view(url=r'static/img/favicon.ico')),
 

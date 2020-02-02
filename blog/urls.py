@@ -33,11 +33,6 @@ urlpatterns = [
     #     views.PostDayArchive.as_view(), name='archive_day'),
     # url(r'^today/$', views.PostTodayArchive.as_view(), name='archive_today'),
 
-    # api
-    url(r'^api/getpostlist',
-        views.AjaxPostListView.as_view(),
-        name="ajax_post_list"),
-
     # rss
     url(r'^rss/$', BlogFeed(), name='rss'),
 

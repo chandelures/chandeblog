@@ -26,20 +26,3 @@ class ProfileView(UpdateView):
             return self.form_valid(form)
         else:
             return self.form_invalid(form)
-
-
-class AjaxAvatarChangeView(View):
-    """更改用户头像"""
-
-    @method_decorator(login_required)
-    def post(self, request):
-        if request.is_ajax():
-            avatar_file = request.FILES['avatar']
-            user = request.user
-            if user.avatar.name != 'avatar/default.png':
-                user.avatar.delete(save=False)
-            user.avatar = avatar_file
-            user.save()
-            return JsonResponse({'status': 'success'})
-        else:
-            return JsonResponse({'status': 'failed'})

@@ -8,7 +8,7 @@
                 if (avatar) {
                     let data = new FormData($avatarChangeForm[0]);
                     $.ajax({
-                        url: "/accounts/avatar_change/",
+                        url: "/api/changeavatar/",
                         type: "POST",
                         data: data,
                         processData: false,

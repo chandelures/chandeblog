@@ -5,28 +5,6 @@
   margin-top: $margin-5*3;
   min-height: 500px;
 
-  @media screen and (max-width: $screen-md) {
-    margin-top: $margin-6 !important;
-  }
-
-  @media screen and (max-width: $screen-lg) {
-    margin-top: $margin-5*2 !important;
-    .ui.dividing {
-      border: none !important;
-    }
-  }
-
-  .ui.sticky {
-    margin-top: 75px !important;
-    z-index: 11;
-  }
-
-  .right.column {
-    h1 {
-      font-size: $font-size-4;
-    }
-  }
-
   .ui.segment {
     margin-top: $margin-5;
     font-family: $muted-font-family;
@@ -64,16 +42,10 @@
 //Post-Left Style
 .post-left {
   border-right: $grey 1px solid;
-  margin-right: $margin-5;
-
-  .ui.header {
-    margin-top: $margin-1;
-  }
 
   @media screen and (max-width: $screen-lg) {
     border: none;
-    margin-right: 0;
-    .overlay {
+    .ui.sticky {
       display: none !important;
     }
   }
@@ -86,4 +58,26 @@
       margin-top: $margin-1;
     }
   }
+}
+
+.post-center {
+  padding-left: $padding-6 !important;
+  padding-right: $padding-6 !important;
+
+  @media screen and (max-width: $screen-lg) {
+    padding: 0!important;
+  }
+}
+
+.post-right {
+  border-left: $grey 1px solid;
+
+  @media screen and (max-width: $screen-lg) {
+    border: none;
+  }
+
+  .ui.sticky {
+    z-index: 11;
+  }
+
 }

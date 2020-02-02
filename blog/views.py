@@ -14,43 +14,6 @@ class IndexView(generic.TemplateView):
     template_name = 'blog/index.html'
 
 
-class AjaxPostListView(generic.View):
-    """获取文章列表API"""
-
-    def get(self, request):
-        if request.is_ajax():
-            index = int(request.GET.get("index", 0))
-            count = int(request.GET.get("count", 0))
-            post_count = Post.objects.public().count()
-            data = {"post_count": post_count, "post_list": []}
-            for i in range(count):
-                if 0 <= index < post_count:
-                    post = Post.objects.public()[index]
-                    index = index + 1
-                    data['post_list'].append({
-                        "post_count": post_count,
-                        "post_url": post.get_absolute_url(),
-                        "post_title": post.title,
-                        "post_abstract": self.markdown_text(post.abstract),
-                        "post_category_name": post.category.name,
-                        "post_create_date": date_format(post.create_date, format="Y-m-j"),
-                        "post_views": post.views,
-                    })
-                else:
-                    return JsonResponse(data, safe=False)
-            return JsonResponse(data, safe=False)
-        else:
-            return JsonResponse({"status": "error"})
-
-    @staticmethod
-    def markdown_text(text):
-        md = markdown.Markdown(extensions=[
-            'markdown.extensions.extra',
-        ])
-        html = md.convert(text)
-        return html
-
-
 class PostView(generic.DetailView):
     """文章详细页面"""
     model = Post

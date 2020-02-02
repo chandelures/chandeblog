@@ -124,9 +124,12 @@
 
         $sticky
             .sticky({
+                silent: true,
+                offset: 85,
                 context: '#postDetail'
             })
         ;
+
         blog.handler.initTextarea($commentBodyTextarea);
 
         $commentReply
