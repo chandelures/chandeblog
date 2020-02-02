@@ -9,6 +9,10 @@
 
   .segment {
     min-height: 172.2px;
+
+    .ui.message {
+      margin-top: 0 !important;
+    }
   }
 
   .image {

@@ -10,16 +10,22 @@
     <div class="ui middle aligned center aligned grid signup">
         <div class="column">
             <h1 class="ui teal image header">
-                <a class="image" href="{% url 'blog:index' %}"><img class="logo" src="{% static 'img/logo.png' %}"
-                                                                    alt=""></a>
+                <a class="image" href="{% url 'blog:index' %}">
+                    <img class="logo" src="{% static 'img/logo.png' %}" alt="">
+                </a>
                 <div class="content">
                     注册 Blog
                 </div>
             </h1>
             <div class="ui segment">
                 <div class="column">
-                    <form class="ui form" method="POST" action="{% url 'account_signup' %}">
+                    <form class="ui form {% if form.errors %}error{% endif %}" method="POST" action="{% url 'account_signup' %}">
                         {% csrf_token %}
+                        {% for k,v in form.errors.items %}
+                            <div class="ui error message">
+                                <p>{{ v.0 }}</p>
+                            </div>
+                        {% endfor %}
                         <div class="field">
                             <label for="{{ form.login.id_for_username }}"></label>
                             <div class="ui left icon input">

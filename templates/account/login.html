@@ -22,14 +22,20 @@
                     登录 Blog
                 </div>
             </h1>
-            <div class="ui menu attached tabular">
+            <div class="ui menu attached pointing secondary two item">
                 <a class="item active" data-tab="normal">直接登录 </a>
                 <a class="item" data-tab="social">社交账号登录 </a>
             </div>
             <div class="ui segment attached tab active" data-tab="normal">
                 <div class="column">
-                    <form class="ui form" method="POST" action="{% url 'account_login' %}">
+                    <form class="ui form {% if form.errors %}error{% endif %}" method="POST"
+                          action="{% url 'account_login' %}">
                         {% csrf_token %}
+                        {% for k,v in form.errors.items %}
+                            <div class="ui error message">
+                                <p>{{ v.0 }}</p>
+                            </div>
+                        {% endfor %}
                         <div class="field">
                             <label for="{{ form.login.id_for_label }}"></label>
                             <div class="ui left icon input">
@@ -61,7 +67,6 @@
                         {% endfor %}
                     {% endif %}
                 </div>
-
             </div>
             <div class="ui message">
                 还没有<a href="{% url 'account_signup' %}">注册</a>?
