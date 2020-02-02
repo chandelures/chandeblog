@@ -5,12 +5,12 @@
         //扩展文章列表
         appendPostList: function (item) {
             var
-                post_url = item.post_url,
-                post_title = item.post_title,
-                post_category_name = item.post_category_name,
-                post_abstract = item.post_abstract,
-                post_create_date = item.post_create_date,
-                post_views = item.post_views,
+                post_url = item['post_url'],
+                post_title = item['post_title'],
+                post_category_name = item['post_category_name'],
+                post_abstract = item['post_abstract'],
+                post_create_date = item['post_create_date'],
+                post_views = item['post_views'],
                 postListContainer = $("#postList .ui.stackable.grid"),
                 postListDom = "<div class=\"ui row\">\n" +
                     "                <div class=\"four wide column\">\n" +
@@ -44,8 +44,8 @@
                             'count': loadPostCount
                         },
                         success: function (data) {
-                            postCount = data.post_count;
-                            var postList = data.post_list;
+                            postCount = data['post_count'];
+                            var postList = data['result'];
                             $.each(postList, function (i, item) {
                                 if (index < postCount) {
                                     index += 1;

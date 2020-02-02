@@ -10,18 +10,19 @@ header {
 
 //Post
 .post {
-  margin-top: $margin-5*3;
+  margin-top: $margin-5*3!important;
   min-height: 500px;
 
-  @media screen and (max-width: $screen-md) {
-    margin-top: $margin-6 !important;
+  @media screen and (max-width: $screen-lg) {
+    margin-top: $margin-5*2.8 !important;
   }
 
-  @media screen and (max-width: $screen-lg) {
-    margin-top: $margin-5*2 !important;
-    .ui.dividing {
-      border: none !important;
-    }
+  @media screen and (max-width: $screen-md) {
+    margin-top: $margin-5*2.5 !important;
+  }
+
+  @media screen and (max-width: $screen-sm) {
+    margin-top: $margin-5*2.2 !important;
   }
 }
 

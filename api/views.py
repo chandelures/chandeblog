@@ -18,25 +18,24 @@ class AjaxPostListView(View):
             index = int(request.GET.get("index", 0))
             count = int(request.GET.get("count", 0))
             post_count = Post.objects.public().count()
-            data = {"post_count": post_count, "post_list": []}
+            data = {"success": True, "post_count": post_count, "result": []}
             for i in range(count):
                 if 0 <= index < post_count:
                     post = Post.objects.public()[index]
                     index = index + 1
-                    data['post_list'].append({
-                        "post_count": post_count,
-                        "post_url": post.get_absolute_url(),
+                    data['result'].append({
                         "post_title": post.title,
                         "post_abstract": self.markdown_text(post.abstract),
                         "post_category_name": post.category.name,
                         "post_create_date": date_format(post.create_date, format="Y-m-j"),
                         "post_views": post.views,
+                        "post_url": post.get_absolute_url(),
                     })
                 else:
                     return JsonResponse(data, safe=False)
             return JsonResponse(data, safe=False)
         else:
-            return JsonResponse({"status": "error"})
+            return JsonResponse({"success": False})
 
     @staticmethod
     def markdown_text(text):
@@ -59,6 +58,6 @@ class AjaxAvatarChangeView(View):
                 user.avatar.delete(save=False)
             user.avatar = avatar_file
             user.save()
-            return JsonResponse({'status': 'success'})
+            return JsonResponse({'success': True})
         else:
-            return JsonResponse({'status': 'failed'})
+            return JsonResponse({'success': False})
