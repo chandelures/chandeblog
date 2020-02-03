@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 import markdown
 
 from blog.models import Post
+from haystack.forms import ModelSearchForm
 
 
 class AjaxPostListView(View):
@@ -65,12 +66,36 @@ class AjaxAvatarChangeView(View):
 
 class SearchRepositoriesView(View):
     def get(self, request):
-        # if request.is_ajax():
-        q = request.GET.get('q')
-        posts = Post.objects.all()
-        data = {"success": True, "results": []}
-        for post in posts:
-            data.get("results").append({
-                "title": q,
-            })
+        max_result = 4
+        data = {
+            'success': False,
+        }
+        if request.is_ajax():
+            q = request.GET.get('q')
+            if q:
+                form = ModelSearchForm(request.GET)
+                if form.is_valid():
+                    results = form.search()
+                    results_count = len(results.all())
+                    data['success'] = True
+                    data.update({
+                        'results': {
+                            'category1': {
+                                'name': '文章',
+                                'results': []
+                            }
+                        },
+                        'action': {
+                            "url": '/search/?q=' + q,
+                            "text": '没有搜索到有关于 ' + q + ' 的内容',
+                        },
+                    })
+                    if results.all():
+                        for item in results.all()[:max_result]:
+                            data.get('results').get("category1").get('results').append({
+                                "title": item.object.title,
+                                "url": item.object.get_absolute_url(),
+                                "description": item.object.category.name,
+                            })
+                        data.get('action')["text"] = '查看共 ' + str(results_count) + ' 个搜索结果'
         return JsonResponse(data)
