@@ -17,14 +17,13 @@
         </a>
         <div class="right menu">
             <div class="item">
-                <form method="get" action="{% url 'haystack_search' %}">
+                <form class="search-form" method="get" action="{% url 'haystack_search' %}">
                     <div class="ui search">
-                      <div class="ui icon input">
-                          <label for="id_q"></label>
-                        <input class="prompt" type="text" placeholder="Search..." id="id_q" name="q">
-                        <i class="search icon"></i>
-                      </div>
-                      <div class="results"></div>
+                        <div class="ui icon input">
+                            <input class="prompt" type="text" value="{{ request.GET.q }}" placeholder="Search..." name="q">
+                            <i class="search icon"></i>
+                        </div>
+                        <div class="results"></div>
                     </div>
                 </form>
             </div>

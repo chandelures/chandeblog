@@ -61,3 +61,16 @@ class AjaxAvatarChangeView(View):
             return JsonResponse({'success': True})
         else:
             return JsonResponse({'success': False})
+
+
+class SearchRepositoriesView(View):
+    def get(self, request):
+        # if request.is_ajax():
+        q = request.GET.get('q')
+        posts = Post.objects.all()
+        data = {"success": True, "results": []}
+        for post in posts:
+            data.get("results").append({
+                "title": q,
+            })
+        return JsonResponse(data)

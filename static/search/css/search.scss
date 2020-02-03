@@ -1,0 +1,76 @@
+@import "../../blog/css/base.scss";
+@import "../../blog/css/highlight.scss";
+@import "../../blog/css/footer.scss";
+@import "../../blog/css/menu.scss";
+
+//Hide Header
+header {
+  display: none;
+}
+
+span.highlighted {
+  color: $highlight-red;
+}
+
+.search.row {
+  margin-top: $margin-5*3 !important;
+
+  .ui.input {
+    width: 100%;
+  }
+
+  .ui.header.dividing {
+    margin-top: $margin-4;
+  }
+
+  margin-bottom: $margin-6;
+}
+
+.result {
+  line-break: inherit;
+
+  .ui.header {
+    a {
+      color: black;
+      &:hover {
+        color: $blue
+      }
+    }
+  }
+
+  .content {
+    line-height: 1.5;
+  }
+
+  .extra {
+    color: grey;
+    font-weight: lighter;
+    margin-top: $margin-1;
+    font-size: small;
+
+    span {
+      margin-right: $margin-1;
+    }
+  }
+}
+
+.empty {
+  text-align: center;
+
+  div.icon {
+    margin-top: $margin-4;
+    font-size: xx-large;
+    color: grey;
+  }
+
+  div.content {
+    margin-top: $margin-3;
+    font-weight: normal;
+    font-size: large;
+  }
+}
+
+.paginator {
+  margin-top: $margin-4;
+  text-align: center;
+}

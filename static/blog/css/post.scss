@@ -11,7 +11,6 @@ header {
 //Post
 .post {
   margin-top: $margin-5*3!important;
-  min-height: 500px;
 
   @media screen and (max-width: $screen-lg) {
     margin-top: $margin-5*2.8 !important;

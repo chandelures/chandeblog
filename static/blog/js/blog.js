@@ -105,7 +105,7 @@
         }
     };
 
-    blog.ready.post = function () {
+    blog.ready.post = function  () {
         var
             $toc = $(".toc"),
             $sticky = $(".ui.sticky"),

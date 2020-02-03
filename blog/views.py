@@ -6,12 +6,19 @@ from django.utils.formats import date_format
 
 from blog.models import Post
 from comment.models import Comment
+from haystack.forms import ModelSearchForm
 import markdown
 
 
 class IndexView(generic.TemplateView):
     """主页"""
     template_name = 'blog/index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data()
+        search_form = ModelSearchForm(self.request.GET)
+        context['search_form'] = search_form
+        return context
 
 
 class PostView(generic.DetailView):
@@ -27,8 +34,10 @@ class PostView(generic.DetailView):
         context = super(PostView, self).get_context_data(**kwargs)
         comments = Comment.objects.filter(post=self.object)
         recent_post_list = Post.objects.public()[:10]
+        search_form = ModelSearchForm(self.request.GET)
         context['recent_post_list'] = recent_post_list
         context['comments'] = comments
+        context['search_form'] = search_form
         return context
 
     def get(self, request, *args, **kwargs):
