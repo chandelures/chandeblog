@@ -69,7 +69,6 @@
             $search.each(function () {
                 $(this)
                     .search({
-                        maxResults: 3,
                         apiSettings: {
                             url: '/api/search/repositories?q={query}'
                         },

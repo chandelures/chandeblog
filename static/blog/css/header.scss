@@ -52,6 +52,27 @@ header {
     }
   }
 
+  .right.item {
+    padding-bottom: 0 !important;
+  }
+
+  .ui.dropdown.item {
+    padding: 0 !important;
+
+    &.active {
+      border-color: transparent!important;
+    }
+
+    .menu {
+      min-width: 150px!important;
+
+      a.item {
+        text-decoration: none!important;
+      }
+    }
+  }
+
+
   .ui.button {
     margin-left: $margin-2 !important;
     @media screen and (max-width: $screen-md) {

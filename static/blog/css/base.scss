@@ -8,6 +8,11 @@ body, html {
   display: none;
 }
 
+.ui.avatar {
+  width: 35px;
+  height: 35px;
+}
+
 button:focus,
 button:active:focus,
 button.active:focus,
@@ -26,4 +31,5 @@ button.active.focus,
 
 .pusher {
   min-height: 100%;
+  margin-bottom:$margin-4;
 }

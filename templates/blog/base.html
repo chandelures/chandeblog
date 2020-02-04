@@ -41,9 +41,8 @@
         {% endif %}
     </div>
 {% endblock sidebar %}
-
+{% include 'blog/header.html' %}
 <div class="pusher">
-    {% include 'blog/header.html' %}
     {% block content %}
     {% endblock content %}
     {% block extra %}

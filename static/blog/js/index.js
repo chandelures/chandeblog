@@ -78,12 +78,18 @@
             $toUpButton = $("#toUp"),
             $fixMenu = $('.ui.fixed.menu'),
             $masthead = $("header.masthead"),
+            $dropdownItem = $('.ui.menu .ui.dropdown'),
             $loadPostListButton = $("#loadPostListButton");
 
         //顶部导航栏
         $fixMenu
             .addClass("hidden")
         ;
+
+        $dropdownItem.dropdown({
+            on: 'hover'
+        });
+
         $masthead
             .visibility({
                 once: false,
@@ -99,7 +105,6 @@
         blog.handler.loadPostList($loadPostListButton, 5);
 
         blog.handler.toUp($toUpButton);
-
     };
 
     blog.bootstrap();
