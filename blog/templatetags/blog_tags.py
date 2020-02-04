@@ -48,3 +48,8 @@ def get_descriptions(text):
 @register.simple_tag
 def get_setting_value(name):
     return getattr(settings, name, "")
+
+
+@register.simple_tag
+def sort_posts_in_column(posts):
+    return posts.order_by("column_position")
