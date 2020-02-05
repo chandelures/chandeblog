@@ -1,36 +1,4 @@
 {% load static %}
-<!-- Following Menu -->
-<div class="ui large top fixed menu">
-    <div class="ui container">
-        <div class="item">
-            <div class="ui logo shape">
-                <div class="sides">
-                    <div class="active ui side">
-                        <img class="ui image" src="{% static 'img/logo.png' %}">
-                    </div>
-                </div>
-            </div>
-        </div>
-        <a class="expand item">
-            <i class="sidebar icon"></i>
-            <b>菜单</b>
-        </a>
-        <div class="right menu">
-            <div class="item">
-                <form class="search-form" method="get" action="{% url 'haystack_search' %}">
-                    <div class="ui search">
-                        <div class="ui icon input">
-                            <input class="prompt" type="text" value="{{ request.GET.q }}" placeholder="Search..."
-                                   name="q">
-                            <i class="search icon"></i>
-                        </div>
-                        <div class="results"></div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
 <header class="ui inverted vertical masthead center aligned segment">
     <div class="ui container">
         <div class="ui large secondary inverted pointing menu">
@@ -69,30 +37,7 @@
             <h1 class="ui inverted header">
                 Chandelure's Blog
             </h1>
+            <h3>Do whatever you want when you want to.</h3>
         </div>
     </div>
 </header>
-{#<header class="masthead">#}
-{#    <div class="ui menu inverted">#}
-{#        <div class="ui container">#}
-{#            <div class="header item">Chandelure's Blog</div>#}
-{#            <a class="active item">主页</a>#}
-{#            <a class="item">专栏</a>#}
-{#            <div class="right menu">#}
-{#                <div class="ui dropdown item">#}
-{#                我的信息#}
-{#                <i class="dropdown icon"></i>#}
-{#                <div class="menu transition hidden">#}
-{#                    <div class="item">Action</div>#}
-{#                    <div class="item">Another Action</div>#}
-{#                    <div class="item">Something else here</div>#}
-{#                    <div class="divider"></div>#}
-{#                    <div class="item">Separated Link</div>#}
-{#                    <div class="divider"></div>#}
-{#                    <div class="item">One more separated link</div>#}
-{#                </div>#}
-{#            </div>#}
-{#            </div>#}
-{#        </div>#}
-{#    </div>#}
-{#</header>#}

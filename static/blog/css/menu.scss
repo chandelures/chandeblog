@@ -19,6 +19,12 @@
     }
   }
 
+  .expand.item {
+    @media screen and (max-width: $screen-md) {
+      padding-left: 0 !important;
+    }
+  }
+
   .ui.input {
     @media screen and (max-width: $screen-sm) {
       display: none;

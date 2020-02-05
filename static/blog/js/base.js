@@ -82,11 +82,13 @@
             if (!(blog.handler.isIE()))
                 $sidebar
                     .sidebar('setting', 'transition', 'overlay')
+                    .sidebar('setting', 'mobileTransition', 'overlay')
                     .sidebar('attach events', '.expand.item')
                 ;
             else
                 $sidebar
                     .sidebar('setting', 'transition', 'overlay')
+                    .sidebar('setting', 'mobileTransition', 'overlay')
                     .sidebar('setting', 'dimPage', false)
                     .sidebar('attach events', '.expand.item')
                 ;

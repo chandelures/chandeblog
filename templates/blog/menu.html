@@ -1,0 +1,32 @@
+{% load static %}
+<div class="ui large top fixed menu">
+    <div class="ui container">
+        <div class="item">
+            <div class="ui logo shape">
+                <div class="sides">
+                    <div class="active ui side">
+                        <img class="ui image" src="{% static 'img/logo.png' %}">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a class="expand item">
+            <i class="sidebar icon"></i>
+            <b>菜单</b>
+        </a>
+        <div class="right menu">
+            <div class="item">
+                <form class="search-form" method="get" action="{% url 'haystack_search' %}">
+                    <div class="ui search">
+                        <div class="ui icon input">
+                            <input class="prompt" type="text" value="{{ request.GET.q }}" placeholder="Search..."
+                                   name="q">
+                            <i class="search icon"></i>
+                        </div>
+                        <div class="results"></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
