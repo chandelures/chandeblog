@@ -2,12 +2,6 @@
     "use strict";
 
     $.extend(blog.handler, {
-        //将指定标签变为激活状态
-        activeAnchor: function ($header) {
-            var id = $header.attr("id");
-            return $("[href='#" + id + "']").addClass("active");
-        },
-
         //初始化目录
         initToc: function ($toc) {
             var
@@ -26,39 +20,40 @@
                     e = e || window.event;
                     e.preventDefault();
                     var target = $(this).prop('hash');
-                    $('html,body').scrollTop($(target).offset().top - offset + 2);
+                    $('html,body').animate({scrollTop: $(target).offset().top - offset + 1})
                 })
             ;
         },
 
         //实现滚动目录
-        scollToc: function ($content) {
+        scollToc: function ($content, offset=75) {
             var
-                $window = $(window),
-                $h = $content.find("h2,h3"),
-                offset = 75,
-                activeH2 = $("body"),
-                activeH3 = activeH2;
-            $(window)
-                .scroll(function () {
-                    $h.each(function () {
-                            var $this = $(this),
-                                offsetTop = $this.offset().top - offset;
-                            if ($window.scrollTop() > offsetTop) {
-                                if (this.tagName === "H2") {
-                                    activeH2.removeClass("active");
-                                    activeH3.removeClass("active");
-                                    activeH2 = blog.handler.activeAnchor($this);
-                                    return true;
+                $h = $content.find("h2, h3");
 
-                                } else if (this.tagName === "H3") {
-                                    activeH3.removeClass("active");
-                                    activeH3 = blog.handler.activeAnchor($this);
-                                    return true;
-                                }
-                            }
+            var
+                $activeH2 = $h.first(),
+                $activeH3 = $activeH2;
+
+            $h
+                .visibility({
+                    offset: offset,
+                    once: false,
+                    observeChanges: false,
+                    onTopPassed: function () {
+                        if (this.tagName === 'H2') {
+                            $activeH2.removeClass('active');
+                            $activeH3.removeClass('active');
+                            $activeH2 = $("[href='#" + $(this).attr("id") + "']").addClass("active");
+                        } else if (this.tagName === 'H3') {
+                            $activeH3.removeClass('active');
+                            $activeH3 = $("[href='#" + $(this).attr("id") + "']").addClass("active");
                         }
-                    );
+                    },
+                    onBottomPassedReverse: function () {
+                        $activeH2.removeClass('active');
+                        $activeH3.removeClass('active');
+                        $activeH2 = $("[href='#" + $(this).attr("id") + "']").addClass("active");
+                    },
                 })
             ;
         },
@@ -105,7 +100,7 @@
         }
     };
 
-    blog.ready.post = function  () {
+    blog.ready.post = function () {
         var
             $toc = $(".toc"),
             $sticky = $(".ui.sticky"),
@@ -115,16 +110,19 @@
             $commentModal = $(".ui.modal"),
             $toUpButton = $("#toUp");
 
+        var
+            offset = 75;
+
         blog.handler.toUp($toUpButton);
 
         blog.handler.initToc($toc);
 
-        if (!(blog.handler.isIE())) blog.handler.scollToc($postContent);
+        blog.handler.scollToc($postContent, 75);
 
         $sticky
             .sticky({
                 silent: true,
-                offset: 75,
+                offset: offset,
                 context: '#post'
             })
         ;
