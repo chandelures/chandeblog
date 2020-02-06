@@ -3,8 +3,10 @@
 //Footer Style
 footer.segment {
   background-color: transparent;
-  margin: 0!important;
+  margin: 0 !important;
   padding: $padding-4 0 !important;
+  border: 0!important;
+  border-radius: 0!important;
   border-top: 1px solid $border-grey !important;
 
   h2 {

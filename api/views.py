@@ -6,6 +6,7 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 
 import markdown
+import os
 
 from blog.models import Post
 from haystack.forms import ModelSearchForm
@@ -53,13 +54,18 @@ class AjaxAvatarChangeView(View):
     @method_decorator(login_required)
     def post(self, request):
         if request.is_ajax():
-            avatar_file = request.FILES['avatar']
             user = request.user
-            if user.avatar.name != 'avatar/default.png':
-                user.avatar.delete(save=False)
-            user.avatar = avatar_file
-            user.save()
-            return JsonResponse({'success': True})
+            avatar_file = request.FILES['avatar']
+            file_type = os.path.splitext(avatar_file.name)[1]
+            print(file_type)
+            for valid_type in ['.png', '.jpg', '.jpeg']:
+                if valid_type == file_type:
+                    if user.avatar.name != 'avatar/default.png':
+                        user.avatar.delete(save=False)
+                    user.avatar = avatar_file
+                    user.save()
+                    return JsonResponse({'success': True})
+            return JsonResponse({'success': False, 'message': '文件类型错误'})
         else:
             return JsonResponse({'success': False})
 

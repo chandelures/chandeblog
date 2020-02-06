@@ -15,4 +15,10 @@ header {
     font-weight: lighter;
     margin-bottom: $margin-1;
   }
+
+  .ui.error.message {
+    .header {
+      margin-bottom: $margin-1;
+    }
+  }
 }

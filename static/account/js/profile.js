@@ -8,15 +8,20 @@
                 if (avatar) {
                     let data = new FormData($avatarChangeForm[0]);
                     $.ajax({
-                        url: "/api/changeavatar/",
-                        type: "POST",
+                        url: "/api/change/avatar/",
+                        type: "post",
                         data: data,
                         processData: false,
                         contentType: false,
                         dataType: "json",
                         success: function (data, status) {
-                            window.location.reload();
-                        }
+                            if (data['success'] === true) {
+                                // alert("更改头像成功");
+                                window.location.reload();
+                            } else {
+                                alert("更改头像失败")
+                            }
+                        },
                     });
                 }
             });

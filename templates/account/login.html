@@ -28,14 +28,15 @@
             </div>
             <div class="ui segment attached tab active" data-tab="normal">
                 <div class="column">
-                    <form class="ui form {% if form.errors %}error{% endif %}" method="POST"
+                    <form class="ui form {% if form.errors %}error{% endif %}" method="post"
                           action="{% url 'account_login' %}">
                         {% csrf_token %}
-                        {% for k,v in form.errors.items %}
-                            <div class="ui error message">
-                                <p>{{ v.0 }}</p>
-                            </div>
-                        {% endfor %}
+                        <div class="ui error message">
+                            <div class="header">请更正下列错误</div>
+                            {% for k,v in form.errors.items %}
+                                <div class="item">{{ v.0 }}</div>
+                            {% endfor %}
+                        </div>
                         <div class="field">
                             <label for="{{ form.login.id_for_label }}"></label>
                             <div class="ui left icon input">
