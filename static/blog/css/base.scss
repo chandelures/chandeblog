@@ -2,6 +2,10 @@
 
 body, html {
   background-color: white;
+
+  &.dimmed {
+    overflow-y: scroll !important;
+  }
 }
 
 .pusher {

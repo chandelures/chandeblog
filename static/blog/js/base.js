@@ -46,17 +46,44 @@
 
         },
 
+        setBodyWidth: function () {
+            console.log("test");
+            var barWidthHelper = document.createElement('div');
+            barWidthHelper.style.cssText = "overflow:scroll; width:100px; height:100px;";
+            document.body.appendChild(barWidthHelper);
+            var barWidth = barWidthHelper.offsetWidth - barWidthHelper.clientWidth;
+            document.body.removeChild(barWidthHelper);
+            var bodyWidth = window.screen.availWidth - barWidth;
+            $("body").css("width", bodyWidth + 'px');
+        },
+
         //渲染代码块
         initHighlighting: function () {
             hljs.initHighlightingOnLoad();
         },
 
         //注销
-        logout: function ($button) {
+        logout: function ($button, $modal) {
             $button.on("click", function () {
-                $button.next("form").find("button[type=submit]").click();
+                $modal
+                    .modal('show')
+                    .find('.ui.ok')
+                    .click(function () {
+                        $button
+                            .next("form")
+                            .find("button[type=submit]")
+                            .click()
+                        ;
+                    })
+                ;
             });
         },
+    };
+
+    blog.before = {
+        base: function () {
+
+        }
     };
 
     blog.ready = {
@@ -64,7 +91,8 @@
             var
                 $sidebar = $(".ui.sidebar"),
                 $search = $(".ui.search"),
-                $logoutButton = $('.logout');
+                $logoutModal = $('.ui.modal.logout'),
+                $logoutButton = $('.item.logout');
 
             $search.each(function () {
                 $(this)
@@ -93,7 +121,14 @@
                     .sidebar('attach events', '.expand.item')
                 ;
 
-            blog.handler.logout($logoutButton);
+            blog.handler.logout($logoutButton, $logoutModal);
+
+
+            function setBodyWidth() {
+
+            }
+
+
         }
     };
 

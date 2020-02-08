@@ -18,6 +18,24 @@
                         <div class="item" onclick="window.location.href='{% url "account_change_password" %}'">修改密码
                         </div>
                         <div class="item logout">注销</div>
+                        <div class="ui basic modal logout">
+                            <div class="ui icon header">
+                                <i class="trash icon"></i>
+                                确认要注销吗 ？
+                            </div>
+                            <div class="content">
+                            </div>
+                            <div class="actions">
+                                <div class="ui red basic cancel inverted button">
+                                    <i class="remove icon"></i>
+                                    取消
+                                </div>
+                                <div class="ui green ok inverted button">
+                                    <i class="checkmark icon"></i>
+                                    确认
+                                </div>
+                            </div>
+                        </div>
                         <form method="post" class="ui hidden" action="{% url 'account_logout' %}">
                             {% csrf_token %}
                             <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
