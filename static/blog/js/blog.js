@@ -83,8 +83,14 @@
                                 action = "/comment/post-comment/" + postId + "/" + parentCommentId,
                                 modal = $(this);
 
-                            modal.find("form").attr("action", action);
-                            modal.find('.header').text(modalTitleText);
+                            modal
+                                .find("form")
+                                .attr("action", action);
+
+                            modal
+                                .find('.header')
+                                .text(modalTitleText);
+
                             if (modal.find(".cke").length === 0)
                                 blog.handler.initTextarea(modal.find("textarea"));
                         },
@@ -107,7 +113,7 @@
             $postContent = $("#postContent"),
             $commentBodyTextarea = $("#comment_body"),
             $commentReply = $(".reply"),
-            $commentModal = $(".ui.modal"),
+            $commentModal = $(".ui.modal.comment-modal"),
             $toUpButton = $("#toUp");
 
         var
