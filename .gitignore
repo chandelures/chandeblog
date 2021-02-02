@@ -1,0 +1,16 @@
+# Virtualenv 
+venv/
+
+# Editor
+.vscode/
+
+# Pycache
+__pycache__/
+*.pyc
+
+# Django
+*.sqlite3
+media/
+
+# Config
+config.py
