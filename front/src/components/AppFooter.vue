@@ -1,0 +1,13 @@
+<template>
+  <v-footer app padless dark color="green darken-2">
+    <v-container>
+      <v-col class="text-center" cols="12">CopyRight © 2021 Chandelure </v-col>
+    </v-container>
+  </v-footer>
+</template>
+
+<script>
+export default {
+  name: "AppFooter",
+};
+</script>
