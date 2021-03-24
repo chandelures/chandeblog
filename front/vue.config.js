@@ -1,7 +1,23 @@
 module.exports = {
-  assetsDir: 'static',
+  assetsDir: "static",
 
-  transpileDependencies: [
-    'vuetify'
-  ]
-}
+  transpileDependencies: ["vuetify"],
+
+  configureWebpack: {
+    devServer: {
+      host: "0.0.0.0",
+      port: 8080,
+      https: false,
+      proxy: {
+        "/api": {
+          target: "http://127.0.0.1:8000",
+          changeOrigin: true,
+          secure: false,
+          pathRewrite: {
+            "^/api": "/",
+          },
+        },
+      },
+    },
+  },
+};
