@@ -1,0 +1,170 @@
+.markdown-body {
+  img {
+    max-width: 100%;
+    vertical-align: middle;
+    image-orientation: from-image;
+  }
+  button,
+  input,
+  select,
+  textarea {
+    font-size: inherit;
+    color: inherit;
+    font: inherit;
+  }
+  p {
+    font-size: 18px;
+    line-height: 30px;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    page-break-after: avoid;
+    break-after: avoid-page;
+    page-break-inside: avoid;
+    orphans: 4;
+  }
+  p {
+    orphans: 4;
+  }
+  h1 {
+    font-size: 2rem;
+  }
+  h2 {
+    font-size: 1.8rem;
+  }
+  h3 {
+    font-size: 1.6rem;
+  }
+  h4 {
+    font-size: 1.4rem;
+  }
+  h5 {
+    font-size: 1.2rem;
+  }
+  h6 {
+    font-size: 1rem;
+  }
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+  a {
+    color: #2e7d32 !important;
+    cursor: pointer;
+  }
+  a,
+  p,
+  tr,
+  li {
+    font-family: Cambria, "Times New Roman", Times, serif;
+  }
+  figure {
+    overflow-x: auto;
+    margin: 0;
+    max-width: calc(100% + 16px);
+    padding: 0;
+    margin-left: 0;
+    margin-top: 1.2em;
+    margin-bottom: 1.2em;
+  }
+  figure > table {
+    margin: 0;
+  }
+  tr {
+    page-break-inside: avoid;
+    page-break-after: auto;
+  }
+  thead {
+    display: table-header-group;
+  }
+  table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    overflow: auto;
+    page-break-inside: auto;
+    text-align: left;
+  }
+  td {
+    min-width: 32px;
+  }
+  li div {
+    padding-top: 0;
+  }
+  blockquote {
+    padding-left: 1rem;
+    margin: 1rem 0;
+    box-shadow: rgb(41 41 41) 2px 0px 0px 0px inset;
+    font-style: italic;
+  }
+  li p {
+    margin: 0.5rem 0;
+  }
+  li blockquote {
+    margin: 1rem 0;
+  }
+  li {
+    margin: 0;
+    position: relative;
+  }
+  blockquote > :last-child {
+    margin-bottom: 0;
+  }
+  blockquote > :first-child,
+  li > :first-child {
+    margin-top: 0;
+  }
+  kbd {
+    margin: 0 0.1em;
+    padding: 0.1em 0.6em;
+    font-size: 0.8em;
+    color: #242729;
+    background: #fff;
+    border: 1px solid #adb3b9;
+    border-radius: 3px;
+    box-shadow: 0 1px 0 rgba(12, 13, 14, 0.2), 0 0 0 2px #fff inset;
+    white-space: nowrap;
+    vertical-align: middle;
+  }
+  code {
+    text-align: left;
+    vertical-align: initial;
+  }
+  p code {
+    padding: 0.2em 0.4em;
+    color: #2e7d32 !important;
+  }
+  pre code {
+    padding: 0.6em !important;
+  }
+  table tr th {
+    border-bottom: 0;
+  }
+  video {
+    max-width: 100%;
+    display: block;
+    margin: 0 auto;
+  }
+  iframe {
+    max-width: 100%;
+    width: 100%;
+    border: none;
+  }
+  mark {
+    background: #ff0;
+    color: #000;
+  }
+  mark strong {
+    color: inherit;
+  }
+}

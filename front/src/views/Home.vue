@@ -17,7 +17,7 @@
           <v-pagination
             v-if="count > 1"
             class="mt-12"
-            color="green darken-1"
+            color="green darken-3"
             v-model="page"
             :length="Math.ceil(count / size)"
             :total-visible="7"
@@ -31,6 +31,8 @@
 
 <script>
 import ArticlePre from "../components/ArticlePre.vue";
+import "../assets/style/markdown.scss";
+import "highlight.js/styles/default.css";
 
 export default {
   name: "Home",
