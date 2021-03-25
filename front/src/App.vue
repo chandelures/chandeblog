@@ -3,7 +3,7 @@
     <app-bar></app-bar>
 
     <v-main background-color="grey lighten-3">
-        <router-view> </router-view>
+      <router-view> </router-view>
     </v-main>
 
     <app-footer></app-footer>
@@ -25,3 +25,5 @@ export default {
   data: () => ({}),
 };
 </script>
+
+<style></style>

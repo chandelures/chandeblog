@@ -14,6 +14,8 @@
 
 <script>
 import ArticleDetail from "../components/ArticleDetail.vue";
+import "../assets/style/markdown.scss";
+import "highlight.js/styles/default.css";
 
 export default {
   name: "Article",

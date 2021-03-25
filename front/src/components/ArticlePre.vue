@@ -1,6 +1,11 @@
 <template>
   <div>
-    <div class="text-h5 text-md-h4 font-weight-black mb-6">
+    <div class="text-body-2 mb-4">
+      <span class="grey--text text--darken-2">
+        {{ created | formatDate }}
+      </span>
+    </div>
+    <div class="text-h5 text-md-h4 font-weight-black mb-4">
       <router-link
         class="black--text text-decoration-none"
         :to="'/articles/' + slug"
@@ -20,7 +25,7 @@
 <script>
 export default {
   name: "ArticlePre",
-  props: ["title", "abstract", "slug"],
+  props: ["title", "abstract", "slug", "created"],
   computed: {
     markdownAbstract() {
       return this.$marked(this.abstract);
