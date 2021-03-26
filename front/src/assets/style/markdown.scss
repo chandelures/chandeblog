@@ -1,21 +1,24 @@
 .markdown-body {
+  // Base
+  p,
+  blockquote,
+  table,
+  ol,
+  ul,
+  dl,
+  table {
+    font-family: charter, Georgia, Cambria, "Times New Roman", Times, serif;
+    margin: 0.8rem 0;
+  }
+
+  // Images
   img {
     max-width: 100%;
     vertical-align: middle;
     image-orientation: from-image;
   }
-  button,
-  input,
-  select,
-  textarea {
-    font-size: inherit;
-    color: inherit;
-    font: inherit;
-  }
-  p {
-    font-size: 18px;
-    line-height: 30px;
-  }
+
+  // Headers
   h1,
   h2,
   h3,
@@ -26,9 +29,7 @@
     break-after: avoid-page;
     page-break-inside: avoid;
     orphans: 4;
-  }
-  p {
-    orphans: 4;
+    margin: 1rem 0;
   }
   h1 {
     font-size: 2rem;
@@ -48,45 +49,21 @@
   h6 {
     font-size: 1rem;
   }
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6,
+
+  // Paragraph
   p {
-    margin-top: 1rem;
-    margin-bottom: 1rem;
+    font-size: 18px;
+    line-height: 30px;
+    orphans: 4;
   }
+
+  // Link
   a {
     color: #2e7d32 !important;
     cursor: pointer;
   }
-  a,
-  p,
-  tr,
-  li {
-    font-family: Cambria, "Times New Roman", Times, serif;
-  }
-  figure {
-    overflow-x: auto;
-    margin: 0;
-    max-width: calc(100% + 16px);
-    padding: 0;
-    margin-left: 0;
-    margin-top: 1.2em;
-    margin-bottom: 1.2em;
-  }
-  figure > table {
-    margin: 0;
-  }
-  tr {
-    page-break-inside: avoid;
-    page-break-after: auto;
-  }
-  thead {
-    display: table-header-group;
-  }
+
+  // Table
   table {
     border-collapse: collapse;
     border-spacing: 0;
@@ -95,34 +72,79 @@
     page-break-inside: auto;
     text-align: left;
   }
+  table th {
+    font-weight: bold;
+  }
+  table th,
+  table td {
+    border: 1px solid #ccc;
+    padding: 6px 13px;
+  }
+  table tr {
+    border-top: 1px solid #ccc;
+    background-color: #fff;
+  }
+  table tr:nth-child(2n) {
+    background-color: #f8f8f8;
+  }
+  tr {
+    page-break-inside: avoid;
+    page-break-after: auto;
+  }
+  thead {
+    display: table-header-group;
+  }
   td {
     min-width: 32px;
   }
+  table tr th {
+    border-bottom: 0;
+  }
+
+  // Blockquote
+  blockquote {
+    padding-left: 1rem;
+    box-shadow: #2e7d32 2px 0px 0px 0px inset;
+    color: grey;
+  }
+  blockquote > :last-child {
+    margin-bottom: 0;
+  }
+  blockquote > :first-child {
+    margin-top: 0;
+  }
+
+  // List
   li div {
     padding-top: 0;
   }
-  blockquote {
-    padding-left: 1rem;
-    margin: 1rem 0;
-    box-shadow: rgb(41 41 41) 2px 0px 0px 0px inset;
-    font-style: italic;
-  }
   li p {
     margin: 0.5rem 0;
-  }
-  li blockquote {
-    margin: 1rem 0;
   }
   li {
     margin: 0;
     position: relative;
   }
-  blockquote > :last-child {
-    margin-bottom: 0;
-  }
-  blockquote > :first-child,
   li > :first-child {
     margin-top: 0;
+  }
+
+  // Code
+  pre {
+    margin: 0.8rem 0;
+  }
+  code {
+    font-family: Consolas, "Liberation Mono", Courier, monospace;
+    font-size: 90%;
+    text-align: left;
+    vertical-align: initial;
+  }
+  p code {
+    padding: 0.2em 0.4em;
+    color: #2e7d32 !important;
+  }
+  pre code {
+    padding: 0.6em !important;
   }
   kbd {
     margin: 0 0.1em;
@@ -136,35 +158,9 @@
     white-space: nowrap;
     vertical-align: middle;
   }
-  code {
-    text-align: left;
-    vertical-align: initial;
-  }
-  p code {
-    padding: 0.2em 0.4em;
-    color: #2e7d32 !important;
-  }
-  pre code {
-    padding: 0.6em !important;
-  }
-  table tr th {
-    border-bottom: 0;
-  }
-  video {
-    max-width: 100%;
-    display: block;
-    margin: 0 auto;
-  }
-  iframe {
-    max-width: 100%;
-    width: 100%;
-    border: none;
-  }
-  mark {
-    background: #ff0;
-    color: #000;
-  }
-  mark strong {
-    color: inherit;
+
+  // Horiztal
+  hr {
+    margin: 1rem 0;
   }
 }
