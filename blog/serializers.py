@@ -8,27 +8,23 @@ class CategorySerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Category
-        fields = ('url', 'slug', 'name', 'articles', 'created')
-        extra_kwargs = {
-            'url': {'view_name': 'blog:category-detail', 'lookup_field': 'slug'}
-        }
+        fields = ('slug', 'name', 'articles', 'created')
 
 
-class ArticleListSerializer(serializers.HyperlinkedModelSerializer):
+class ArticleListSerializer(serializers.ModelSerializer):
     category = serializers.ReadOnlyField(source='category.name')
+    author = serializers.ReadOnlyField(source='author.username')
 
     class Meta:
         model = Article
-        fields = ('url', 'slug', 'id', 'title', 'created',
+        fields = ('slug', 'id', 'title', 'created', 'author',
                   'category', 'abstract', 'views')
-        extra_kwargs = {
-            'url': {'view_name': 'blog:article-detail', 'lookup_field': 'slug'}
-        }
 
 
 class ArticleDetailSerializer(serializers.ModelSerializer):
-    category_name = serializers.ReadOnlyField(source='category.name')
+    category = serializers.ReadOnlyField(source='category.name')
+    author = serializers.ReadOnlyField(source='author.username')
 
     class Meta:
         model = Article
-        fields = '__all__'
+        fields = ('slug', 'id', 'title', 'created', 'author', 'category', 'views', 'content')

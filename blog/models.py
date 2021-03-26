@@ -1,5 +1,6 @@
 from django.db import models
 from django.shortcuts import reverse
+from django.contrib.auth import get_user_model
 
 from uuslug import slugify
 
@@ -22,12 +23,13 @@ class Article(models.Model):
     updated = models.DateTimeField(auto_now=True, editable=False)
     slug = models.SlugField(editable=False, unique=True)
     title = models.CharField(max_length=100, unique=True)
+    author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     abstract = models.TextField()
     content = models.TextField()
     category = models.ForeignKey(
         Category,
-        blank=True,
-        on_delete=models.CASCADE,
+        null=True,
+        on_delete=models.SET_NULL,
         related_name='articles'
     )
     views = models.PositiveIntegerField(default=0, editable=False)
