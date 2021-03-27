@@ -21,7 +21,7 @@ class Category(models.Model):
 class Article(models.Model):
     created = models.DateTimeField(auto_now_add=True, editable=False)
     updated = models.DateTimeField(auto_now=True, editable=False)
-    slug = models.SlugField(editable=False, unique=True)
+    slug = models.SlugField(editable=False, max_length=200)
     title = models.CharField(max_length=100, unique=True)
     author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     abstract = models.TextField()
