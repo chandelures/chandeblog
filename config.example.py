@@ -13,6 +13,16 @@ settings = {
         "ALLOWED_HOSTS": ['127.0.0.1'],
         "CORS_ORIGIN_ALLOW_ALL": False,
         "CORS_ORIGIN_WHITELIST": [],
+        "DATABASES": {
+            'default': {
+                'ENGINE': 'django.db.backends.mysql',
+                'NAME': 'blog',
+                'USER': 'xxx',
+                'PASSWORD': 'xxx',
+                'HOST': 'localhost',
+                'PORT': '3306',
+            }
+        }
     },
 
     # develop env settings
@@ -20,6 +30,12 @@ settings = {
         "DEBUG": True,
         "ALLOWED_HOSTS": ['*'],
         "CORS_ORIGIN_ALLOW_ALL": True,
+        "DATABASES": {
+            'default': {
+                'ENGINE': 'django.db.backends.sqlite3',
+                'NAME': BASE_DIR / 'db.sqlite3',
+            }
+        }
     },
 }
 
