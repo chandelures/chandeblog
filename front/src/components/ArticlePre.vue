@@ -26,6 +26,12 @@
 export default {
   name: "ArticlePre",
   props: ["title", "abstract", "slug", "created"],
+  props: {
+    title: String,
+    abstract: String,
+    slug: String,
+    created: String,
+  },
   computed: {
     markdownAbstract() {
       return this.$marked(this.abstract);

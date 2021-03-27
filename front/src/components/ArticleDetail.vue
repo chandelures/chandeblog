@@ -13,7 +13,11 @@
 <script>
 export default {
   name: "ArticleDetail",
-  props: ["title", "content", "created"],
+  props: {
+    title: String,
+    content: String,
+    created: String,
+  },
   computed: {
     markdownContent() {
       return this.$marked(this.content);
