@@ -1,5 +1,6 @@
 <template>
-  <v-responsive v-if="!isLoad" :min-height="pageHeight"> </v-responsive>
+  <v-responsive v-if="!isLoad" :min-height="pageHeight" @mousewheel.prevent>
+  </v-responsive>
 </template>
 
 <script>

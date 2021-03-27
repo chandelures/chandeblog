@@ -8,7 +8,7 @@
     <v-container>
       <v-row>
         <v-col cols="12" class="d-flex justify-center align-center">
-          <div class="mr-6">
+          <div class="mr-6 d-none d-md-flex">
             <v-img
               alt="CLOG"
               src="../assets/img/logo.png"
@@ -16,7 +16,7 @@
               contain
             ></v-img>
           </div>
-          <div>CopyRight © 2021 Chandelure</div>
+          <div class="text-caption">CopyRight © 2021 Chandelure</div>
         </v-col>
       </v-row>
     </v-container>
