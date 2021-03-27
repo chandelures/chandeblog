@@ -47,6 +47,7 @@ if __name__ == '__main__':
             abstract='\n\n'.join(fake.paragraphs(3)),
             content='\n\n'.join(fake.paragraphs(10)),
             created=created,
+            author=user,
         )
 
     print('create a sample article')
@@ -55,7 +56,8 @@ if __name__ == '__main__':
         abstract='博客文章 Markdown 测试',
         content=Path(BASE_DIR).joinpath(
             'scripts', 'example.md').read_text(encoding='utf-8'),
-        category=Category.objects.create(name='Markdown测试')
+        category=Category.objects.create(name='Markdown测试'),
+        author=user,
     )
 
     print('done')
