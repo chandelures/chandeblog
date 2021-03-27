@@ -14,8 +14,8 @@
             <v-img alt="CBLOG" src="../assets/img/logo.png" width="100" contain>
             </v-img>
           </router-link>
-          <v-btn to="/" text plain> Home </v-btn>
-          <v-btn to="/about" text plain> About </v-btn>
+          <v-btn to="/" :ripple="false" text plain> Home </v-btn>
+          <v-btn to="/about" :ripple="false" text plain> About </v-btn>
           <v-spacer> </v-spacer>
         </v-col>
       </v-row>
