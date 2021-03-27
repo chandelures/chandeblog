@@ -27,10 +27,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = settings.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = settings.get('DEBUG')
+DEBUG = settings.get('DEBUG', False)
 
-ALLOWED_HOSTS = settings.get('ALLOWED_HOSTS')
-
+ALLOWED_HOSTS = settings.get('ALLOWED_HOSTS', ['localhost'])
 
 # Application definition
 
@@ -61,7 +60,6 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'chandeblog.urls'
 
-CORS_ORIGIN_ALLOW_ALL = settings.get("CORS_ORIGIN_ALLOW_ALL")
 
 TEMPLATES = [
     {
@@ -135,8 +133,15 @@ STATIC_ROOT = Path(BASE_DIR, 'static')
 
 # RSS config
 RSS_TITLE = 'chandeblog'
+
 RSS_DISCRIPTION = 'chandeblog 全部文章'
 
 # Media config
 MEDIA_URL = '/media/'
+
 MEDIA_ROOT = Path.joinpath(BASE_DIR, 'media/')
+
+# CORS config
+CORS_ORIGIN_ALLOW_ALL = settings.get("CORS_ORIGIN_ALLOW_ALL", False)
+
+CORS_ORIGIN_WHITELIST = settings.get("CORS_ORIGIN_WHITELIST", [])
