@@ -1,5 +1,10 @@
 <template>
-  <v-footer padless dark color="green darken-3 mt-10" min-height="70px">
+  <v-footer
+    padless
+    dark
+    color="green darken-3 mt-lg-10 mt-md-8 mt-sm-6 mt-4"
+    min-height="70px"
+  >
     <v-container>
       <v-row>
         <v-col cols="12" class="d-flex justify-center align-center">
