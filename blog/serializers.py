@@ -24,7 +24,9 @@ class ArticleListSerializer(serializers.ModelSerializer):
 class ArticleDetailSerializer(serializers.ModelSerializer):
     category = serializers.ReadOnlyField(source='category.name')
     author = serializers.ReadOnlyField(source='author.username')
+    avatar = serializers.ReadOnlyField(source='author.profile.avatar.url')
 
     class Meta:
         model = Article
-        fields = ('slug', 'id', 'title', 'created', 'author', 'category', 'views', 'content')
+        fields = ('slug', 'id', 'title', 'created',
+                  'author', 'avatar', 'category', 'views', 'content')

@@ -17,6 +17,30 @@ module.exports = {
             "^/api": "/",
           },
         },
+        "/media": {
+          target: "http://127.0.0.1:8000",
+          changeOrigin: true,
+          secure: false,
+          pathRewrite: {
+            "^/media": "/media",
+          },
+        },
+        "/admin": {
+          target: "http://127.0.0.1:8000",
+          changeOrigin: true,
+          secure: false,
+          pathRewrite: {
+            "^/admin": "/admin",
+          },
+        },
+        "/static": {
+          target: "http://127.0.0.1:8000",
+          changeOrigin: true,
+          secure: false,
+          pathRewrite: {
+            "^/static": "/static",
+          },
+        },
       },
     },
   },

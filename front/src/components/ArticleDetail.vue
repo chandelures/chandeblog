@@ -2,7 +2,9 @@
   <section v-if="content">
     <div class="text-h4 text-md-h3 font-weight-black mb-6" v-text="title"></div>
     <div class="text-body-2 mb-6">
-      <v-avatar color="grey" class="mr-3" size="30"></v-avatar>
+      <v-avatar class="mr-3" size="35">
+        <img alt="" :src="avatar" />
+      </v-avatar>
       <span class="green--text text--darken-3 mr-3">chandelure</span>
       <span class="grey--text text--darken-2">{{ created | formatDate }}</span>
     </div>
@@ -17,6 +19,7 @@ export default {
     title: String,
     content: String,
     created: String,
+    avatar: String,
   },
   computed: {
     markdownContent() {

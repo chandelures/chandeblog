@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'rest_framework',
 
     'blog',
+    'userprofile',
 ]
 
 MIDDLEWARE = [
@@ -135,3 +136,7 @@ STATIC_ROOT = Path(BASE_DIR, 'static')
 # RSS config
 RSS_TITLE = 'chandeblog'
 RSS_DISCRIPTION = 'chandeblog 全部文章'
+
+# Media config
+MEDIA_URL = '/media/'
+MEDIA_ROOT = Path.joinpath(BASE_DIR, 'media/')
