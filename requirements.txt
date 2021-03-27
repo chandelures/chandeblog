@@ -3,5 +3,7 @@ Pillow
 djangorestframework
 django-uuslug
 django-cors-headers
+pymysql
+gunicorn
 Faker
 Markdown
