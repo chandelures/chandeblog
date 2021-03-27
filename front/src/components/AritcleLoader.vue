@@ -1,7 +1,7 @@
 <template>
-  <v-responsive v-if="!isLoad" :min-height="pageHeight">
-    <v-skeleton-loader class="mb-6" type="heading"> </v-skeleton-loader>
-    <v-skeleton-loader class="mb-3" type="paragraph" v-for="i in 12" :key="i">
+  <v-responsive v-if="!isLoad" :min-height="pageHeight" @mousewheel.prevent>
+    <v-skeleton-loader class="mb-10" type="heading"> </v-skeleton-loader>
+    <v-skeleton-loader class="mb-4" type="paragraph" v-for="i in 12" :key="i">
     </v-skeleton-loader>
   </v-responsive>
 </template>
