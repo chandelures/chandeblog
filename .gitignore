@@ -15,3 +15,7 @@ media/
 
 # Config
 config.py
+
+# Front
+dist/
+dist.zip
