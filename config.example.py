@@ -1,6 +1,10 @@
 """Personal Config Example"""
 
+from pathlib import Path
+
 ENV = "dev"
+
+BASE_DIR = Path(__file__).resolve().parent
 
 base_settings = {
     'SECRET_KEY':  'examplesecretkey',
