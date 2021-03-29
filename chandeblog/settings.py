@@ -145,3 +145,11 @@ MEDIA_ROOT = Path.joinpath(BASE_DIR, 'dist/media/')
 CORS_ORIGIN_ALLOW_ALL = settings.get("CORS_ORIGIN_ALLOW_ALL", False)
 
 CORS_ORIGIN_WHITELIST = settings.get("CORS_ORIGIN_WHITELIST", [])
+
+# Rest Framework config
+
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': settings.get('DEFAULT_RENDERER_CLASSES', (
+        'rest_framework.renderers.JSONRenderer',
+    ))
+}
