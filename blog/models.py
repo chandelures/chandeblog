@@ -38,7 +38,7 @@ class Article(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse('api:article-detail', kwargs={'slug': self.slug})
+        return reverse('blog:article-detail', kwargs={'slug': self.slug})
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
