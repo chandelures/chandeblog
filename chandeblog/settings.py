@@ -227,3 +227,18 @@ elif config.ENV == 'dev':
             },
         },
     }
+
+# Email config
+EMAIL_HOST = settings.get('EMAIL_HOST', 'localhost')
+
+EMAIL_PORT = settings.get('EMAIL_PORT', 25)
+
+EMAIL_HOST_USER = settings.get('EMAIL_HOST_USER', '')
+
+EMAIL_HOST_PASSWORD = settings.get('EMAIL_HOST_PASSWORD', '')
+
+EMAIL_USE_TLS = settings.get('EMAIL_USE_TLS', False)
+
+EMAIL_USE_SSL = settings.get('EMAIL_USE_SSL', False)
+
+EMAIL_FROM = EMAIL_HOST
