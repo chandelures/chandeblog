@@ -1,8 +1,4 @@
-from rest_framework.reverse import reverse
-from rest_framework.response import Response
 from rest_framework import generics
-from rest_framework.views import APIView
-from rest_framework.permissions import IsAdminUser
 
 from blog.models import Article, Category
 from blog.serializers import ArticleListSerializer
@@ -11,28 +7,6 @@ from blog.serializers import CategorySerializer
 
 from blog.paginations import PageNumberPagination
 from blog.permissions import IsAdminUserOrReadOnly
-
-
-class ApiRoot(APIView):
-    """
-    列出所有api路径
-
-    * 只有管理员可以访问
-    """
-    permission_classes = (IsAdminUser, )
-
-    def get(self, request):
-        """
-        返回api路径
-        """
-        return Response({
-            'articles': reverse('blog:article-list', request=request),
-            'category': reverse('blog:category-list', request=request),
-            'create': {
-                'article': reverse('blog:article-create', request=request),
-                'category': reverse('blog:category-create', request=request),
-            },
-        })
 
 
 class CategoryList(generics.ListAPIView):

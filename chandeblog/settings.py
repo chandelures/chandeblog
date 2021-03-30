@@ -139,7 +139,7 @@ RSS_DISCRIPTION = 'chandeblog 全部文章'
 # Media config
 MEDIA_URL = '/media/'
 
-MEDIA_ROOT = Path.joinpath(BASE_DIR, 'dist/media/')
+MEDIA_ROOT = Path.joinpath(BASE_DIR, 'media')
 
 # CORS config
 CORS_ORIGIN_ALLOW_ALL = settings.get("CORS_ORIGIN_ALLOW_ALL", False)

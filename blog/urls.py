@@ -5,8 +5,6 @@ from blog import views
 app_name = 'blog'
 
 urlpatterns = [
-    path('', views.ApiRoot.as_view(), name='api-root'),
-
     path('articles/', views.ArticleList.as_view(), name='article-list'),
 
     re_path(r'^articles/(?P<slug>[-\w]+)/$',
