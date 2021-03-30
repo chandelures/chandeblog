@@ -8,6 +8,12 @@ BASE_DIR = Path(__file__).resolve().parent
 
 base_settings = {
     'SECRET_KEY':  'examplesecretkey',
+
+    'EMAIL_HOST': 'smtp.xxx.com',
+    'EMAIL_PORT': 25,
+    'EMAIL_HOST_USER': 'xxx@xxx.com',
+    'EMAIL_HOST_PASSWORD': 'xxxxxxx',
+    'EMAIL_USE_SSL': False,
 }
 
 settings = {
