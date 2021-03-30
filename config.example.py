@@ -39,6 +39,8 @@ settings = {
                 'LOCATION': '127.0.0.1:11211',
             }
         },
+
+        'LOGS_DIR': '/path/to/log/dir',
     },
 
     # develop env settings
