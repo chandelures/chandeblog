@@ -150,11 +150,16 @@ CORS_ORIGIN_WHITELIST = settings.get("CORS_ORIGIN_WHITELIST", [])
 
 # Rest Framework config
 
-REST_FRAMEWORK = {
-    'DEFAULT_RENDERER_CLASSES': settings.get('DEFAULT_RENDERER_CLASSES', (
+REST_FRAMEWORK = {}
+if config.ENV == "prod":
+    REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'] = (
         'rest_framework.renderers.JSONRenderer',
-    ))
-}
+    )
+elif config.ENV == "dev":
+    REST_FRAMEWORK['DEFAULT_RENDERER_CLASSES'] = (
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    )
 
 # Cache config
 CACHES = settings.get('CACHES', {
