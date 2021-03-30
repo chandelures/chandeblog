@@ -173,23 +173,56 @@ CACHE_MIDDLEWARE_ALIAS = 'default'
 CACHE_MIDDLEWARE_KEY_PREFIX = ''
 
 # Logging config
-LOGS_DIR = settings.get('LOGS_DIR')
+DJANGO_LOG_LEVEL = settings.get('DJANGO_LOG_LEVEL', 'INFO')
 
-if LOGS_DIR:
+if config.ENV == 'prod':
+    LOGS_DIR = settings.get('LOGS_DIR')
     LOGGING = {
         'version': 1,
         'disable_existing_loggers': False,
+        'formatters': {
+            'default': {
+                'format': '{levelname} {asctime} {message}',
+                'style': '{',
+            }
+        },
         'handlers': {
             'file': {
-                'level': 'INFO',
+                'level': 'WARNING',
                 'class': 'logging.FileHandler',
-                'filename': Path(LOGS_DIR).joinpath('info.log'),
+                'formatter': 'default',
+                'filename': Path(LOGS_DIR).joinpath('django.log'),
             },
         },
         'loggers': {
             'django': {
                 'handlers': ['file'],
-                'level': 'INFO',
+                'level': DJANGO_LOG_LEVEL,
+                'propagate': True,
+            },
+        },
+    }
+elif config.ENV == 'dev':
+    LOGGING = {
+        'version': 1,
+        'disable_existing_loggers': False,
+        'formatters': {
+            'verbose': {
+                'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+                'style': '{',
+            },
+        },
+        'handlers': {
+            'console': {
+                'level': 'DEBUG',
+                'class': 'logging.StreamHandler',
+                'formatter': 'verbose',
+            }
+        },
+        'loggers': {
+            'django': {
+                'handlers': ['console'],
+                'level': DJANGO_LOG_LEVEL,
                 'propagate': True,
             },
         },

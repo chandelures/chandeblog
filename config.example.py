@@ -37,6 +37,7 @@ settings = {
         },
 
         'LOGS_DIR': '/path/to/log/dir',
+        'DJANGO_LOG_LEVEL': 'WARNING',
     },
 
     # develop env settings
