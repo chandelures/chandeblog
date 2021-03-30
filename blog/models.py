@@ -1,6 +1,7 @@
 from django.db import models
 from django.shortcuts import reverse
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
 
 from uuslug import slugify
 
@@ -51,3 +52,14 @@ class Article(models.Model):
 
     class Meta:
         ordering = ('-created',)
+
+
+class About(models.Model):
+    article = models.OneToOneField(Article, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return "About"
+
+    def save(self, *args, **kwargs):
+        self.pk = 1
+        return super().save(*args, **kwargs)
