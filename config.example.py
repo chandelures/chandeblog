@@ -18,10 +18,6 @@ settings = {
         "CORS_ORIGIN_ALLOW_ALL": False,
         "CORS_ORIGIN_WHITELIST": [],
 
-        'DEFAULT_RENDERER_CLASSES': (
-            'rest_framework.renderers.JSONRenderer',
-        ),
-
         "DATABASES": {
             'default': {
                 'ENGINE': 'django.db.backends.mysql',
@@ -48,11 +44,6 @@ settings = {
         "DEBUG": True,
         "ALLOWED_HOSTS": ['*'],
         "CORS_ORIGIN_ALLOW_ALL": True,
-
-        'DEFAULT_RENDERER_CLASSES': (
-            'rest_framework.renderers.JSONRenderer',
-            'rest_framework.renderers.BrowsableAPIRenderer',
-        ),
 
         "DATABASES": {
             'default': {
