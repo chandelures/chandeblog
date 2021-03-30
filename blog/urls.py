@@ -20,4 +20,6 @@ urlpatterns = [
 
     path('create/categories/', views.CategoryCreate.as_view(),
          name='category-create'),
+
+    path('about/', views.AboutDetail.as_view(), name='about'),
 ]

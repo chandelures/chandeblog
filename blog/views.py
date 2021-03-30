@@ -1,6 +1,8 @@
+from django.shortcuts import get_object_or_404
+
 from rest_framework import generics
 
-from blog.models import Article, Category
+from blog.models import Article, Category, About
 from blog.serializers import ArticleListSerializer
 from blog.serializers import ArticleDetailSerializer
 from blog.serializers import CategorySerializer
@@ -78,3 +80,15 @@ class ArticleCreate(generics.CreateAPIView):
     queryset = Article.objects.all()
     serializer_class = ArticleDetailSerializer
     permission_classes = (IsAdminUserOrReadOnly, )
+
+
+class AboutDetail(generics.RetrieveAPIView):
+    """
+    获取About的相关信息
+    """
+    queryset = About.objects.all()
+    serializer_class = ArticleDetailSerializer
+
+    def get_object(self):
+        about = get_object_or_404(self.queryset, pk=1)
+        return about.article
