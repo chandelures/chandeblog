@@ -4,6 +4,6 @@ djangorestframework
 django-uuslug
 django-cors-headers
 pymysql
+python-memcached
 gunicorn
-Faker
 Markdown
