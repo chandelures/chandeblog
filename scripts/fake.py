@@ -41,11 +41,19 @@ if __name__ == '__main__':
         category = Category.objects.order_by('?').first()
         created = fake.date_time_between(
             start_date='-1y', end_date='now', tzinfo=timezone.get_current_timezone())
+        title = fake.sentence().rstrip('.')
+        abstract = fake.paragraph(8) + '\n\n' + fake.paragraph(8) + '\n\n'
+
+        def paragraph(): return '## ' + fake.sentence().rstrip('.') + '\n\n' + \
+            fake.paragraph(10) + '\n\n' + fake.paragraph(10) + '\n\n'
+
+        content = abstract + paragraph() + paragraph() + paragraph() + paragraph()
+
         Article.objects.create(
-            title=fake.sentence().rstrip('.'),
+            title=title,
             category=Category.objects.order_by('?').first(),
-            abstract='\n\n'.join(fake.paragraphs(3)),
-            content='\n\n'.join(fake.paragraphs(10)),
+            abstract=abstract,
+            content=content,
             created=created,
             author=user,
         )
@@ -53,7 +61,7 @@ if __name__ == '__main__':
     print('create a sample article')
     Article.objects.create(
         title='博客文章 Markdown 测试',
-        abstract='博客文章 Markdown 测试',
+        abstract=abstract,
         content=Path(BASE_DIR).joinpath(
             'scripts', 'example.md').read_text(encoding='utf-8'),
         category=Category.objects.create(name='Markdown测试'),
