@@ -44,10 +44,23 @@ if __name__ == '__main__':
         title = fake.sentence().rstrip('.')
         abstract = fake.paragraph(8) + '\n\n' + fake.paragraph(8) + '\n\n'
 
-        def paragraph(): return '## ' + fake.sentence().rstrip('.') + '\n\n' + \
-            fake.paragraph(10) + '\n\n' + fake.paragraph(10) + '\n\n'
+        def section():
+            return '## ' + fake.sentence().rstrip('.') + '\n\n' + \
+                fake.paragraph(10) + '\n\n' + fake.paragraph(10) + '\n\n'
 
-        content = abstract + paragraph() + paragraph() + paragraph() + paragraph()
+        def subsection():
+            return '### ' + fake.sentence().rstrip('.') + '\n\n' + \
+                fake.paragraph(10) + '\n\n' + fake.paragraph(10) + \
+                '\n\n' + fake.paragraph(10) + '\n\n'
+
+        def subsections(count):
+            results = ''
+            for j in range(count):
+                results = results + subsection()
+            return results
+
+        content = abstract + section() + section() + subsections(2) + section() + \
+            subsections(3)
 
         Article.objects.create(
             title=title,
