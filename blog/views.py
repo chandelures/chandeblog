@@ -20,16 +20,13 @@ class CategoryList(generics.ListAPIView):
     serializer_class = CategorySerializer
 
 
-class CategoryDetail(generics.RetrieveUpdateDestroyAPIView):
+class CategoryDetail(generics.RetrieveAPIView):
     """
-    分类的查询、更新和删除
-
-    * 只有管理员可以进行更新与删除操作
+    分类的查询
     """
     lookup_field = 'slug'
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
-    permission_classes = (IsAdminUserOrReadOnly, )
 
 
 class CategoryCreate(generics.CreateAPIView):
@@ -53,16 +50,13 @@ class ArticleList(generics.ListAPIView):
     serializer_class = ArticleListSerializer
 
 
-class ArticleDetail(generics.RetrieveUpdateDestroyAPIView):
+class ArticleDetail(generics.RetrieveAPIView):
     """
-    文章的查询、更新和删除
-
-    * 只有管理员可以进行更新和删除操作
+    文章的查询
     """
     lookup_field = 'slug'
     queryset = Article.objects.all()
     serializer_class = ArticleDetailSerializer
-    permission_classes = (IsAdminUserOrReadOnly, )
 
     def get(self, request, *args, **kwargs):
         article = self.get_object()
