@@ -251,4 +251,9 @@ EMAIL_USE_TLS = settings.get('EMAIL_USE_TLS', False)
 
 EMAIL_USE_SSL = settings.get('EMAIL_USE_SSL', False)
 
-EMAIL_FROM = EMAIL_HOST
+EMAIL_FROM = EMAIL_HOST_USER
+
+# Admin config
+ADMINS = settings.get('ADMINS', [])
+
+SERVER_EMAIL = EMAIL_HOST_USER

@@ -14,6 +14,8 @@ base_settings = {
     'EMAIL_HOST_USER': 'xxx@xxx.com',
     'EMAIL_HOST_PASSWORD': 'xxxxxxx',
     'EMAIL_USE_SSL': False,
+
+    'ADMINS': [('xxx', 'xxx@xxx.com')],
 }
 
 settings = {
