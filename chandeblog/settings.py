@@ -134,9 +134,11 @@ STATIC_URL = '/static/'
 STATIC_ROOT = Path(BASE_DIR, 'static')
 
 # RSS config
-RSS_TITLE = 'chandeblog'
+RSS_LINK_HOST = settings.get('RSS_LINK_HOST', '/')
 
-RSS_DISCRIPTION = 'chandeblog 全部文章'
+RSS_TITLE = settings.get('RSS_TITLE', 'chandeblog')
+
+RSS_DISCRIPTION = settings.get('RSS_DISCRIPTION', 'chandeblog 全部文章')
 
 # Media config
 MEDIA_URL = '/media/'

@@ -16,6 +16,8 @@ base_settings = {
     'EMAIL_USE_SSL': False,
 
     'ADMINS': [('xxx', 'xxx@xxx.com')],
+
+    'RSS_LINK_HOST': 'https://xxx.com',
 }
 
 settings = {
