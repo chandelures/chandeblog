@@ -1,0 +1,15 @@
+version: 2
+updates:
+  - package-ecosystem: pip
+  direcory: '/'
+  schedule:
+    interval: daily
+    time: '00:00'
+  open-pull-requests-limit: 10
+  reviewers:
+    - chandelures
+  assignees:
+    - chandelures
+  commit-message:
+    prefix: fix
+    include: scope
