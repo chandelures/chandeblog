@@ -11,5 +11,5 @@ updates:
   assignees:
     - chandelures
   commit-message:
-    prefix: fix
+    prefix: build
     include: scope
