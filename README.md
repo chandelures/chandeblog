@@ -1,6 +1,6 @@
 # ChandeBlog
 
-This is a back end project for chandeblog based on django and django rest framework.
+This is a back end project for [chandeblog](https://blog.chandelure.com/) based on django and django rest framework.
 The front end blog project is https://github.com/chandelures/chandeblog-frontend.git.
 
 ## Credits
