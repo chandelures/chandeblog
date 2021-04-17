@@ -132,6 +132,10 @@ STATIC_URL = '/static/'
 
 STATIC_ROOT = Path(BASE_DIR, 'static')
 
+# Other
+
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 # RSS config
 RSS_LINK_HOST = settings.get('RSS_LINK_HOST', '/')
 
