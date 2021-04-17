@@ -20,16 +20,12 @@ from django.conf.urls.static import static
 
 from rest_framework.authtoken import views
 
-from blog.feeds import ArticleFeed
-
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('blog.urls', namespace='blog')),
     path('api-auth/', include('rest_framework.urls', namespace='rest_frameword')),
     path('auth/token/login', views.obtain_auth_token),
-
-    path('rss/', ArticleFeed(), name='rss'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
