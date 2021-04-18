@@ -1,17 +1,15 @@
+from django.contrib.auth import get_user_model
+
 from rest_framework import serializers
 
-from userprofile.models import Profile
+User = get_user_model()
 
 
-class ProfileSerializer(serializers.ModelSerializer):
-    id = serializers.ReadOnlyField(source='user.id')
-    username = serializers.ReadOnlyField(source='user.username')
-    email = serializers.ReadOnlyField(source='user.email')
-    avatar = serializers.ReadOnlyField(source='avatar.url')
-    last_login = serializers.ReadOnlyField(source='user.last_login')
-    is_admin = serializers.ReadOnlyField(source='user.is_superuser')
+class UserProfileSerializer(serializers.ModelSerializer):
+    avatar = serializers.ReadOnlyField(source='profile.avatar.url')
+    is_admin = serializers.ReadOnlyField(source='is_superuser')
 
     class Meta:
-        model = Profile
+        model = User
         fields = ('id', 'username', 'email',
-                  'avatar', 'last_login', 'is_admin')
+                  'avatar', 'last_login', 'is_admin', 'is_superuser')

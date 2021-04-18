@@ -1,10 +1,13 @@
+from django.contrib.auth import get_user_model
+
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
-from userprofile.models import Profile
-from userprofile.serializers import ProfileSerializer
+from userprofile.serializers import UserProfileSerializer
+
+User = get_user_model()
 
 
 class Logout(APIView):
@@ -15,10 +18,10 @@ class Logout(APIView):
         return Response(status=status.HTTP_200_OK)
 
 
-class ProfileDetail(APIView):
+class UserProfileDetail(APIView):
     permission_classes = (IsAuthenticated, )
 
     def get(self, request):
-        profile = Profile.objects.get(user=request.user)
-        serializer = ProfileSerializer(profile)
+        user = User.objects.get(pk=request.user.pk)
+        serializer = UserProfileSerializer(user)
         return Response(serializer.data)
