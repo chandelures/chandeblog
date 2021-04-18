@@ -20,13 +20,14 @@ class CategoryList(generics.ListAPIView):
     serializer_class = CategoryListSerializer
 
 
-class CategoryDetail(generics.RetrieveAPIView):
+class CategoryDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     分类的查询
     """
     lookup_field = 'slug'
     queryset = Category.objects.all()
     serializer_class = CategoryDetailSerializer
+    permission_classes = (IsAdminUserOrReadOnly, )
 
 
 class CategoryCreate(generics.CreateAPIView):
@@ -50,13 +51,14 @@ class ArticleList(generics.ListAPIView):
     serializer_class = ArticleListSerializer
 
 
-class ArticleDetail(generics.RetrieveAPIView):
+class ArticleDetail(generics.RetrieveUpdateDestroyAPIView):
     """
     文章的查询
     """
     lookup_field = 'slug'
     queryset = Article.objects.all()
     serializer_class = ArticleDetailSerializer
+    permission_classes = (IsAdminUserOrReadOnly, )
 
     def get(self, request, *args, **kwargs):
         article = self.get_object()
