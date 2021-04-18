@@ -20,6 +20,8 @@ from django.conf.urls.static import static
 
 from rest_framework.authtoken import views
 
+from userprofile.views import Logout
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,6 +29,7 @@ urlpatterns = [
     path('user/', include('userprofile.urls', namespace='userprofile')),
     path('api-auth/', include('rest_framework.urls', namespace='rest_frameword')),
     path('auth/token/login', views.obtain_auth_token),
+    path('auth/token/logout', Logout.as_view())
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
