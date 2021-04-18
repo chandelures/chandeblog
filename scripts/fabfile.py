@@ -1,26 +1,52 @@
 from fabric import Connection, task
 
+BACKEND_DIR = '/www/chandeblog'
+FRONTEND_DIR = '/www/chandeblog-frontend'
 
-@task
-def deploy(ctx):
+
+def connect():
     HOST = input("host: ")
     conn = Connection(HOST)
-    backend_dir = '/www/chandeblog'
-    frontend_dir = '/www/chandeblog-frontend'
+    return conn
 
-    with conn.cd('{}'.format(backend_dir)):
+
+def backend(conn):
+    with conn.cd('{}'.format(BACKEND_DIR)):
         conn.run("""
             git pull &&
             venv/bin/pip install -r requirements.txt &&
             venv/bin/python manage.py migrate
         """)
+    conn.sudo('supervisorctl restart gunicorn')
 
-    with conn.cd('{}'.format(frontend_dir)):
+
+def frontend(conn):
+    with conn.cd('{}'.format(FRONTEND_DIR)):
         conn.run("""
             git pull &&
             npm install &&
             npm run build
         """)
+    conn.sudo('supervisorctl restart nuxt')
 
-    conn.sudo('supervisorctl restart gunicorn nuxt')
+
+@task
+def deploy(ctx):
+    conn = connect()
+    backend(conn)
+    frontend(conn)
+    return ctx
+
+
+@task
+def deploy_back(ctx):
+    conn = connect()
+    backend(conn)
+    return ctx
+
+
+@task
+def deploy_front(ctx):
+    conn = connect()
+    frontend(conn)
     return ctx
