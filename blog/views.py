@@ -5,7 +5,7 @@ from rest_framework import generics
 from blog.models import Article, Category, About
 from blog.serializers import ArticleListSerializer
 from blog.serializers import ArticleDetailSerializer
-from blog.serializers import CategorySerializer
+from blog.serializers import CategoryDetailSerializer, CategoryListSerializer
 
 from blog.paginations import PageNumberPagination
 from blog.permissions import IsAdminUserOrReadOnly
@@ -17,7 +17,7 @@ class CategoryList(generics.ListAPIView):
     """
     queryset = Category.objects.all()
     pagination_class = PageNumberPagination
-    serializer_class = CategorySerializer
+    serializer_class = CategoryListSerializer
 
 
 class CategoryDetail(generics.RetrieveAPIView):
@@ -26,7 +26,7 @@ class CategoryDetail(generics.RetrieveAPIView):
     """
     lookup_field = 'slug'
     queryset = Category.objects.all()
-    serializer_class = CategorySerializer
+    serializer_class = CategoryDetailSerializer
 
 
 class CategoryCreate(generics.CreateAPIView):
@@ -37,7 +37,7 @@ class CategoryCreate(generics.CreateAPIView):
     """
     lookup_field = 'slug'
     queryset = Category.objects.all()
-    serializer_class = CategorySerializer
+    serializer_class = CategoryDetailSerializer
     permission_classes = (IsAdminUserOrReadOnly, )
 
 

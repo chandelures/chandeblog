@@ -2,15 +2,6 @@ from rest_framework import serializers
 from blog.models import Article, Category
 
 
-class CategorySerializer(serializers.HyperlinkedModelSerializer):
-    articles = serializers.HyperlinkedRelatedField(
-        many=True, view_name='blog:article-detail', read_only=True, lookup_field='slug')
-
-    class Meta:
-        model = Category
-        fields = ('slug', 'name', 'articles', 'created')
-
-
 class ArticleListSerializer(serializers.ModelSerializer):
     category = serializers.ReadOnlyField(source='category.name')
     author = serializers.ReadOnlyField(source='author.username')
@@ -30,3 +21,18 @@ class ArticleDetailSerializer(serializers.ModelSerializer):
         model = Article
         fields = ('slug', 'id', 'title', 'created', 'updated',
                   'author', 'avatar', 'category', 'views', 'content')
+
+
+class CategoryDetailSerializer(serializers.ModelSerializer):
+    articles = ArticleListSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Category
+        fields = '__all__'
+
+
+class CategoryListSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Category
+        fields = ('slug', 'name', 'created')
