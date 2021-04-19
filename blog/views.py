@@ -2,10 +2,11 @@ from django.shortcuts import get_object_or_404
 
 from rest_framework import generics
 
-from blog.models import Article, Category, About
+from blog.models import Article, Category, About, Image
 from blog.serializers import ArticleListSerializer
 from blog.serializers import ArticleDetailSerializer
 from blog.serializers import CategoryDetailSerializer, CategoryListSerializer
+from blog.serializers import ImageSerializer
 
 from blog.paginations import PageNumberPagination
 from blog.permissions import IsAdminUserOrReadOnly
@@ -87,3 +88,22 @@ class AboutDetail(generics.RetrieveAPIView):
     def get_object(self):
         about = get_object_or_404(self.queryset, pk=1)
         return about.article
+
+
+class ImageList(generics.ListAPIView):
+    queryset = Image.objects.all()
+    serializer_class = ImageSerializer
+    pagination_class = PageNumberPagination
+    permission_classes = (IsAdminUserOrReadOnly,)
+
+
+class ImageUpload(generics.CreateAPIView):
+    queryset = Image.objects.all()
+    serializer_class = ImageSerializer
+    permission_classes = (IsAdminUserOrReadOnly,)
+
+
+class ImageDelete(generics.DestroyAPIView):
+    queryset = Image.objects.all()
+    serializer_class = ImageSerializer
+    permission_classes = (IsAdminUserOrReadOnly,)

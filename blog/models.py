@@ -1,6 +1,8 @@
 from django.db import models
 from django.shortcuts import reverse
 from django.contrib.auth import get_user_model
+from django.db.models.signals import pre_delete
+from django.dispatch import receiver
 
 from uuslug import slugify
 
@@ -63,3 +65,15 @@ class About(models.Model):
     def save(self, *args, **kwargs):
         self.pk = 1
         return super().save(*args, **kwargs)
+
+
+class Image(models.Model):
+    img = models.ImageField(upload_to='img/')
+
+    def __str__(self):
+        return self.img.name
+
+
+@receiver(pre_delete, sender=Image)
+def image_delete(sender, instance, **kwargs):
+    instance.img.delete(False)

@@ -22,4 +22,11 @@ urlpatterns = [
          name='category-create'),
 
     path('about', views.AboutDetail.as_view(), name='about'),
+
+    path('create/image', views.ImageUpload.as_view(), name='image-upload'),
+
+    path('images', views.ImageList.as_view(), name='image-list'),
+
+    re_path(r'^images/(?P<pk>[0-9]+)$',
+            views.ImageDelete.as_view(), name='image-delete'),
 ]
