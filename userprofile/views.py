@@ -20,8 +20,23 @@ class Logout(APIView):
 
 class UserProfileDetail(APIView):
     permission_classes = (IsAuthenticated, )
+    serializer_class = UserProfileSerializer
+
+    def get_serializer(self, instance, *args, **kwargs):
+        return self.serializer_class(instance, *args, **kwargs)
+
+    def get_object(self, request):
+        instance = User.objects.get(pk=request.user.pk)
+        return instance
 
     def get(self, request):
-        user = User.objects.get(pk=request.user.pk)
-        serializer = UserProfileSerializer(user)
+        user = self.get_object(request)
+        serializer = self.get_serializer(user)
+        return Response(serializer.data)
+
+    def put(self, request):
+        user = self.get_object(request)
+        serializer = self.get_serializer(user, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
         return Response(serializer.data)
