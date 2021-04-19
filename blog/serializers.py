@@ -19,6 +19,24 @@ class ArticleDetailSerializer(serializers.ModelSerializer):
     title = serializers.CharField(required=False)
     abstract = serializers.CharField(required=False)
     content = serializers.CharField(required=False)
+    previous = serializers.SerializerMethodField()
+    next = serializers.SerializerMethodField()
+
+    def get_previous(self, obj):
+        previous_obj = Article.objects.filter(
+            pk__lt=obj.pk).all().order_by('-id').first()
+        if previous_obj:
+            return previous_obj.slug
+        else:
+            return None
+
+    def get_next(self, obj):
+        next_obj = Article.objects.filter(
+            pk__gt=obj.pk).all().order_by('id').first()
+        if next_obj:
+            return next_obj.slug
+        else:
+            return None
 
     class Meta:
         model = Article
