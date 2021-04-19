@@ -16,7 +16,6 @@ class CategoryList(generics.ListAPIView):
     列出所有分类
     """
     queryset = Category.objects.all()
-    pagination_class = PageNumberPagination
     serializer_class = CategoryListSerializer
 
 

@@ -13,7 +13,7 @@ class ArticleListSerializer(serializers.ModelSerializer):
 
 
 class ArticleDetailSerializer(serializers.ModelSerializer):
-    category = serializers.ReadOnlyField(source='category.name')
+    category_name = serializers.ReadOnlyField(source='category.name')
     author = serializers.ReadOnlyField(source='author.username')
     avatar = serializers.ReadOnlyField(source='author.profile.avatar.url')
     title = serializers.CharField(required=False)
@@ -37,4 +37,4 @@ class CategoryListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category
-        fields = ('slug', 'name', 'created')
+        fields = ('id', 'slug', 'name', 'created')
