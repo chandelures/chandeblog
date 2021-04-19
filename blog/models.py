@@ -1,7 +1,7 @@
 from django.db import models
 from django.shortcuts import reverse
 from django.contrib.auth import get_user_model
-from django.db.models.signals import pre_delete
+from django.db.models.signals import pre_delete, pre_save
 from django.dispatch import receiver
 
 from uuslug import slugify
@@ -14,10 +14,6 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
-
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
-        return super().save(*args, **kwargs)
 
 
 class Article(models.Model):
@@ -42,10 +38,6 @@ class Article(models.Model):
 
     def get_absolute_url(self):
         return reverse('blog:article-detail', kwargs={'slug': self.slug})
-
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
-        return super().save(*args, **kwargs)
 
     def increase_views(self):
         """使文章浏览数加一"""
@@ -72,6 +64,16 @@ class Image(models.Model):
 
     def __str__(self):
         return self.img.name
+
+
+@receiver(pre_save, sender=Article)
+def gen_article_slug(sender, instance, **kwargs):
+    instance.slug = slugify(instance.title)
+
+
+@receiver(pre_save, sender=Category)
+def gen_category_slug(sender, instance, **kwargs):
+    instance.slug = slugify(instance.name)
 
 
 @receiver(pre_delete, sender=Image)
