@@ -1,6 +1,8 @@
 from django.shortcuts import get_object_or_404
 
 from rest_framework import generics
+from rest_framework import status
+from rest_framework.response import Response
 
 from blog.models import Article, Category, About, Image
 from blog.serializers import ArticleListSerializer
@@ -72,10 +74,18 @@ class ArticleCreate(generics.CreateAPIView):
 
     * 只有管理员可以进行操作
     """
-    lookup_field = 'slug'
     queryset = Article.objects.all()
     serializer_class = ArticleDetailSerializer
     permission_classes = (IsAdminUserOrReadOnly, )
+
+    def create(self, request, *args, **kwargs):
+        data = request.data
+        data['author'] = request.user.id
+        serializer = self.get_serializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        self.perform_create(serializer)
+        headers = self.get_success_headers(serializer.data)
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
 
 class AboutDetail(generics.RetrieveAPIView):

@@ -14,7 +14,7 @@ class ArticleListSerializer(serializers.ModelSerializer):
 
 class ArticleDetailSerializer(serializers.ModelSerializer):
     category_name = serializers.ReadOnlyField(source='category.name')
-    author = serializers.ReadOnlyField(source='author.username')
+    author_name = serializers.ReadOnlyField(source='author.username')
     avatar = serializers.ImageField(
         source='author.profile.avatar', read_only=True)
     title = serializers.CharField(required=False)
