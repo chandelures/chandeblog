@@ -8,7 +8,6 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
 from userprofile.serializers import UserProfileSerializer
 
-from blog.paginations import PageNumberPagination
 
 User = get_user_model()
 
@@ -25,7 +24,6 @@ class UserProfileList(ListAPIView):
     queryset = User.objects.all()
     permission_classes = (IsAdminUser, )
     serializer_class = UserProfileSerializer
-    pagination_class = PageNumberPagination
 
 
 class UserProfileDetail(APIView):

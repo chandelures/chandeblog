@@ -10,8 +10,6 @@ from blog.serializers import ArticleListSerializer
 from blog.serializers import ArticleDetailSerializer
 from blog.serializers import CategoryDetailSerializer, CategoryListSerializer
 from blog.serializers import ImageSerializer
-
-from blog.paginations import PageNumberPagination
 from blog.permissions import IsAdminUserOrReadOnly
 
 
@@ -50,7 +48,6 @@ class ArticleList(generics.ListAPIView):
     列出所有文章
     """
     queryset = Article.objects.all()
-    pagination_class = PageNumberPagination
     serializer_class = ArticleListSerializer
 
 
@@ -104,7 +101,6 @@ class AboutDetail(generics.RetrieveAPIView):
 class ImageList(generics.ListAPIView):
     queryset = Image.objects.all()
     serializer_class = ImageSerializer
-    pagination_class = PageNumberPagination
     permission_classes = (IsAdminUser,)
 
 

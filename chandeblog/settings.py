@@ -156,6 +156,8 @@ CORS_ORIGIN_WHITELIST = settings.get("CORS_ORIGIN_WHITELIST", [])
 # Rest Framework config
 
 REST_FRAMEWORK = {
+    'PAGE_SIZE': 10,
+    'DEFAULT_PAGINATION_CLASS': 'blog.paginations.PageNumberPagination',
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
