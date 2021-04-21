@@ -7,9 +7,9 @@ User = get_user_model()
 
 class UserProfileSerializer(serializers.ModelSerializer):
     avatar = serializers.ReadOnlyField(source='profile.avatar.url')
-    is_admin = serializers.ReadOnlyField(source='is_superuser')
+    isAdmin = serializers.ReadOnlyField(source='is_staff')
 
     class Meta:
         model = User
         fields = ('id', 'username', 'email',
-                  'avatar', 'last_login', 'is_admin', 'is_superuser')
+                  'avatar', 'last_login', 'isAdmin')
