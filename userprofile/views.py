@@ -1,11 +1,14 @@
 from django.contrib.auth import get_user_model
 
 from rest_framework.views import APIView
+from rest_framework.generics import ListAPIView
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
 from userprofile.serializers import UserProfileSerializer
+
+from blog.paginations import PageNumberPagination
 
 User = get_user_model()
 
@@ -16,6 +19,13 @@ class Logout(APIView):
     def post(self, request):
         request.user.auth_token.delete()
         return Response(status=status.HTTP_200_OK)
+
+
+class UserProfileList(ListAPIView):
+    queryset = User.objects.all()
+    permission_classes = (IsAdminUser, )
+    serializer_class = UserProfileSerializer
+    pagination_class = PageNumberPagination
 
 
 class UserProfileDetail(APIView):
