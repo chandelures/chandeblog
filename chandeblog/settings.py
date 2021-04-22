@@ -132,6 +132,12 @@ STATIC_URL = '/static/'
 
 STATIC_ROOT = Path(BASE_DIR, 'static')
 
+# Authentication Backends Config
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'userprofile.backends.EmailBackend',
+)
+
 # Other
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
