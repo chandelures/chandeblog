@@ -7,6 +7,7 @@ venv/
 # Pycache
 __pycache__/
 *.pyc
+.coverage
 
 # Django
 *.sqlite3

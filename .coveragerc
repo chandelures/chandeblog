@@ -1,0 +1,10 @@
+[run]
+source = .
+include = *.py
+omit = 
+    */migrations/*
+    scripts/*
+    config.py
+    manage.py
+    chandeblog/*
+    venv/*
