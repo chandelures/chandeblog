@@ -6,8 +6,8 @@ User = get_user_model()
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
-    avatar = serializers.ReadOnlyField(source='profile.avatar.url')
-    password = serializers.CharField(write_only=True)
+    avatar = serializers.ImageField(source='profile.avatar', read_only=True)
+    password = serializers.CharField(write_only=True, required=False)
     isAdmin = serializers.ReadOnlyField(source='is_staff')
 
     def create(self, validated_data):
@@ -17,6 +17,11 @@ class UserProfileSerializer(serializers.ModelSerializer):
             email=validated_data['email'],
         )
         return user
+
+    def update(self, instance, validated_data):
+        instance.set_password(validated_data['password'])
+        validated_data.pop('password')
+        return super().update(instance, validated_data)
 
     class Meta:
         model = User
