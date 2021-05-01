@@ -1,25 +1,28 @@
+from django.contrib.auth import get_user_model
+
 from rest_framework import serializers
 from blog.models import Article, Category, Image
 
+User = get_user_model()
+
 
 class ArticleListSerializer(serializers.ModelSerializer):
-    category = serializers.ReadOnlyField(source='category.name')
-    author = serializers.ReadOnlyField(source='author.username')
+    categoryName = serializers.ReadOnlyField(source='category.name')
+    authorName = serializers.ReadOnlyField(source='author.username')
 
     class Meta:
         model = Article
-        fields = ('slug', 'id', 'title', 'created', 'updated', 'author',
-                  'category', 'abstract', 'views')
+        exclude = ('content', 'category', 'author')
 
 
 class ArticleDetailSerializer(serializers.ModelSerializer):
     categoryName = serializers.ReadOnlyField(source='category.name')
+    author = serializers.PrimaryKeyRelatedField(
+        queryset=User.objects.all(), write_only=True
+    )
     authorName = serializers.ReadOnlyField(source='author.username')
     avatar = serializers.ImageField(
         source='author.profile.avatar', read_only=True)
-    title = serializers.CharField(required=False)
-    abstract = serializers.CharField(required=False)
-    content = serializers.CharField(required=False)
     previous = serializers.SerializerMethodField()
     next = serializers.SerializerMethodField()
 
@@ -56,7 +59,7 @@ class CategoryListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category
-        fields = ('id', 'slug', 'name', 'created')
+        fields = '__all__'
 
 
 class ImageSerializer(serializers.ModelSerializer):
