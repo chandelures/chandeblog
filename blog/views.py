@@ -10,7 +10,8 @@ from blog.serializers import ArticleListSerializer
 from blog.serializers import ArticleDetailSerializer
 from blog.serializers import CategoryDetailSerializer, CategoryListSerializer
 from blog.serializers import ImageSerializer
-from blog.permissions import IsAdminUserOrReadOnly
+
+from userprofile.permissions import IsAdminUserOrReadOnly
 
 
 class CategoryList(generics.ListAPIView):
