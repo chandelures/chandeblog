@@ -26,6 +26,7 @@ from userprofile.views import Logout
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('blog.urls', namespace='blog')),
+    path('comment/', include('comment.urls', namespace='comment')),
     path('user/', include('userprofile.urls', namespace='userprofile')),
     path('api-auth/', include('rest_framework.urls', namespace='rest_frameword')),
     path('auth/token/login', views.obtain_auth_token),
