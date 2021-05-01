@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 
 from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView, CreateAPIView
+from rest_framework import mixins
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
@@ -26,7 +27,8 @@ class UserProfileList(ListAPIView):
     serializer_class = UserProfileSerializer
 
 
-class UserProfileDetail(APIView):
+class UserProfileDetail(mixins.DestroyModelMixin,
+                        APIView):
     permission_classes = (IsAuthenticated, )
     serializer_class = UserProfileSerializer
 
@@ -48,6 +50,9 @@ class UserProfileDetail(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
+
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
 
 
 class UserProfileCreate(CreateAPIView):
