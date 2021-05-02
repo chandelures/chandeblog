@@ -16,7 +16,7 @@ class CommentList(ListAPIView):
     def get_queryset(self):
         article = get_object_or_404(
             Article.objects.all(), slug=self.kwargs['article_slug'])
-        return article.comment.all()
+        return article.comment.filter(parent__isnull=True)
 
 
 class CommentCreate(CreateAPIView):

@@ -20,13 +20,13 @@ class ChildCommentSerializer(serializers.ModelSerializer):
 
 class CommentSerializer(serializers.ModelSerializer):
     article = serializers.PrimaryKeyRelatedField(
-        queryset=Article.objects.all(), write_only=True
+        queryset=Article.objects.all(), write_only=True, required=False
     )
     parent = serializers.PrimaryKeyRelatedField(
-        queryset=Comment.objects.all(), write_only=True
+        queryset=Comment.objects.all(), write_only=True, required=False
     )
     user = serializers.PrimaryKeyRelatedField(
-        queryset=User.objects.all(), write_only=True
+        queryset=User.objects.all(), write_only=True, required=False
     )
     userName = serializers.ReadOnlyField(source='user.username')
     children = ChildCommentSerializer(read_only=True, many=True)
