@@ -18,6 +18,7 @@ if __name__ == '__main__':
 
     from django.contrib.auth import get_user_model
     from blog.models import Category, Article
+    from comment.models import Comment
 
     User = get_user_model()
 
@@ -80,5 +81,22 @@ if __name__ == '__main__':
         category=Category.objects.create(name='Markdown测试'),
         author=user,
     )
+
+    print('create some users')
+    for i in range(10):
+        User.objects.create_user(
+            username=fake.name(),
+            password='123456',
+        )
+
+    print('create some comments')
+    for article in Article.objects.all():
+        user = User.objects.all().order_by('?').first()
+        for i in range(10):
+            Comment.objects.create(
+                user=user,
+                article=article,
+                content=fake.paragraph(),
+            )
 
     print('done')
