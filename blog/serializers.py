@@ -18,7 +18,7 @@ class ArticleListSerializer(serializers.ModelSerializer):
 class ArticleDetailSerializer(serializers.ModelSerializer):
     categoryName = serializers.ReadOnlyField(source='category.name')
     author = serializers.PrimaryKeyRelatedField(
-        queryset=User.objects.all(), write_only=True
+        queryset=User.objects.all(), write_only=True, required=False
     )
     authorName = serializers.ReadOnlyField(source='author.username')
     avatar = serializers.ImageField(
