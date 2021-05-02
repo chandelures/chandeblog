@@ -7,20 +7,16 @@ from rest_framework import status
 
 from blog.models import Article
 
-from comment.models import Comment
 from comment.serializers import CommentSerializer
 
 
 class CommentList(ListAPIView):
-    queryset = Comment.objects.filter(parent__isnull=True)
     serializer_class = CommentSerializer
 
     def get_queryset(self):
-        queryset = super().get_queryset()
         article = get_object_or_404(
             Article.objects.all(), slug=self.kwargs['article_slug'])
-        filter_kwargs = {'article': article}
-        return queryset.filter(**filter_kwargs)
+        return article.comment.all()
 
 
 class CommentCreate(CreateAPIView):
