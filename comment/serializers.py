@@ -25,9 +25,6 @@ class CommentSerializer(serializers.ModelSerializer):
     parent = serializers.PrimaryKeyRelatedField(
         queryset=Comment.objects.all(), write_only=True
     )
-    reply = serializers.PrimaryKeyRelatedField(
-        queryset=User.objects.all(), write_only=True
-    )
     user = serializers.PrimaryKeyRelatedField(
         queryset=User.objects.all(), write_only=True
     )
@@ -36,4 +33,4 @@ class CommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = '__all__'
+        exclude = ('reply', )

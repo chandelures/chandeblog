@@ -58,6 +58,8 @@ def gen_comment_uid(sender, instance, **kwargs):
 
 
 @receiver(pre_save, sender=Comment)
-def check_comment_parent(sender, instance, **kwargs):
-    if instance.parent and instance.parent.parent:
-        instance.parent = instance.parent.parent
+def pre_save_comment(sender, instance, **kwargs):
+    if instance.parent:
+        instance.reply = instance.parent.user
+        if instance.parent.parent:
+            instance.parent = instance.parent.parent
