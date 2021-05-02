@@ -1,6 +1,5 @@
 from django.shortcuts import get_object_or_404
 
-from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView, CreateAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -19,7 +18,7 @@ class CommentList(ListAPIView):
     def get_queryset(self):
         queryset = super().get_queryset()
         article = get_object_or_404(
-            Article.objects.all(), id=self.kwargs['article_id'])
+            Article.objects.all(), slug=self.kwargs['article_slug'])
         filter_kwargs = {'article': article}
         return queryset.filter(**filter_kwargs)
 
@@ -32,7 +31,7 @@ class CommentCreate(CreateAPIView):
         data = request.data
         data['user'] = request.user.id
         article = get_object_or_404(
-            Article.objects.all(), id=self.kwargs['article_id'])
+            Article.objects.all(), slug=self.kwargs['article_slug'])
         data['article'] = article.id
         serializer = self.get_serializer(data=data)
         serializer.is_valid(raise_exception=True)
