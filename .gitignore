@@ -7,7 +7,6 @@ venv/
 # Pycache
 __pycache__/
 *.pyc
-.coverage
 
 # Django
 *.sqlite3
@@ -20,3 +19,7 @@ config.py
 # Front
 dist/
 dist.zip
+
+# Coverage
+.coverage
+coverage.xml
