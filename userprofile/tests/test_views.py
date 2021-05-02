@@ -90,4 +90,53 @@ class UserProfileDetailViewTest(TestCase):
 
         self.apiclient.login(username='admin', password='admin')
         response = self.apiclient.get(self.url)
+
+    def test_update_user_password(self):
+        data = {
+            'username': 'admin',
+            'password': 'testadmin',
+            'email': 'admin@test.org',
+        }
+        response = self.apiclient.put(self.url, data=data)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+        self.apiclient.login(username='admin', password='admin')
+        response = self.apiclient.put(self.url, data=data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        is_login = self.apiclient.login(username='admin', password='testadmin')
+        self.assertTrue(is_login)
+
+    def test_update_user_username_and_email(self):
+        data = {
+            'username': 'testadmin',
+            'email': 'admin@test.or',
+        }
+        response = self.apiclient.put(self.url, data=data)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+        self.apiclient.login(username='admin', password='admin')
+        response = self.apiclient.put(self.url, data=data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+        self.user.refresh_from_db()
+        self.assertEqual(self.user.username, 'testadmin')
+        self.assertEqual(self.user.email, 'admin@test.or')
+
+
+class UserProfileCreateViewTest(TestCase):
+    def setUp(self):
+        self.apiclient = APIClient()
+        self.url = reverse('userprofile:register')
+
+    def test_create_user(self):
+        data = {
+            'username': 'admin',
+            'password': 'admin',
+            'email': 'admin@test.org',
+        }
+        response = self.apiclient.post(self.url, data=data)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+        user = User.objects.get(id=response.data['id'])
+        self.assertEqual(user.username, 'admin')
