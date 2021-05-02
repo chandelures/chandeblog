@@ -27,6 +27,8 @@ class UserProfileTest(TestCase):
     @staticmethod
     def gen_default_avatar(size=(50, 50), color=(256, 0, 0)):
         image = Ima.new('RGBA', size=size, color=color)
+        if not Path('media/avatar').exists():
+            Path('media/avatar').mkdir()
         with open('media/avatar/default.png', 'wb') as f:
             image.save(f, 'png')
 
