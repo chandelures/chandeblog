@@ -2,9 +2,11 @@
 source = .
 include = *.py
 omit = 
+    */tests/*
     */migrations/*
     scripts/*
     config.py
     manage.py
+    tests.py
     chandeblog/*
     venv/*
