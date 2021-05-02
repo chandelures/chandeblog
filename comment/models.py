@@ -1,3 +1,5 @@
+import uuid
+
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.dispatch import receiver
@@ -9,6 +11,7 @@ User = get_user_model()
 
 
 class Comment(models.Model):
+    uid = models.UUIDField(default='', db_index=True)
     article = models.ForeignKey(
         Article,
         on_delete=models.CASCADE,
@@ -49,6 +52,12 @@ class Comment(models.Model):
 
 
 @receiver(pre_save, sender=Comment)
-def comment_post_save_receiver(sender, instance, **kwargs):
+def gen_comment_uid(sender, instance, **kwargs):
+    if not instance.pk:
+        instance.uid = uuid.uuid4()
+
+
+@receiver(pre_save, sender=Comment)
+def check_comment_parent(sender, instance, **kwargs):
     if instance.parent and instance.parent.parent:
         instance.parent = instance.parent.parent
