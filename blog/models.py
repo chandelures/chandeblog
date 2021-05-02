@@ -1,5 +1,4 @@
 from django.db import models
-from django.shortcuts import reverse
 from django.contrib.auth import get_user_model
 from django.db.models.signals import pre_delete, pre_save
 from django.dispatch import receiver
@@ -36,9 +35,6 @@ class Article(models.Model):
     def __str__(self):
         return self.title
 
-    def get_absolute_url(self):
-        return reverse('blog:article-detail', kwargs={'slug': self.slug})
-
     def increase_views(self):
         """使文章浏览数加一"""
         self.views += 1
@@ -52,11 +48,7 @@ class About(models.Model):
     article = models.OneToOneField(Article, on_delete=models.CASCADE)
 
     def __str__(self):
-        return "About"
-
-    def save(self, *args, **kwargs):
-        self.pk = 1
-        return super().save(*args, **kwargs)
+        return self.article.title
 
 
 class Image(models.Model):
@@ -79,3 +71,8 @@ def gen_category_slug(sender, instance, **kwargs):
 @receiver(pre_delete, sender=Image)
 def image_delete(sender, instance, **kwargs):
     instance.img.delete(False)
+
+
+@receiver(pre_save, sender=About)
+def about_save(sender, instance, **kwargs):
+    instance.pk = 1
