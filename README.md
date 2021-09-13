@@ -40,13 +40,9 @@ Or in production enviroment
 
   Set the environment where you want to run porject.
 
-- base_settings: {}
+- local_settings: {"base": {}, "prod": {}, "dev": {}}
 
-  Some basic settings such as SECRET_KAY, email settings used in both production and development environment.
-
-- settings: {"prod": {}, "dev": {}}
-
-  There is the possibility that some settings are different in different enviroment.
+  Set some basic settings such as SECRET_KAY, email settings used in both prod and dev environment. And there is the possibility that some settings are different in prod and dev enviroment.
 
 Example:
 
@@ -55,19 +51,19 @@ ENV = "dev"
 
 BASE_DIR = Path(__file__).resolve().parent
 
-base_settings = {
-    'SECRET_KEY':  'examplesecretkey',
+local_settings = {
+    "base": {
+        'SECRET_KEY':  'examplesecretkey',
 
-    'EMAIL_HOST': 'smtp.xxx.com',
-    'EMAIL_PORT': 25,
-    'EMAIL_HOST_USER': 'xxx@xxx.com',
-    'EMAIL_HOST_PASSWORD': 'xxxxxxx',
-    'EMAIL_USE_SSL': False,
+        'EMAIL_HOST': 'smtp.xxx.com',
+        'EMAIL_PORT': 25,
+        'EMAIL_HOST_USER': 'xxx@xxx.com',
+        'EMAIL_HOST_PASSWORD': 'xxxxxxx',
+        'EMAIL_USE_SSL': False,
 
-    'ADMINS': [('xxx', 'xxx@xxx.com')],
-}
+        'ADMINS': [('xxx', 'xxx@xxx.com')],
+    },
 
-settings = {
     # production env settings
     "prod": {
         "DEBUG": False,
@@ -104,7 +100,6 @@ settings = {
         },
     },
 }
-
 ```
 
 ## Deploy
