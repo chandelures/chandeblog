@@ -41,7 +41,8 @@ def delete_old_avatar(sender, instance, **kwargs):
     if instance.pk:
         old_avatar = Profile.objects.get(pk=instance.pk).avatar
         new_avatar = instance.avatar
-        if old_avatar.name != Profile.get_avatar_default() and new_avatar != old_avatar:
+        if (old_avatar.name != Profile.get_avatar_default()
+                and new_avatar != old_avatar):
             old_avatar.delete(save=False)
 
 

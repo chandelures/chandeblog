@@ -11,5 +11,6 @@ class EmailBackend(ModelBackend):
         except User.DoesNotExist:
             User().set_password(password)
         else:
-            if user.check_password(password) and self.user_can_authenticate(user):
+            if (user.check_password(password)
+                    and self.user_can_authenticate(user)):
                 return user

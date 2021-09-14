@@ -57,8 +57,8 @@ def create_articles():
         title = fake.sentence().rstrip('.')
         abstract = fake.paragraph(8) + '\n\n' + fake.paragraph(8) + '\n\n'
 
-        content = abstract + section() + section() + subsections(2) + section() + \
-            subsections(3)
+        content = "{}".format(abstract + section() + section() +
+                              subsections(2) + section() + subsections(3))
 
         Article.objects.create(
             title=title,
