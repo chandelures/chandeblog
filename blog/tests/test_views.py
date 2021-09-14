@@ -10,6 +10,16 @@ from blog.models import Article, About
 User = get_user_model()
 
 
+class ApiRootViewTest(TestCase):
+    def setUp(self):
+        self.apiclient = APIClient()
+        self.url = reverse('blog:api-root')
+
+    def test_api_root(self):
+        response = self.apiclient.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+
+
 class ArticleDetailViewTest(TestCase):
     def setUp(self):
         self.apiclient = APIClient()
