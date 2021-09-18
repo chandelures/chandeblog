@@ -42,7 +42,7 @@ Or in production enviroment
 
 - local_settings: {"base": {}, "prod": {}, "dev": {}}
 
-  Set some basic settings such as SECRET_KAY, email settings used in both prod and dev environment. And there is the possibility that some settings are different in prod and dev enviroment.
+  Set some basic settings such as SECRET_KEY, email settings used in both prod and dev environment. And there is the possibility that some settings are different in prod and dev enviroment.
 
 Example:
 
