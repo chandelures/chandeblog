@@ -21,9 +21,13 @@ def backend(conn):
 
 
 def frontend(conn):
-    with conn.cd('{}'.format(FRONTEND_DIR)):
+    with conn.cd('{}'.format(BACKEND_DIR)):
         conn.run("""
             git pull &&
+            git submodule update
+        """)
+    with conn.cd('{}/chandeblog-frontend'.format(BACKEND_DIR)):
+        conn.run("""
             npm install &&
             npm run build
         """)
