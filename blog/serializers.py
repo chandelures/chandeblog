@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 
 from rest_framework import serializers
+from rest_framework.reverse import reverse
 from blog.models import Article, Category, Image
 
 User = get_user_model()
@@ -25,6 +26,7 @@ class ArticleDetailSerializer(serializers.ModelSerializer):
         source='author.profile.avatar', read_only=True)
     previous = serializers.SerializerMethodField()
     next = serializers.SerializerMethodField()
+    comments = serializers.SerializerMethodField()
 
     def get_previous(self, obj):
         previous_obj = Article.objects.filter(
@@ -41,6 +43,10 @@ class ArticleDetailSerializer(serializers.ModelSerializer):
             return next_obj.slug
         else:
             return None
+
+    def get_comments(self, obj):
+        return reverse('comment:comment-list',
+                       kwargs={'article_slug': obj.slug})
 
     class Meta:
         model = Article
