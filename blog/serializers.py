@@ -13,7 +13,7 @@ class ArticleListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Article
-        exclude = ('content', 'category', 'author')
+        exclude = ('id', 'content', 'category', 'author')
 
 
 class ArticleDetailSerializer(serializers.ModelSerializer):
@@ -50,7 +50,7 @@ class ArticleDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Article
-        fields = '__all__'
+        exclude = ('id',)
 
 
 class CategoryDetailSerializer(serializers.ModelSerializer):
@@ -58,18 +58,18 @@ class CategoryDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category
-        fields = '__all__'
+        exclude = ('id',)
 
 
 class CategoryListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category
-        fields = '__all__'
+        exclude = ('id', )
 
 
 class ImageSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Image
-        fields = '__all__'
+        exclude = ('id', )

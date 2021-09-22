@@ -26,6 +26,6 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('id', 'username', 'password', 'email',
+        fields = ('username', 'password', 'email',
                   'avatar', 'last_login', 'isAdmin')
         read_only_fields = ('last_login', )
