@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from blog.models import Article
+from comment.models import Comment
 
 from comment.serializers import CommentSerializer
 
@@ -28,6 +29,11 @@ class CommentCreate(CreateAPIView):
         data['user'] = request.user.id
         article = get_object_or_404(
             Article.objects.all(), slug=self.kwargs['article_slug'])
+        if(data.get('parent')):
+            parent = get_object_or_404(
+                Comment.objects.all(), uid=data.get('parent')
+            )
+            data['parent'] = parent.id
         data['article'] = article.id
         serializer = self.get_serializer(data=data)
         serializer.is_valid(raise_exception=True)

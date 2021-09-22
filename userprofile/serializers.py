@@ -6,6 +6,7 @@ User = get_user_model()
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
+    uid = serializers.ReadOnlyField(source='profile.uid')
     avatar = serializers.ImageField(source='profile.avatar', read_only=True)
     password = serializers.CharField(write_only=True, required=False)
     isAdmin = serializers.ReadOnlyField(source='is_staff')
@@ -26,6 +27,6 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('username', 'password', 'email',
+        fields = ('uid', 'username', 'password', 'email',
                   'avatar', 'last_login', 'isAdmin')
         read_only_fields = ('last_login', )

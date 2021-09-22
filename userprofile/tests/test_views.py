@@ -6,6 +6,8 @@ from rest_framework.test import APIClient
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 
+from userprofile.models import Profile
+
 User = get_user_model()
 
 
@@ -138,5 +140,6 @@ class UserProfileCreateViewTest(TestCase):
         response = self.apiclient.post(self.url, data=data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
-        user = User.objects.get(id=response.data['id'])
+        user = User.objects.get(
+            profile=Profile.objects.get(uid=response.data['uid']))
         self.assertEqual(user.username, 'admin')

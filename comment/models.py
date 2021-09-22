@@ -40,7 +40,8 @@ class Comment(models.Model):
         on_delete=models.CASCADE,
         related_name='replied',
     )
-    tag = BooleanField(choices=[(0, 'root'), (1, 'leaf')], default=0)
+    tag = BooleanField(
+        choices=[(0, 'root'), (1, 'leaf')], default=0, editable=False)
 
     class Meta:
         ordering = ('created',)
@@ -59,6 +60,10 @@ class Comment(models.Model):
 @receiver(pre_save, sender=Comment)
 def pre_save_comment(sender, instance, **kwargs):
     if instance.parent:
-        instance.reply = instance.parent.user
-        if instance.parent.parent:
-            instance.parent = instance.parent.parent
+        instance.tag = 1
+        parent = instance.parent
+        instance.reply = parent.user
+        if parent.tag == 1:
+            instance.parent = parent.parent
+    else:
+        instance.tag = 0
