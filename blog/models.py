@@ -1,9 +1,14 @@
+import uuid
+
+from django.utils import timezone
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.db.models.signals import pre_delete, pre_save
 from django.dispatch import receiver
 
 from uuslug import slugify
+
+User = get_user_model()
 
 
 class Category(models.Model):
@@ -16,21 +21,22 @@ class Category(models.Model):
 
 
 class Article(models.Model):
-    created = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(default=timezone.now)
     updated = models.DateTimeField(auto_now=True)
-    slug = models.SlugField(editable=False, max_length=200)
+    slug = models.SlugField(unique=True, editable=False, max_length=200)
     title = models.CharField(max_length=100, unique=True)
-    author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.CASCADE)
     abstract = models.TextField()
     content = models.TextField()
     category = models.ForeignKey(
         Category,
+        to_field="slug",
         null=True,
         blank=True,
         on_delete=models.SET_NULL,
         related_name='articles'
     )
-    views = models.PositiveIntegerField(default=0, editable=False)
+    views = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.title
@@ -45,13 +51,16 @@ class Article(models.Model):
 
 
 class About(models.Model):
-    article = models.OneToOneField(Article, on_delete=models.CASCADE)
+    article = models.OneToOneField(
+        Article, to_field='slug', on_delete=models.CASCADE)
 
     def __str__(self):
         return self.article.title
 
 
 class Image(models.Model):
+    uid = models.UUIDField(default=uuid.uuid4, unique=True,
+                           db_index=True, editable=False)
     img = models.ImageField(upload_to='img/')
 
     def __str__(self):

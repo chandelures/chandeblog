@@ -47,11 +47,11 @@ class CommentListViewTest(TestCase):
         response = self.apicilent.get(self.url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         for comment in response.data['results']:
-            obj = Comment.objects.get(id=comment['id'])
+            obj = Comment.objects.get(uid=comment['uid'])
             self.assertTrue(obj.is_root)
             self.assertEqual(obj.article, self.article)
             for child_comment in comment['children']:
-                _obj = Comment.objects.get(id=child_comment['id'])
+                _obj = Comment.objects.get(uid=child_comment['uid'])
                 self.assertFalse(_obj.is_root)
                 self.assertEqual(_obj.article, self.article)
 
@@ -86,7 +86,7 @@ class CommentCreateViewTest(TestCase):
 
         data = {
             'content': '测试评论',
-            'parent': response.data['id'],
+            'parent': response.data['uid'],
         }
         response = self.apicilent.post(self.url, data=data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)

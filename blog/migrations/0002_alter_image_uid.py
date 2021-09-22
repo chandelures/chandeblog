@@ -7,12 +7,12 @@ import uuid
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('comment', '0001_initial'),
+        ('blog', '0001_initial'),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='comment',
+            model_name='image',
             name='uid',
             field=models.UUIDField(db_index=True, default=uuid.uuid4, editable=False, unique=True),
         ),

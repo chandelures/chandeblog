@@ -15,22 +15,25 @@ class ChildCommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        exclude = ('article', 'parent', 'user', 'reply')
+        exclude = ('id', 'article', 'parent', 'user', 'reply')
 
 
 class CommentSerializer(serializers.ModelSerializer):
     article = serializers.PrimaryKeyRelatedField(
-        queryset=Article.objects.all(), write_only=True, required=False
+        queryset=Article.objects.all(), write_only=True, required=False,
+        allow_null=True,
     )
     parent = serializers.PrimaryKeyRelatedField(
-        queryset=Comment.objects.all(), write_only=True, required=False
+        queryset=Comment.objects.all(), write_only=True, required=False,
+        allow_null=True,
     )
     user = serializers.PrimaryKeyRelatedField(
-        queryset=User.objects.all(), write_only=True, required=False
+        queryset=User.objects.all(), write_only=True, required=False,
+        allow_null=True,
     )
     userName = serializers.ReadOnlyField(source='user.username')
     children = ChildCommentSerializer(read_only=True, many=True)
 
     class Meta:
         model = Comment
-        exclude = ('reply', )
+        exclude = ('id', 'reply', )

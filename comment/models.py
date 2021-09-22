@@ -2,6 +2,7 @@ import uuid
 
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.db.models.fields import BooleanField
 from django.dispatch import receiver
 from django.db.models.signals import pre_save
 
@@ -11,9 +12,11 @@ User = get_user_model()
 
 
 class Comment(models.Model):
-    uid = models.UUIDField(default='', db_index=True)
+    uid = models.UUIDField(unique=True, default=uuid.uuid4,
+                           db_index=True, editable=False)
     article = models.ForeignKey(
         Article,
+        to_field='slug',
         on_delete=models.CASCADE,
         related_name='comment',
     )
@@ -26,6 +29,7 @@ class Comment(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     parent = models.ForeignKey(
         'self',
+        to_field='uid',
         on_delete=models.CASCADE,
         null=True,
         related_name='children',
@@ -36,6 +40,8 @@ class Comment(models.Model):
         on_delete=models.CASCADE,
         related_name='replied',
     )
+    tag = BooleanField(
+        choices=[(0, 'root'), (1, 'leaf')], default=0, editable=False)
 
     class Meta:
         ordering = ('created',)
@@ -52,14 +58,12 @@ class Comment(models.Model):
 
 
 @receiver(pre_save, sender=Comment)
-def gen_comment_uid(sender, instance, **kwargs):
-    if not instance.pk:
-        instance.uid = uuid.uuid4()
-
-
-@receiver(pre_save, sender=Comment)
 def pre_save_comment(sender, instance, **kwargs):
     if instance.parent:
-        instance.reply = instance.parent.user
-        if instance.parent.parent:
-            instance.parent = instance.parent.parent
+        instance.tag = 1
+        parent = instance.parent
+        instance.reply = parent.user
+        if parent.tag == 1:
+            instance.parent = parent.parent
+    else:
+        instance.tag = 0

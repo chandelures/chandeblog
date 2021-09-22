@@ -59,10 +59,19 @@ class UserProfileTest(TestCase):
         self.assertFalse(Path(old_path).exists())
 
     def test_delete_avatar(self):
-        avatar_path = self.user.profile.avatar.path
+        self.gen_default_avatar()
+
+        default_path = self.user.profile.avatar.path
+        self.user.profile.avatar = self.get_avatar_file()
+        self.user.profile.save()
+        self.assertTrue(Path(default_path).exists())
+
+        self.user.profile.avatar = self.get_avatar_file()
+        self.user.profile.save()
+        new_path = self.user.profile.avatar.path
         self.user.delete()
         self.user.save()
-        self.assertFalse(Path(avatar_path).exists())
+        self.assertFalse(Path(new_path).exists())
 
     def tearDown(self):
         self.user.delete()
