@@ -14,11 +14,17 @@ def avatar_upload_to(instance, filename):
     return 'avatar/{}/{}'.format(instance.user.username, filename)
 
 
+def avatar_default():
+    return 'avatar/default.png'
+
+
 class Profile(models.Model):
+    uid = models.UUIDField(default=uuid.uuid4, unique=True,
+                           db_index=True, editable=False)
     user = models.OneToOneField(
         User, on_delete=models.CASCADE, related_name='profile')
     avatar = models.ImageField(
-        upload_to=avatar_upload_to, default='avatar/default.png')
+        upload_to=avatar_upload_to, default=avatar_default)
 
     @staticmethod
     def get_avatar_default():
@@ -41,11 +47,12 @@ def delete_old_avatar(sender, instance, **kwargs):
     if instance.pk:
         old_avatar = Profile.objects.get(pk=instance.pk).avatar
         new_avatar = instance.avatar
-        if (old_avatar.name != Profile.get_avatar_default()
+        if (old_avatar.name != avatar_default()
                 and new_avatar != old_avatar):
             old_avatar.delete(save=False)
 
 
 @receiver(pre_delete, sender=Profile)
 def delete_avatar(sender, instance, **kwargs):
-    instance.avatar.delete(save=False)
+    if instance.avatar != avatar_default():
+        instance.avatar.delete(save=False)
