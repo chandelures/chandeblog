@@ -19,6 +19,9 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        ordering = ('-created',)
+
 
 class Article(models.Model):
     created = models.DateTimeField(default=timezone.now)
