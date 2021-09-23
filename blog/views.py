@@ -125,7 +125,8 @@ class ImageUpload(generics.CreateAPIView):
     permission_classes = (IsAdminUser,)
 
 
-class ImageDelete(generics.DestroyAPIView):
+class ImageDetail(generics.RetrieveUpdateDestroyAPIView):
+    lookup_field = 'uid'
     queryset = Image.objects.all()
     serializer_class = ImageSerializer
     permission_classes = (IsAdminUser,)

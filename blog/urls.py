@@ -29,6 +29,6 @@ urlpatterns = [
 
     path('images', views.ImageList.as_view(), name='image-list'),
 
-    re_path(r'^images/(?P<pk>[0-9]+)$',
-            views.ImageDelete.as_view(), name='image-delete'),
+    path('images/<uuid:uid>',
+         views.ImageDetail.as_view(), name='image-delete'),
 ]
