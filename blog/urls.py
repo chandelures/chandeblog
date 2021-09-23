@@ -24,11 +24,4 @@ urlpatterns = [
          views.CategoryDetail.as_view(), name='category-detail'),
 
     path('about', views.AboutDetail.as_view(), name='about'),
-
-    path('images/create', views.ImageUpload.as_view(), name='image-upload'),
-
-    path('images', views.ImageList.as_view(), name='image-list'),
-
-    path('images/<uuid:uid>',
-         views.ImageDetail.as_view(), name='image-delete'),
 ]
