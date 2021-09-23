@@ -26,10 +26,6 @@ class Profile(models.Model):
     avatar = models.ImageField(
         upload_to=avatar_upload_to, default=avatar_default)
 
-    @staticmethod
-    def get_avatar_default():
-        return 'avatar/default.png'
-
     def __str__(self):
         return self.user.username
 
