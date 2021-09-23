@@ -46,19 +46,20 @@ class Comment(models.Model):
     class Meta:
         ordering = ('created',)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.content[:20]
 
     @property
-    def is_root(self):
-        if self.parent:
-            return False
-        else:
-            return True
+    def is_root(self) -> bool:
+        return (False if self.tag else True)
+
+    @property
+    def is_leaf(self) -> bool:
+        return (True if self.tag else False)
 
 
 @receiver(pre_save, sender=Comment)
-def pre_save_comment(sender, instance, **kwargs):
+def pre_save_comment(sender, instance, **kwargs) -> None:
     if instance.parent:
         instance.tag = 1
         parent = instance.parent

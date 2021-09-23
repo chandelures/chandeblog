@@ -13,7 +13,7 @@ sys.path.append(BASE_DIR)
 fake = faker.Faker('zh_CN')
 
 
-def clean_database():
+def clean_database() -> None:
     print('clean database')
     Article.objects.all().delete()
     Category.objects.all().delete()
@@ -21,32 +21,32 @@ def clean_database():
     Comment.objects.all().delete()
 
 
-def create_superuser():
+def create_superuser() -> None:
     print('create super user')
     global user
     user = User.objects.create_superuser('admin', 'admin@example.com', 'admin')
 
 
-def create_categories():
+def create_categories() -> None:
     print('create categories')
     categories = ['Python学习笔记', '开源项目', '工具资源', '程序员生活感悟', 'test category']
     for category in categories:
         Category.objects.create(name=category)
 
 
-def create_articles():
+def create_articles() -> None:
     print('create some articles by using Faker')
 
-    def section():
+    def section() -> str:
         return '## ' + fake.sentence().rstrip('.') + '\n\n' + \
             fake.paragraph(10) + '\n\n' + fake.paragraph(10) + '\n\n'
 
-    def subsection():
+    def subsection() -> str:
         return '### ' + fake.sentence().rstrip('.') + '\n\n' + \
             fake.paragraph(10) + '\n\n' + fake.paragraph(10) + \
             '\n\n' + fake.paragraph(10) + '\n\n'
 
-    def subsections(count):
+    def subsections(count) -> str:
         results = ''
         for j in range(count):
             results = results + subsection()
@@ -69,7 +69,7 @@ def create_articles():
         )
 
 
-def create_md_sample_article():
+def create_md_sample_article() -> None:
     print('create a sample article')
     Article.objects.create(
         title='博客文章 Markdown 测试',
@@ -81,7 +81,7 @@ def create_md_sample_article():
     )
 
 
-def create_users():
+def create_users() -> None:
     print('create some users')
     for i in range(10):
         User.objects.create_user(
@@ -90,7 +90,7 @@ def create_users():
         )
 
 
-def create_comments():
+def create_comments() -> None:
     print('create some comments')
     for article in Article.objects.all():
         user = User.objects.all().order_by('?').first()

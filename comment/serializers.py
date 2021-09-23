@@ -15,7 +15,7 @@ class ChildCommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        exclude = ('id', 'article', 'parent', 'user', 'reply')
+        exclude = ('id', 'tag', 'article', 'parent', 'user', 'reply')
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -36,4 +36,4 @@ class CommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        exclude = ('id', 'reply', )
+        exclude = ('id', 'tag', 'reply', )

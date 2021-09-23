@@ -16,8 +16,11 @@ class Category(models.Model):
     slug = models.SlugField(editable=False, unique=True)
     created = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
+
+    class Meta:
+        ordering = ('-created',)
 
 
 class Article(models.Model):
@@ -38,10 +41,10 @@ class Article(models.Model):
     )
     views = models.PositiveIntegerField(default=0)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.title
 
-    def increase_views(self):
+    def increase_views(self) -> None:
         """使文章浏览数加一"""
         self.views += 1
         self.save(update_fields=['views'])
@@ -54,34 +57,39 @@ class About(models.Model):
     article = models.OneToOneField(
         Article, to_field='slug', on_delete=models.CASCADE)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.article.title
+
+
+def img_upload_to(instance, filename) -> str:
+    filename = '{}.{}'.format(instance.uid.hex, filename.split('.')[-1])
+    return 'img/{}'.format(filename)
 
 
 class Image(models.Model):
     uid = models.UUIDField(default=uuid.uuid4, unique=True,
                            db_index=True, editable=False)
-    img = models.ImageField(upload_to='img/')
+    img = models.ImageField(upload_to=img_upload_to)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.img.name
 
 
 @receiver(pre_save, sender=Article)
-def gen_article_slug(sender, instance, **kwargs):
+def gen_article_slug(sender, instance, **kwargs) -> None:
     instance.slug = slugify(instance.title)
 
 
 @receiver(pre_save, sender=Category)
-def gen_category_slug(sender, instance, **kwargs):
+def gen_category_slug(sender, instance, **kwargs) -> None:
     instance.slug = slugify(instance.name)
 
 
 @receiver(pre_delete, sender=Image)
-def image_delete(sender, instance, **kwargs):
+def image_delete(sender, instance, **kwargs) -> None:
     instance.img.delete(False)
 
 
 @receiver(pre_save, sender=About)
-def about_save(sender, instance, **kwargs):
+def about_save(sender, instance, **kwargs) -> None:
     instance.pk = 1

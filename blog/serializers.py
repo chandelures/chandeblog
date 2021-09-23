@@ -28,7 +28,7 @@ class ArticleDetailSerializer(serializers.ModelSerializer):
     next = serializers.SerializerMethodField()
     comments = serializers.SerializerMethodField()
 
-    def get_previous(self, obj):
+    def get_previous(self, obj) -> str:
         previous_obj = Article.objects.filter(
             pk__lt=obj.pk).all().order_by('-id').first()
         if previous_obj:
@@ -36,7 +36,7 @@ class ArticleDetailSerializer(serializers.ModelSerializer):
         else:
             return None
 
-    def get_next(self, obj):
+    def get_next(self, obj) -> str:
         next_obj = Article.objects.filter(
             pk__gt=obj.pk).all().order_by('id').first()
         if next_obj:
@@ -44,7 +44,7 @@ class ArticleDetailSerializer(serializers.ModelSerializer):
         else:
             return None
 
-    def get_comments(self, obj):
+    def get_comments(self, obj) -> str:
         return reverse('comment:comment-list',
                        kwargs={'article_slug': obj.slug})
 

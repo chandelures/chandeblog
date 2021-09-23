@@ -11,7 +11,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=False)
     isAdmin = serializers.ReadOnlyField(source='is_staff')
 
-    def create(self, validated_data):
+    def create(self, validated_data) -> User:
         user = User.objects.create_user(
             username=validated_data['username'],
             password=validated_data['password'],
@@ -19,7 +19,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
         )
         return user
 
-    def update(self, instance, validated_data):
+    def update(self, instance, validated_data) -> User:
         if 'password' in validated_data:
             instance.set_password(validated_data['password'])
             validated_data.pop('password')

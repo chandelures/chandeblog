@@ -1,16 +1,17 @@
+from typing import Any
 from fabric import Connection, task
 
 BACKEND_DIR = '/www/chandeblog'
 FRONTEND_DIR = '/www/chandeblog-frontend'
 
 
-def connect():
+def connect() -> Connection:
     HOST = input("host: ")
     conn = Connection(HOST)
     return conn
 
 
-def backend(conn):
+def backend(conn) -> None:
     with conn.cd('{}'.format(BACKEND_DIR)):
         conn.run("""
             git pull &&
@@ -20,7 +21,7 @@ def backend(conn):
     conn.sudo('supervisorctl restart gunicorn')
 
 
-def frontend(conn):
+def frontend(conn) -> None:
     with conn.cd('{}'.format(BACKEND_DIR)):
         conn.run("""
             git pull &&
@@ -35,7 +36,7 @@ def frontend(conn):
 
 
 @task
-def deploy(ctx):
+def deploy(ctx) -> Any:
     conn = connect()
     backend(conn)
     frontend(conn)
@@ -43,14 +44,14 @@ def deploy(ctx):
 
 
 @task
-def deploy_back(ctx):
+def deploy_back(ctx) -> Any:
     conn = connect()
     backend(conn)
     return ctx
 
 
 @task
-def deploy_front(ctx):
+def deploy_front(ctx) -> Any:
     conn = connect()
     frontend(conn)
     return ctx

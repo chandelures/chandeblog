@@ -9,12 +9,12 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 
-def avatar_upload_to(instance, filename):
+def avatar_upload_to(instance, filename) -> str:
     filename = '{}.{}'.format(uuid.uuid4().hex, filename.split('.')[-1])
     return 'avatar/{}/{}'.format(instance.user.username, filename)
 
 
-def avatar_default():
+def avatar_default() -> str:
     return 'avatar/default.png'
 
 
@@ -26,16 +26,12 @@ class Profile(models.Model):
     avatar = models.ImageField(
         upload_to=avatar_upload_to, default=avatar_default)
 
-    @staticmethod
-    def get_avatar_default():
-        return 'avatar/default.png'
-
-    def __str__(self):
+    def __str__(self) -> str:
         return self.user.username
 
 
 @receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
+def create_user_profile(sender, instance, created, **kwargs) -> None:
     if created:
         Profile.objects.create(user=instance)
     else:
@@ -43,7 +39,7 @@ def create_user_profile(sender, instance, created, **kwargs):
 
 
 @receiver(pre_save, sender=Profile)
-def delete_old_avatar(sender, instance, **kwargs):
+def delete_old_avatar(sender, instance, **kwargs) -> None:
     if instance.pk:
         old_avatar = Profile.objects.get(pk=instance.pk).avatar
         new_avatar = instance.avatar

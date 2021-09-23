@@ -13,7 +13,7 @@ User = get_user_model()
 
 
 class CommentListViewTest(TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         self.apicilent = APIClient()
         self.user = User.objects.create_superuser(
             username='admin',
@@ -43,7 +43,7 @@ class CommentListViewTest(TestCase):
         self.url = reverse('comment:comment-list',
                            kwargs={'article_slug': self.article.slug})
 
-    def test_get_comment_list(self):
+    def test_get_comment_list(self) -> None:
         response = self.apicilent.get(self.url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         for comment in response.data['results']:
@@ -52,12 +52,12 @@ class CommentListViewTest(TestCase):
             self.assertEqual(obj.article, self.article)
             for child_comment in comment['children']:
                 _obj = Comment.objects.get(uid=child_comment['uid'])
-                self.assertFalse(_obj.is_root)
+                self.assertTrue(_obj.is_leaf)
                 self.assertEqual(_obj.article, self.article)
 
 
 class CommentCreateViewTest(TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         self.apicilent = APIClient()
         self.user = User.objects.create_superuser(
             username='admin',
@@ -72,7 +72,7 @@ class CommentCreateViewTest(TestCase):
         self.url = reverse('comment:comment-create',
                            kwargs={'article_slug': self.article.slug})
 
-    def test_comment_create(self):
+    def test_comment_create(self) -> None:
         data = {
             'content': '测试评论',
         }
