@@ -1,4 +1,3 @@
-from typing import Any
 from fabric import Connection, task
 
 BACKEND_DIR = '/www/chandeblog'
@@ -36,7 +35,7 @@ def frontend(conn) -> None:
 
 
 @task
-def deploy(ctx) -> Any:
+def deploy(ctx):
     conn = connect()
     backend(conn)
     frontend(conn)
@@ -44,14 +43,14 @@ def deploy(ctx) -> Any:
 
 
 @task
-def deploy_back(ctx) -> Any:
+def deploy_back(ctx):
     conn = connect()
     backend(conn)
     return ctx
 
 
 @task
-def deploy_front(ctx) -> Any:
+def deploy_front(ctx):
     conn = connect()
     frontend(conn)
     return ctx
