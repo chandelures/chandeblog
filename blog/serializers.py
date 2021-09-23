@@ -2,7 +2,8 @@ from django.contrib.auth import get_user_model
 
 from rest_framework import serializers
 from rest_framework.reverse import reverse
-from blog.models import Article, Category, Image
+
+from blog.models import Article, Category
 
 User = get_user_model()
 
@@ -65,11 +66,4 @@ class CategoryListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category
-        exclude = ('id', )
-
-
-class ImageSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = Image
         exclude = ('id', )
