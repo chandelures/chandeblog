@@ -1,3 +1,4 @@
+from django.db.models.query import QuerySet
 from django.shortcuts import get_object_or_404
 
 from rest_framework.generics import ListAPIView, CreateAPIView
@@ -14,7 +15,7 @@ from comment.serializers import CommentSerializer
 class CommentList(ListAPIView):
     serializer_class = CommentSerializer
 
-    def get_queryset(self):
+    def get_queryset(self) -> QuerySet:
         article = get_object_or_404(
             Article.objects.all(), slug=self.kwargs['article_slug'])
         return article.comment.filter(tag=0)
@@ -24,7 +25,7 @@ class CommentCreate(CreateAPIView):
     serializer_class = CommentSerializer
     permission_classes = (IsAuthenticated, )
 
-    def create(self, request, *args, **kwargs):
+    def create(self, request, *args, **kwargs) -> Response:
         data = request.data
         data['user'] = request.user.id
 

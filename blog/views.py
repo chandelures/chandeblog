@@ -17,7 +17,7 @@ from userprofile.permissions import IsAdminUserOrReadOnly
 
 
 class ApiRoot(APIView):
-    def get(self, request, format=None):
+    def get(self, request, format=None) -> Response:
         return Response({
             'article-list': reverse('blog:article-list', request=request,
                                     format=format),
@@ -74,7 +74,7 @@ class ArticleDetail(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ArticleDetailSerializer
     permission_classes = (IsAdminUserOrReadOnly, )
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs) -> Response:
         article = self.get_object()
         article.increase_views()
         return super().get(request, *args, **kwargs)
@@ -90,7 +90,7 @@ class ArticleCreate(generics.CreateAPIView):
     serializer_class = ArticleDetailSerializer
     permission_classes = (IsAdminUserOrReadOnly, )
 
-    def create(self, request, *args, **kwargs):
+    def create(self, request, *args, **kwargs) -> Response:
         data = request.data
         data['author'] = request.user.id
         serializer = self.get_serializer(data=data)
@@ -108,7 +108,7 @@ class AboutDetail(generics.RetrieveAPIView):
     queryset = About.objects.all()
     serializer_class = ArticleDetailSerializer
 
-    def get_object(self):
+    def get_object(self) -> Article:
         about = get_object_or_404(self.queryset, pk=1)
         return about.article
 

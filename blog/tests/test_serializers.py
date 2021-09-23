@@ -8,7 +8,7 @@ User = get_user_model()
 
 
 class ArticleDetailSerializerTest(TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         user = User.objects.create_superuser(
             username='admin',
             password='admin',
@@ -22,7 +22,7 @@ class ArticleDetailSerializerTest(TestCase):
             )
         self.articles = Article.objects.all().order_by('id')
 
-    def test_next_and_previous(self):
+    def test_next_and_previous(self) -> None:
         serializer = ArticleDetailSerializer(self.articles.first())
         self.assertTrue('next' in serializer.data)
         self.assertTrue('previous' in serializer.data)

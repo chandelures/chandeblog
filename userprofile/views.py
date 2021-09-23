@@ -16,7 +16,7 @@ User = get_user_model()
 class Logout(APIView):
     permission_classes = (IsAuthenticated, )
 
-    def post(self, request):
+    def post(self, request) -> Response:
         request.user.auth_token.delete()
         return Response(status=status.HTTP_200_OK)
 
@@ -31,7 +31,7 @@ class UserProfileDetail(RetrieveUpdateDestroyAPIView):
     permission_classes = (IsAuthenticated, )
     serializer_class = UserProfileSerializer
 
-    def get_object(self):
+    def get_object(self) -> User:
         instance = User.objects.get(pk=self.request.user.pk)
         return instance
 

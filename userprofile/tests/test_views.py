@@ -12,7 +12,7 @@ User = get_user_model()
 
 
 class TokenLoginTest(TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         self.apicilent = APIClient()
         self.user = User.objects.create_superuser(
             username='admin',
@@ -21,7 +21,7 @@ class TokenLoginTest(TestCase):
         )
         self.url = reverse('userprofile:login')
 
-    def test_username_login(self):
+    def test_username_login(self) -> None:
         data = {
             'username': 'admin',
             'password': 'admin',
@@ -33,7 +33,7 @@ class TokenLoginTest(TestCase):
         self.assertEqual(response.data['token'],
                          Token.objects.get(user=self.user).__str__())
 
-    def test_email_login(self):
+    def test_email_login(self) -> None:
         data = {
             'username': 'admin@test.org',
             'password': 'admin',
@@ -50,7 +50,7 @@ class TokenLoginTest(TestCase):
 
 
 class TokenLogoutTest(TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         self.apicilent = APIClient()
         self.user = User.objects.create_superuser(
             username='admin',
@@ -60,7 +60,7 @@ class TokenLogoutTest(TestCase):
         self.login_url = reverse('userprofile:login')
         self.logout_url = reverse('userprofile:logout')
 
-    def test_logout(self):
+    def test_logout(self) -> None:
         data = {
             'username': 'admin',
             'password': 'admin',
@@ -77,7 +77,7 @@ class TokenLogoutTest(TestCase):
 
 
 class UserProfileDetailViewTest(TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         self.apiclient = APIClient()
         self.user = User.objects.create_superuser(
             username='admin',
@@ -86,14 +86,14 @@ class UserProfileDetailViewTest(TestCase):
         )
         self.url = reverse('userprofile:profile')
 
-    def test_get_user_profile(self):
+    def test_get_user_profile(self) -> None:
         response = self.apiclient.get(self.url)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
 
         self.apiclient.login(username='admin', password='admin')
         response = self.apiclient.get(self.url)
 
-    def test_update_user_password(self):
+    def test_update_user_password(self) -> None:
         data = {
             'username': 'admin',
             'password': 'testadmin',
@@ -109,7 +109,7 @@ class UserProfileDetailViewTest(TestCase):
         is_login = self.apiclient.login(username='admin', password='testadmin')
         self.assertTrue(is_login)
 
-    def test_update_user_username_and_email(self):
+    def test_update_user_username_and_email(self) -> None:
         data = {
             'username': 'testadmin',
             'email': 'admin@test.or',
@@ -127,11 +127,11 @@ class UserProfileDetailViewTest(TestCase):
 
 
 class UserProfileCreateViewTest(TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         self.apiclient = APIClient()
         self.url = reverse('userprofile:register')
 
-    def test_create_user(self):
+    def test_create_user(self) -> None:
         data = {
             'username': 'admin',
             'password': 'admin',

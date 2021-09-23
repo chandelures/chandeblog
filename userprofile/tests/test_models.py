@@ -10,7 +10,7 @@ User = get_user_model()
 
 
 class UserProfileTest(TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         self.user = User.objects.create_superuser(
             username='admin',
             password='admin',
@@ -18,7 +18,7 @@ class UserProfileTest(TestCase):
 
     @staticmethod
     def get_avatar_file(name='avatar.png', ext='png', size=(50, 50),
-                        color=(256, 0, 0)):
+                        color=(256, 0, 0)) -> File:
         file_obj = BytesIO()
         image = Ima.new("RGBA", size=size, color=color)
         image.save(file_obj, ext)
@@ -26,26 +26,26 @@ class UserProfileTest(TestCase):
         return File(file_obj, name=name)
 
     @staticmethod
-    def gen_default_avatar(size=(50, 50), color=(256, 0, 0)):
+    def gen_default_avatar(size=(50, 50), color=(256, 0, 0)) -> None:
         image = Ima.new('RGBA', size=size, color=color)
         if not Path('media/avatar').exists():
             Path('media/avatar').mkdir()
         with open('media/avatar/default.png', 'wb') as f:
             image.save(f, 'png')
 
-    def test_str_representation(self):
+    def test_str_representation(self) -> None:
         self.assertEqual(self.user.profile.__str__(), self.user.username)
 
-    def test_profile_create(self):
+    def test_profile_create(self) -> None:
         self.assertIsNotNone(self.user.profile)
 
-    def test_upload_avatar(self):
+    def test_upload_avatar(self) -> None:
         self.user.profile.avatar = self.get_avatar_file()
         self.user.profile.save()
         self.user.profile.refresh_from_db()
         self.assertTrue(Path(self.user.profile.avatar.path).exists())
 
-    def test_change_avatar(self):
+    def test_change_avatar(self) -> None:
         self.gen_default_avatar()
 
         default_path = self.user.profile.avatar.path
@@ -58,7 +58,7 @@ class UserProfileTest(TestCase):
         self.user.profile.save()
         self.assertFalse(Path(old_path).exists())
 
-    def test_delete_avatar(self):
+    def test_delete_avatar(self) -> None:
         self.gen_default_avatar()
 
         default_path = self.user.profile.avatar.path
@@ -73,6 +73,6 @@ class UserProfileTest(TestCase):
         self.user.save()
         self.assertFalse(Path(new_path).exists())
 
-    def tearDown(self):
+    def tearDown(self) -> None:
         self.user.delete()
         self.user.save()

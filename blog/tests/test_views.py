@@ -11,17 +11,17 @@ User = get_user_model()
 
 
 class ApiRootViewTest(TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         self.apiclient = APIClient()
         self.url = reverse('blog:api-root')
 
-    def test_api_root(self):
+    def test_api_root(self) -> None:
         response = self.apiclient.get(self.url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
 
 class ArticleDetailViewTest(TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         self.apiclient = APIClient()
         user = User.objects.create_superuser(
             username='admin',
@@ -36,7 +36,7 @@ class ArticleDetailViewTest(TestCase):
         self.url = reverse('blog:article-detail',
                            kwargs={'slug': self.article.slug})
 
-    def test_increase_views(self):
+    def test_increase_views(self) -> None:
         response = self.apiclient.get(self.url)
         self.article.refresh_from_db()
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -44,7 +44,7 @@ class ArticleDetailViewTest(TestCase):
 
 
 class ArticleCreateViewTest(TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         self.apiclient = APIClient()
         self.user = User.objects.create_superuser(
             username='admin',
@@ -52,7 +52,7 @@ class ArticleCreateViewTest(TestCase):
         )
         self.url = reverse('blog:article-create')
 
-    def test_create(self):
+    def test_create(self) -> None:
         data = {
             'title': '测试文章',
             'abstract': '测试内容',
@@ -68,7 +68,7 @@ class ArticleCreateViewTest(TestCase):
 
 
 class AboutViewTest(TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         self.apiclient = APIClient()
         user = User.objects.create_superuser(
             username='admin',
@@ -83,6 +83,6 @@ class AboutViewTest(TestCase):
         About.objects.create(article=article)
         self.url = reverse('blog:about')
 
-    def test_about(self):
+    def test_about(self) -> None:
         response = self.apiclient.get(self.url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)

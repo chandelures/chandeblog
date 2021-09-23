@@ -8,7 +8,7 @@ User = get_user_model()
 
 
 class CommentModelTest(TestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         self.user = User.objects.create_superuser(
             username='admin',
             password='admin',
@@ -35,16 +35,16 @@ class CommentModelTest(TestCase):
             parent=self.comment
         )
 
-    def test_str_representation(self):
+    def test_str_representation(self) -> None:
         self.assertEqual(self.comment.__str__(), self.comment.content[:20])
 
-    def test_is_root(self):
+    def test_is_root(self) -> None:
         self.assertTrue(self.comment.is_root)
 
-    def test_is_leaf(self):
+    def test_is_leaf(self) -> None:
         self.assertTrue(self.child_comment.is_leaf)
 
-    def test_create_childen_comment(self):
+    def test_create_childen_comment(self) -> None:
         other_child_comment = Comment.objects.create(
             content='测试评论',
             article=self.article,
