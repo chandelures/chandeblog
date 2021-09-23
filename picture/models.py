@@ -14,9 +14,13 @@ class Image(models.Model):
     uid = models.UUIDField(default=uuid.uuid4, unique=True,
                            db_index=True, editable=False)
     img = models.ImageField(upload_to=img_upload_to)
+    created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
         return self.img.name
+
+    class Meta:
+        ordering = ('-created',)
 
 
 @receiver(pre_delete, sender=Image)
