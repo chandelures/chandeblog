@@ -52,7 +52,7 @@ class CommentListViewTest(TestCase):
             self.assertEqual(obj.article, self.article)
             for child_comment in comment['children']:
                 _obj = Comment.objects.get(uid=child_comment['uid'])
-                self.assertFalse(_obj.is_root)
+                self.assertTrue(_obj.is_leaf)
                 self.assertEqual(_obj.article, self.article)
 
 

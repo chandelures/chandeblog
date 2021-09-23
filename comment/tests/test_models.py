@@ -40,7 +40,9 @@ class CommentModelTest(TestCase):
 
     def test_is_root(self):
         self.assertTrue(self.comment.is_root)
-        self.assertFalse(self.child_comment.is_root)
+
+    def test_is_leaf(self):
+        self.assertTrue(self.child_comment.is_leaf)
 
     def test_create_childen_comment(self):
         other_child_comment = Comment.objects.create(

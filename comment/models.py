@@ -51,10 +51,11 @@ class Comment(models.Model):
 
     @property
     def is_root(self):
-        if self.parent:
-            return False
-        else:
-            return True
+        return (False if self.tag else True)
+
+    @property
+    def is_leaf(self):
+        return (True if self.tag else False)
 
 
 @receiver(pre_save, sender=Comment)
