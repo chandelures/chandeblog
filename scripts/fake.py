@@ -1,3 +1,4 @@
+from django.core.exceptions import ImproperlyConfigured
 import os
 import sys
 from pathlib import Path
@@ -12,10 +13,22 @@ sys.path.append(BASE_DIR)
 
 fake = faker.Faker('zh_CN')
 
+try:
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "chandeblog.settings")
+    django.setup()
+
+    from django.contrib.auth import get_user_model
+    from comment.models import Comment
+    from blog.models import Category, Article, About
+    User = get_user_model()
+except ImproperlyConfigured:
+    pass
+
 
 def clean_database() -> None:
     print('clean database')
     Article.objects.all().delete()
+    About.objects.all().delete()
     Category.objects.all().delete()
     User.objects.all().delete()
     Comment.objects.all().delete()
@@ -29,7 +42,7 @@ def create_superuser() -> None:
 
 def create_categories() -> None:
     print('create categories')
-    categories = ['Python学习笔记', '开源项目', '工具资源', '程序员生活感悟', 'test category']
+    categories = ['test1', 'test2', 'test3', 'test4', 'test5']
     for category in categories:
         Category.objects.create(name=category)
 
@@ -38,25 +51,29 @@ def create_articles() -> None:
     print('create some articles by using Faker')
 
     def section() -> str:
-        return '## ' + fake.sentence().rstrip('.') + '\n\n' + \
-            fake.paragraph(10) + '\n\n' + fake.paragraph(10) + '\n\n'
+        return '## {}\n\n{}\n\n{}\n\n'.format(
+            fake.sentence().rstrip('.'),
+            fake.paragraph(10), fake.paragraph(10)
+        )
 
     def subsection() -> str:
-        return '### ' + fake.sentence().rstrip('.') + '\n\n' + \
-            fake.paragraph(10) + '\n\n' + fake.paragraph(10) + \
-            '\n\n' + fake.paragraph(10) + '\n\n'
+        return '### {}\n\n{}\n\n{}\n\n{}\n\n'.format(
+            fake.sentence().rstrip('.'),
+            fake.paragraph(10),
+            fake.paragraph(10),
+            fake.paragraph(10)
+        )
 
     def subsections(count) -> str:
         results = ''
-        for j in range(count):
+        for _ in range(count):
             results = results + subsection()
         return results
 
-    for i in range(100):
+    for _ in range(100):
         category = Category.objects.order_by('?').first()
         title = fake.sentence().rstrip('.')
-        abstract = fake.paragraph(8) + '\n\n' + fake.paragraph(8) + '\n\n'
-
+        abstract = '{}\n\n{}\n\n'.format(fake.paragraph(8), fake.paragraph(8))
         content = "{}".format(abstract + section() + section() +
                               subsections(2) + section() + subsections(3))
 
@@ -73,7 +90,8 @@ def create_md_sample_article() -> None:
     print('create a sample article')
     Article.objects.create(
         title='博客文章 Markdown 测试',
-        abstract=fake.paragraph(),
+        abstract=Path(BASE_DIR).joinpath(
+            'scripts', 'abstract.md').read_text(encoding='utf-8'),
         content=Path(BASE_DIR).joinpath(
             'scripts', 'example.md').read_text(encoding='utf-8'),
         category=Category.objects.create(name='Markdown测试'),
@@ -81,9 +99,16 @@ def create_md_sample_article() -> None:
     )
 
 
+def create_about() -> None:
+    print('create about article')
+    About.objects.create(
+        article=Article.objects.all().order_by('?').first()
+    )
+
+
 def create_users() -> None:
     print('create some users')
-    for i in range(10):
+    for _ in range(10):
         User.objects.create_user(
             username=fake.name(),
             password='123456',
@@ -92,29 +117,39 @@ def create_users() -> None:
 
 def create_comments() -> None:
     print('create some comments')
-    for article in Article.objects.all():
-        user = User.objects.all().order_by('?').first()
-        for i in range(10):
-            Comment.objects.create(
-                user=user,
-                article=article,
-                content=fake.paragraph(),
-            )
+    article = Article.objects.first()
+    user = User.objects.all().order_by('?').first()
+    for _ in range(10):
+        root = Comment.objects.create(
+            user=user,
+            article=article,
+            content=fake.paragraph(),
+        )
+        leaf = Comment.objects.create(
+            user=User.objects.all().order_by('?').first(),
+            article=article,
+            content=fake.paragraph(),
+            parent=root,
+        )
+        Comment.objects.create(
+            user=User.objects.all().order_by('?').first(),
+            article=article,
+            content=fake.paragraph(),
+            parent=leaf,
+        )
 
 
-if __name__ == '__main__':
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "chandeblog.settings")
-    django.setup()
-
-    from django.contrib.auth import get_user_model
-    from comment.models import Comment
-    from blog.models import Category, Article
-    User = get_user_model()
-
+def main() -> None:
     clean_database()
     create_superuser()
     create_users()
     create_categories()
     create_articles()
+    create_about()
     create_md_sample_article()
+    create_comments()
     print('done')
+
+
+if __name__ == '__main__':
+    main()
