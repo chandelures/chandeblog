@@ -1,250 +1,226 @@
-# Heading 1
+Python 虽然提供了庞大的标准库(python standard library)，例如 os 提供了一些文件、目录的操作，sys 提供了和操作系统的交互，但是在一些项目下仅仅依赖这些标准库还是远远不够的。例如我们经常需要用于科学计算的 numpy，网络爬虫的 requests 以及 web 框架 Flask 等 python 库，都属于 python 第三方库。而这些第三方库则需要我们通过 python 官方提供的包管理工具 pip 来进行安装，因此学习 pip 的一些基本操作是很有必要的。
 
-## Heading 2
+## 入门指南
 
-### Heading 3
+在 python>=3.4 的版本中，python 在安装时已经自带了 pip 工具，我们可以通过以下命令来确认 pip 是否已经可以直接使用
 
-#### Heading 4
+```shell
+$ pip --version # python version 3
+$ pip3 --version # python version 3
 
-##### Heading 5
+pip 20.0.2 from /usr/lib/python3/dist-packages/pip (python 3.8)
 
-###### Heading 6
-
-# Heading 1 link [Heading link](https://github.com/pandao/editor.md "Heading link")
-
-## Heading 2 link [Heading link](https://github.com/pandao/editor.md "Heading link")
-
-### Heading 3 link [Heading link](https://github.com/pandao/editor.md "Heading link")
-
-#### Heading 4 link [Heading link](https://github.com/pandao/editor.md "Heading link") Heading link [Heading link](https://github.com/pandao/editor.md "Heading link")
-
-##### Heading 5 link [Heading link](https://github.com/pandao/editor.md "Heading link")
-
-###### Heading 6 link [Heading link](https://github.com/pandao/editor.md "Heading link")
-
-#### 标题（用底线的形式）Heading (underline)
-
-# This is an H1
-
-## This is an H2
-
-### 字符效果和横线等
-
----
-
-~~删除线~~ <s>删除线（开启识别 HTML 标签时）</s>
-_斜体字_ _斜体字_
-**粗体** **粗体**
-**_粗斜体_** **_粗斜体_**
-
-上标：X<sub>2</sub>，下标：O<sup>2</sup>
-
-**缩写(同 HTML 的 abbr 标签)**
-
-> 即更长的单词或短语的缩写形式，前提是开启识别 HTML 标签时，已默认开启
-
-The <abbr title="Hyper Text Markup Language">HTML</abbr> specification is maintained by the <abbr title="World Wide Web Consortium">W3C</abbr>.
-
-### 引用 Blockquotes
-
-> 引用文本 Blockquotes
-
-引用的行内混合 Blockquotes
-
-> 引用：如果想要插入空白换行`即<br />标签`，在插入处先键入两个以上的空格然后回车即可，[普通链接](http://localhost/)。
-
-### 锚点与链接 Links
-
-[普通链接](http://localhost/)
-
-[普通链接带标题](http://localhost/ "普通链接带标题")
-
-直接链接：<https://github.com>
-
-[锚点链接][anchor-id]
-
-[anchor-id]: http://www.this-anchor-link.com/
-
-GFM a-tail link @pandao
-
-> @pandao
-
-### 多语言代码高亮 Codes
-
-#### 行内代码 Inline code
-
-执行命令：`npm install marked`
-
-#### 缩进风格
-
-即缩进四个空格，也做为实现类似`<pre>`预格式化文本(Preformatted Text)的功能。
-
-    <?php
-        echo "Hello world!";
-    ?>
-
-预格式化文本：
-
-    | First Header  | Second Header |
-    | ------------- | ------------- |
-    | Content Cell  | Content Cell  |
-    | Content Cell  | Content Cell  |
-
-#### JS 代码　
-
-```javascript
-function test() {
-  console.log("Hello world!");
-}
-
-(function () {
-  var box = function () {
-    return box.fn.init();
-  };
-
-  box.prototype = box.fn = {
-    init: function () {
-      console.log("box.init()");
-
-      return this;
-    },
-
-    add: function (str) {
-      alert("add", str);
-
-      return this;
-    },
-
-    remove: function (str) {
-      alert("remove", str);
-
-      return this;
-    },
-  };
-
-  box.fn.init.prototype = box.fn;
-
-  window.box = box;
-})();
-
-var testBox = box();
-testBox.add("jQuery").remove("jQuery");
 ```
 
-#### HTML 代码 HTML codes
+如果还没有安装 pip 的话，则可以通过使用脚本来进行安装
 
-```html
-<!DOCTYPE html>
-<html>
-  <head>
-    <mate charest="utf-8" />
-    <title>Hello world!</title>
-  </head>
-  <body>
-    <h1>Hello world!</h1>
-  </body>
-</html>
+```shell
+$ curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py # 获取get-pip.py
+$ sudo python get-pip.py
+
 ```
 
-### 图片 Images
+或使用包管理器进行安装（Linux 环境下）
 
-Image:
+```shell
+$ sudo apt install python3-pip # ubuntu/debian
+$ sudo yum install python3-pip # centos
 
-![](https://pandao.github.io/editor.md/examples/images/4.jpg)
+```
 
-> Follow your heart.
+### 安装第三方包
 
-![](https://pandao.github.io/editor.md/examples/images/8.jpg)
+例如，我们需要开发一个网络爬虫的项目时需要用到 requests，那么就需要先使用 pip 来安装 requests
 
-> 图为：厦门白城沙滩
+```shell
+$ pip install requests
 
-图片加链接 (Image + Link)：
+```
 
-[![](https://pandao.github.io/editor.md/examples/images/7.jpg)](https://pandao.github.io/editor.md/examples/images/7.jpg "李健首张专辑《似水流年》封面")
+然后我们可以通过在 python 命令行中 import requests 来判断是否安装成功
 
-> 图为：李健首张专辑《似水流年》封面
+```shell
+$ python
+>>> import requests
+>>>
+```
 
----
+如果安装成功的话，我们就可以在常规的 py 文件中引用 requests 了
 
-### 列表 Lists
+```python
+import requests
 
-#### 无序列表（减号）Unordered Lists (-)
+url = 'https://www.baidu.com'
+res = requests.get(url)
+print(res.text)
+```
 
-- 列表一
-- 列表二
-- 列表三
+如果安装不成功的话可以通过在搜索引擎中查询相关错误信息来解决。
 
-#### 无序列表（星号）Unordered Lists (\*)
+### 卸载第三方包
 
-- 列表一
-- 列表二
-- 列表三
+同时我们也可以通过 pip 来卸载一些我们用不到的包
 
-#### 无序列表（加号和嵌套）Unordered Lists (+)
+```shell
+$ pip uninstall requests
+```
 
-- 列表一
-- 列表二
-  - 列表二-1
-  - 列表二-2
-  - 列表二-3
-- 列表三
-  - 列表一
-  - 列表二
-  - 列表三
+但是这种方法的缺点就是无法卸载 requests 的依赖包，
 
-#### 有序列表 Ordered Lists (-)
+```shell
+$ pip list # 列出pip安装的包
+Package       Version
+------------- ---------
+certifi       2020.12.5
+chardet       4.0.0
+idna          2.10
+pip           20.0.2
+pkg-resources 0.0.0
+requests      2.25.1
+setuptools    44.0.0
+urllib3       1.26.4
 
-1. 第一行
-2. 第二行
-3. 第三行
+$ pip uninstall requests
 
-#### GFM task list
+$ pip list
+Package       Version
+------------- ---------
+certifi       2020.12.5
+chardet       4.0.0
+idna          2.10
+pip           20.0.2
+pkg-resources 0.0.0
+setuptools    44.0.0
+urllib3       1.26.4
+```
 
-- [x] GFM task list 1
-- [x] GFM task list 2
-- [ ] GFM task list 3
-  - [ ] GFM task list 3-1
-  - [ ] GFM task list 3-2
-  - [ ] GFM task list 3-3
-- [ ] GFM task list 4
-  - [ ] GFM task list 4-1
-  - [ ] GFM task list 4-2
+因此我们可以通过 pip-autoremove 来实现同时卸载这些依赖包
 
----
+```shell
+$ pip install pip-autoremove
 
-### 绘制表格 Tables
+$ pip list
+Package        Version
+-------------- ---------
+certifi        2020.12.5
+chardet        4.0.0
+idna           2.10
+pip            20.0.2
+pip-autoremove 0.9.1
+pkg-resources  0.0.0
+requests       2.25.1
+setuptools     44.0.0
+urllib3        1.26.4
 
-| 项目   |  价格 | 数量 |
-| ------ | ----: | :--: |
-| 计算机 | $1600 |  5   |
-| 手机   |   $12 |  12  |
-| 管线   |    $1 | 234  |
+$ pip-autoremove requests
 
-| First Header | Second Header |
-| ------------ | ------------- |
-| Content Cell | Content Cell  |
-| Content Cell | Content Cell  |
+$ pip list
+Package        Version
+-------------- -------
+pip            20.0.2
+pip-autoremove 0.9.1
+pkg-resources  0.0.0
+setuptools     44.0.0
+```
 
-| First Header | Second Header |
-| ------------ | ------------- |
-| Content Cell | Content Cell  |
-| Content Cell | Content Cell  |
+### 其他常用的 pip 命令
 
-| Function name | Description                |
-| ------------- | -------------------------- |
-| `help()`      | Display the help window.   |
-| `destroy()`   | **Destroy your computer!** |
+**显示帮助**
 
-| Left-Aligned  | Center Aligned  | Right Aligned |
-| :------------ | :-------------: | ------------: |
-| col 3 is      | some wordy text |         $1600 |
-| col 2 is      |    centered     |           $12 |
-| zebra stripes |    are neat     |            $1 |
+```shell
+$ pip help
 
-| Item     | Value |
-| -------- | ----: |
-| Computer | $1600 |
-| Phone    |   $12 |
-| Pipe     |    $1 |
+Usage:
+  pip <command> [options]
 
----
+Commands:
+  install                     Install packages.
+  download                    Download packages.
+  uninstall                   Uninstall packages.
+  freeze                      Output installed packages in requirements format.
+  list                        List installed packages.
+  show                        Show information about installed packages.
+  check                       Verify installed packages have compatible dependencies.
+  config                      Manage local and global configuration.
+  search                      Search PyPI for packages.
+  wheel                       Build wheels from your requirements.
+  hash                        Compute hashes of package archives.
+  completion                  A helper command used for command completion.
+  debug                       Show information useful for debugging.
+  help                        Show help for commands.
+```
+
+**升级**
+
+```shell
+$ pip install --upgrade [package]
+```
+
+**搜索**
+
+```shell
+$ pip search [package]
+```
+
+**显示相关信息**
+
+```shell
+$ pip show [package]
+```
+
+## 使用 Requirements.txt
+
+我们在进行项目开发时，通常需要记录我们所安装的第三方库作为依赖，我们可以通过 python freeze 来生成一个名为 requirements.txt 的文件来管理这些第三方库
+
+```shell
+$ pip freeze > requirements.txt
+$ cat requirements.txt
+certifi==2020.12.5
+chardet==4.0.0
+idna==2.10
+pip-autoremove==0.9.1
+requests==2.25.1
+urllib3==1.26.4
+```
+
+freeze 命令生成了所有安装过的第三方库名称以及版本号,这样我们在其他环境下就可以通过 requirements.txt 来安装项目中的所有依赖了
+
+```shell
+$ pip install -r requirements.txt
+
+```
+
+通过 pip freeze 来生成的 requirements.txt 存在一个缺点就是其中包含了我们所需要安装库的依赖，如果我们不想要在项目中的 requirements.txt 中存在这些依赖项，则需要通过 pipreqs 来实现
+
+```shell
+$ pip install pipreqs
+$ pipreqs . # 在项目根目录下运行
+
+```
+
+pipreqs 只会生成在项目中 import 过的包，因此如果项目中还含有一些没有通过 import 导入的包则需要手动添加到 requirements.txt 之中。
+
+## 换源
+
+如果在国内使用 pip 的默认源来安装第三方包的话，则可能会出现下载速度缓慢的情况。我们可以通过更换默认源为国内的镜像源来解决，例如我们将 pip 换为阿里的镜像源
+
+```shell
+$ pip config set global.index-url https://mirrors.aliyun.com/pypi/simple
+
+```
+
+该命令将会在我们当前用户的家目录下创建一个 pip 配置文件用于更换镜像源
+
+```shell
+$ cat ~/.config/pip/pip.conf
+[global]
+index-url = https://mirrors.aliyun.com/pypi/simple
+
+```
+
+也可以通过在 pip 后面加参数临时改变源
+
+```shell
+$ pip install [package] -i https://mirrors.aliyun.com/pypi/simple
+
+```

@@ -27,11 +27,12 @@ class UserProfileTest(TestCase):
 
     @staticmethod
     def gen_default_avatar(size=(50, 50), color=(256, 0, 0)) -> None:
-        image = Ima.new('RGBA', size=size, color=color)
         if not Path('media/avatar').exists():
             Path('media/avatar').mkdir()
-        with open('media/avatar/default.png', 'wb') as f:
-            image.save(f, 'png')
+        if not Path('media/avatar/default.png').exists():
+            image = Ima.new('RGBA', size=size, color=color)
+            with open('media/avatar/default.png', 'wb') as f:
+                image.save(f, 'png')
 
     def test_str_representation(self) -> None:
         self.assertEqual(self.user.profile.__str__(), self.user.username)
