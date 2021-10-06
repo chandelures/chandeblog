@@ -1,4 +1,4 @@
-Django==3.2.7
+Django==3.2.8
 Pillow==8.3.2
 djangorestframework==3.12.4
 django-uuslug==1.2.0
