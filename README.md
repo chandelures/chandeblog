@@ -102,22 +102,6 @@ local_settings = {
 }
 ```
 
-## Deploy
-
-There is a automatic script based on fabric to deloy this project at anywhere. You can update the fabfile in subdirectory named scripts to satisfy your requirements.
-
-Install fabric
-
-```shell
-(env) $ pip install fabric
-```
-
-Run fabfile
-
-```shell
-(env) $ fab -r scripts
-```
-
 ## License
 
 [MIT License](https://raw.githubusercontent.com/chandelures/chandeblog/dev/LICENSE)
