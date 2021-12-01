@@ -1,4 +1,0 @@
-[submodule "chandeblog-frontend"]
-	path = chandeblog-frontend
-	url = https://github.com/chandelures/chandeblog-frontend
-	branch = master
