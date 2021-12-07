@@ -1,9 +1,10 @@
+import random
 from flask import Flask
 import faker
 from app import create_app
 from app.models import db
 from app.models.auth import User
-from app.models.blog import Category
+from app.models.blog import Article, Category
 
 en_fake = faker.Faker("en_US")
 zh_fake = faker.Faker("zh_CN")
@@ -24,6 +25,30 @@ def title() -> str:
 def section() -> str:
     return "## {}\n\n".format(zh_fake.sentence().rstrip(".")) + \
         "{}\n\n".format(zh_fake.paragraph(10))*2
+
+
+def subsection() -> str:
+    return "### {}\n\n".format(zh_fake.sentence().rstrip(".")) + \
+        "{}\n\n".format(zh_fake.paragraph(10))*3
+
+
+def abstract() -> str:
+    return "{}\n\n".format(zh_fake.paragraph(8))*2
+
+
+def content() -> str:
+    return abstract() + section()*2 + subsection()*2 + \
+        section() + subsection()*3
+
+
+def get_admin(app: Flask) -> User:
+    with app.app_context():
+        return User.query.filter_by(superuser=True).first()
+
+
+def get_random_category(app: Flask) -> Category:
+    with app.app_context():
+        return random.choice(Category.query.all())
 
 
 def clean_database(app: Flask) -> None:
@@ -50,7 +75,7 @@ def create_users(app: Flask) -> None:
             user = User(username, "password",
                         "{}@{}.org".format(username, word()))
             db.session.add(user)
-        db.session.commit()
+            db.session.commit()
 
 
 def create_categories(app: Flask) -> None:
@@ -60,12 +85,18 @@ def create_categories(app: Flask) -> None:
         for name in categorie_names:
             category = Category(name)
             db.session.add(category)
-        db.session.commit()
+            db.session.commit()
 
 
 def create_articles(app: Flask) -> None:
     print("create some fake articles")
     with app.app_context():
+        for _ in range(100):
+            article = Article(title(), abstract(), content(),
+                              author=get_admin(app).uid,
+                              category=get_random_category(app).slug)
+            db.session.add(article)
+            db.session.commit()
 
 
 def main() -> None:
@@ -73,6 +104,8 @@ def main() -> None:
     clean_database(app)
     create_superuser(app)
     create_users(app)
+    create_categories(app)
+    create_articles(app)
     print("done")
 
 

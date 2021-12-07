@@ -8,8 +8,9 @@ api = Api(bp)
 
 
 class Root(Resource):
-    decorators = [token_auth.login_required(role=["admin"])]
+    #decorators = [token_auth.login_required(role=["admin"])]
 
+    @token_auth.login_required(role="admin")
     def get(self) -> dict:
         return {
             "hello": "world",

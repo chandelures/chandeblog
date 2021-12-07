@@ -1,7 +1,8 @@
+from operator import ge
 from uuid import uuid4
+from werkzeug.security import generate_password_hash
 import hashlib
 import os
-from werkzeug.security import generate_password_hash
 import sqlalchemy as sa
 
 from app.models import db
@@ -19,12 +20,13 @@ class User(db.Model):
     superuser = sa.Column(sa.Boolean, default=False)
     active = sa.Column(sa.Boolean, default=True)
 
-    def __init__(self, username, password, email, stuff=False, superuser=False) -> None:
+    def __init__(self, username, password, email, **kwargs) -> None:
         self.username = username
-        self.password = generate_password_hash(password)
+        self.password = password
         self.email = email
-        self.stuff = stuff
-        self.superuser = superuser
+        self.stuff = kwargs.get("stuff", False)
+        self.superuser = kwargs.get("superuser", False)
+        self.hash_password()
 
     def __repr__(self) -> str:
         return "<User {}>".format(self.username)
@@ -43,7 +45,10 @@ class User(db.Model):
 
     @property
     def is_active(self) -> bool:
-        return self.is_active
+        return self.active
+
+    def hash_password(self) -> None:
+        self.password = generate_password_hash(self.password)
 
     def get_roles(self) -> str:
         if self.is_admin:
@@ -58,7 +63,7 @@ class Token(db.Model):
     id = sa.Column(sa.Integer, primary_key=True)
     user = sa.Column(sa.Integer, sa.ForeignKey("users.uid"))
     value = sa.Column(sa.String(40), unique=True, index=True,
-                      default=hashlib.sha1(os.urandom(24)).hexdigest)
+                      default=lambda: hashlib.sha1(os.urandom(24)).hexdigest())
 
     def __init__(self, user):
         self.user = user

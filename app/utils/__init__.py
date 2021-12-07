@@ -1,3 +1,3 @@
 
 def slugify(s: str) -> str:
-    return s.strip()
+    return s.replace(" ", "-")

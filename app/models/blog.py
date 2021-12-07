@@ -35,16 +35,15 @@ class Article(db.Model):
     updated = sa.Column(sa.DateTime, default=datetime.now,
                         onupdate=datetime.now)
 
-    def __init__(self, title, abstract, content, author, category=None) -> None:
+    def __init__(self, title, abstract, content, **kwargs) -> None:
         self.title = title
         self.abstract = abstract
         self.content = content
-        self.author = author
-        self.category = category
+        self.category = kwargs.get("category", None)
         self.update_slug()
 
     def update_slug(self) -> None:
-        self.slug = slugify(self.name)
+        self.slug = slugify(self.title)
 
 
 class About(db.Model):
