@@ -1,9 +1,10 @@
-name: Lint and Test
+name: Test and Lint
 
 on: [push, pull_request]
 
 jobs:
   build:
+    name: Test and Lint
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
