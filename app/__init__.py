@@ -1,5 +1,8 @@
 import os
+from pathlib import Path
 from flask import Flask
+
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 def create_app(test_config=None) -> Flask:
@@ -10,6 +13,8 @@ def create_app(test_config=None) -> Flask:
             app.instance_path
         ),
         SQLALCHEMY_TRACK_MODIFICATIONS=False,
+        UPLOAD_FOLDER=os.path.join(BASE_DIR, "media"),
+        MAX_CONTENT_LENGTH=16*1000*1000,
     )
 
     if test_config is None:
@@ -19,6 +24,7 @@ def create_app(test_config=None) -> Flask:
 
     try:
         os.makedirs(app.instance_path)
+        os.makedirs(app.config["UPLOAD_FOLDER"])
     except OSError:
         pass
 
@@ -27,8 +33,6 @@ def create_app(test_config=None) -> Flask:
     migrate.init_app(app, db)
 
     from app.views import bp
-    from app.views import auth
-    bp.register_blueprint(auth.bp)
     app.register_blueprint(bp)
 
     return app

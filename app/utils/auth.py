@@ -21,6 +21,8 @@ def verify_password(username, password) -> Union[User, None]:
             or_(User.username == username, User.email == username)).first()
         if not user:
             return
+        if not user.active:
+            return
         if check_password_hash(user.password, password):
             return user
 

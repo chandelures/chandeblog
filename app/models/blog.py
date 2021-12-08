@@ -40,6 +40,7 @@ class Article(db.Model):
         self.abstract = abstract
         self.content = content
         self.category = kwargs.get("category", None)
+        self.author = kwargs.get("author", None)
         self.update_slug()
 
     def update_slug(self) -> None:
@@ -51,5 +52,5 @@ class About(db.Model):
     article = sa.Column(sa.String(100), sa.ForeignKey(Article.slug))
 
     def __init__(self, article) -> None:
-        self.id = 1
+        self.id = 0
         self.article = article

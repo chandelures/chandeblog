@@ -61,8 +61,8 @@ def clean_database(app: Flask) -> None:
 def create_superuser(app: Flask) -> None:
     print("create superuser...")
     with app.app_context():
-        admin = User("admin", "admin", "admin@example.org",
-                     stuff=True, superuser=True)
+        admin = User("admin", "admin@example.org", stuff=True, superuser=True)
+        admin.set_password("admin")
         db.session.add(admin)
         db.session.commit()
 
@@ -72,8 +72,8 @@ def create_users(app: Flask) -> None:
     with app.app_context():
         for _ in range(10):
             username = name()
-            user = User(username, "password",
-                        "{}@{}.org".format(username, word()))
+            user = User(username, "{}@{}.org".format(username, word()))
+            user.set_password("password")
             db.session.add(user)
             db.session.commit()
 
