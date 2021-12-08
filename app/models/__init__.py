@@ -4,5 +4,5 @@ from flask_migrate import Migrate
 db = SQLAlchemy()
 migrate = Migrate()
 
-from app.models.auth import *
-from app.models.blog import *
+from app.models.auth import *  # NOQA
+from app.models.blog import *  # NOQA

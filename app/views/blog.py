@@ -1,4 +1,4 @@
-from flask import Blueprint, request, current_app, url_for
+from flask import Blueprint, request, url_for
 from flask_restful import Api, Resource
 
 from app.utils.auth import token_auth
@@ -19,17 +19,29 @@ class ArticleList(Resource):
         pagination = Article.query.order_by(Article.created.desc()).paginate(
             page=page, per_page=size, max_per_page=max_size)
         return {
-            "count": pagination.total,
-            "next": url_for("blog.articles", page=pagination.next_num, _external=True) if pagination.has_next else None,
-            "previous": url_for("blog.articles", page=pagination.prev_num, _external=True) if pagination.has_prev else None,
+            "count":
+            pagination.total,
+            "next":
+            url_for("blog.articles", page=pagination.next_num, _external=True)
+            if pagination.has_next else None,
+            "previous":
+            url_for("blog.articles", page=pagination.prev_num, _external=True)
+            if pagination.has_prev else None,
             "results": [{
-                "title": item.title,
-                "abstract": item.abstract,
-                "slug": item.slug,
-                "authorName": User.query.filter_by(uid=item.author).first().username,
-                "created": item.created.isoformat(),
-                "updated": item.updated.isoformat(),
-                "views": item.views,
+                "title":
+                item.title,
+                "abstract":
+                item.abstract,
+                "slug":
+                item.slug,
+                "authorName":
+                User.query.filter_by(uid=item.author).first().username,
+                "created":
+                item.created.isoformat(),
+                "updated":
+                item.updated.isoformat(),
+                "views":
+                item.views,
             } for item in pagination.items],
         }
 
@@ -47,8 +59,11 @@ class ArticleCreate(Resource):
             return {"detail": "title, abstract and content is required"}, 400
         if Article.query.filter_by(title=title).first():
             return {"detail": "already exists"}, 400
-        item = Article(title, abstract, content,
-                       category=category, author=author.uid)
+        item = Article(title,
+                       abstract,
+                       content,
+                       category=category,
+                       author=author.uid)
         item.author = author.uid
         db.session.add(item)
         db.session.commit()
@@ -58,7 +73,8 @@ class ArticleCreate(Resource):
             "content": item.content,
             "category": item.category,
             "slug": item.slug,
-            "authorName": User.query.filter_by(uid=item.author).first().username,
+            "authorName":
+            User.query.filter_by(uid=item.author).first().username,
             "created": item.created.isoformat(),
             "updated": item.updated.isoformat(),
         }, 201
@@ -69,10 +85,11 @@ class ArticleDetail(Resource):
         item = Article.query.filter_by(slug=slug).first()
         if not item:
             return {"detail": "not fount"}, 404
-        next = Article.query.filter(
-            Article.created > item.created).order_by(Article.created).first()
-        previous = Article.query.filter(Article.created < item.created).order_by(
-            Article.created.desc()).first()
+        next = Article.query.filter(Article.created > item.created).order_by(
+            Article.created).first()
+        previous = Article.query.filter(
+            Article.created < item.created).order_by(
+                Article.created.desc()).first()
         author = User.query.filter_by(uid=item.author).first()
         return {
             "title": item.title,
@@ -82,7 +99,9 @@ class ArticleDetail(Resource):
             "created": item.created.isoformat(),
             "updated": item.updated.isoformat(),
             "authorName": author.username,
-            "avatar": url_for("world.media", path=author.avatar, _external=True),
+            "avatar": url_for("world.media",
+                              path=author.avatar,
+                              _external=True),
             "category": item.category,
             "next": next.slug if next else None,
             "previous": previous.slug if previous else None,
@@ -96,8 +115,10 @@ class ArticleDetail(Resource):
         content = data.get("content")
         category = data.get("category")
         item = Article.query.filter_by(slug=slug).first()
-        attrs = dict(title=title, abstract=abstract,
-                     content=content, category=category)
+        attrs = dict(title=title,
+                     abstract=abstract,
+                     content=content,
+                     category=category)
         for name, value in attrs.items():
             if value:
                 setattr(item, name, value)
@@ -109,7 +130,8 @@ class ArticleDetail(Resource):
             "slug": item.slug,
             "created": item.created.isoformat(),
             "updated": item.updated.isoformat(),
-            "authorName": User.query.filter_by(uid=item.author).first().username,
+            "authorName":
+            User.query.filter_by(uid=item.author).first().username,
             "category": item.category,
         }
 
@@ -128,12 +150,20 @@ class CategoryList(Resource):
         args = pagination_parser.parse_args(request)
         page = args.get("page")
         size = args.get("size")
-        pagination = Category.query.filter_by().paginate(
-            page=page, per_page=size, max_per_page=max_size)
+        pagination = Category.query.filter_by().paginate(page=page,
+                                                         per_page=size,
+                                                         max_per_page=max_size)
         return {
-            "count": pagination.total,
-            "next": url_for("blog.categories", page=pagination.next_num, _external=True) if pagination.has_next else None,
-            "previous": url_for("blog.categories", page=pagination.prev_num, _external=True) if pagination.has_prev else None,
+            "count":
+            pagination.total,
+            "next":
+            url_for("blog.categories",
+                    page=pagination.next_num,
+                    _external=True) if pagination.has_next else None,
+            "previous":
+            url_for("blog.categories",
+                    page=pagination.prev_num,
+                    _external=True) if pagination.has_prev else None,
             "results": [{
                 "name": item.name,
                 "slug": item.slug,
@@ -142,7 +172,7 @@ class CategoryList(Resource):
 
 
 class CategoryCreate(Resource):
-    @ token_auth.login_required(role=["admin", "stuff"])
+    @token_auth.login_required(role=["admin", "stuff"])
     def post(self):
         data = request.get_json() or {}
         name = data.get("name")
@@ -161,21 +191,26 @@ class CategoryDetail(Resource):
         if not item:
             return {"detail": "not found"}, 404
         return {
-            "name": item.name,
-            "slug": item.slug,
-            "articles": [{
+            "name":
+            item.name,
+            "slug":
+            item.slug,
+            "articles":
+            [{
                 "title": article.title,
                 "abstract": article.abstract,
                 "slug": article.slug,
-                "authorName": User.query.filter_by(uid=article.author).first().username,
+                "authorName":
+                User.query.filter_by(uid=article.author).first().username,
                 "item": article.category,
                 "created": article.created.isoformat(),
                 "updated": article.updated.isoformat(),
                 "views": article.views,
-            } for article in Article.query.filter_by(category=item.slug).all()],
+            }
+             for article in Article.query.filter_by(category=item.slug).all()],
         }
 
-    @ token_auth.login_required(role=["admin", "stuff"])
+    @token_auth.login_required(role=["admin", "stuff"])
     def put(self, slug):
         data = request.get_json() or {}
         name = data.get("name")
@@ -184,7 +219,7 @@ class CategoryDetail(Resource):
             item.name = name
         db.session.commit()
 
-    @ token_auth.login_required(role=["admin", "stuff"])
+    @token_auth.login_required(role=["admin", "stuff"])
     def delete(self, slug):
         item = Category.query.filter_by(slug=slug).first()
         if not item:
@@ -212,11 +247,12 @@ class AboutView(Resource):
             "slug": article.slug,
             "created": article.created.isoformat(),
             "updated": article.updated.isoformat(),
-            "authorName": User.query.filter_by(uid=article.author).first().username,
+            "authorName":
+            User.query.filter_by(uid=article.author).first().username,
             "category": article.category,
         }
 
-    @ token_auth.login_required(role=["admin", "stuff"])
+    @token_auth.login_required(role=["admin", "stuff"])
     def post(self):
         data = request.get_json() or {}
         article = data.get("article")
@@ -234,10 +270,12 @@ class AboutView(Resource):
 
 api.add_resource(ArticleList, "/articles", endpoint="articles")
 api.add_resource(ArticleCreate, "/articles", endpoint="article-create")
-api.add_resource(ArticleDetail, "/articles/<string:slug>",
+api.add_resource(ArticleDetail,
+                 "/articles/<string:slug>",
                  endpoint="article-detail")
 api.add_resource(CategoryList, "/categories", endpoint="categories")
 api.add_resource(CategoryCreate, "/categories", endpoint="category-create")
-api.add_resource(CategoryDetail, "/categories/<string:slug>",
+api.add_resource(CategoryDetail,
+                 "/categories/<string:slug>",
                  endpoint="category-detail")
 api.add_resource(AboutView, "/about", endpoint="about")

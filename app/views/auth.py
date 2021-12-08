@@ -1,6 +1,5 @@
 import os
 from sqlalchemy import or_
-from uuid import uuid4
 from werkzeug.utils import secure_filename
 from flask import Blueprint, current_app, request
 from flask.helpers import url_for
@@ -72,17 +71,27 @@ class ProfileList(Resource):
         args = pagination_parser.parse_args(request)
         page = args.get("page")
         size = args.get("size")
-        pagination = User.query.filter_by().paginate(
-            page=page, per_page=size, max_per_page=max_size)
+        pagination = User.query.filter_by().paginate(page=page,
+                                                     per_page=size,
+                                                     max_per_page=max_size)
         return {
-            "count": pagination.total,
-            "next": url_for("auth.profiles", page=pagination.next_num, _external=True) if pagination.has_next else None,
-            "previous": url_for("auth.profiles", page=pagination.prev_num, _external=True) if pagination.has_prev else None,
+            "count":
+            pagination.total,
+            "next":
+            url_for("auth.profiles", page=pagination.next_num, _external=True)
+            if pagination.has_next else None,
+            "previous":
+            url_for("auth.profiles", page=pagination.prev_num, _external=True)
+            if pagination.has_prev else None,
             "results": [{
-                "uid": item.uid,
-                "username": item.username,
-                "avatar": url_for("world.media", path=item.avatar, _external=True),
-                "email": item.email,
+                "uid":
+                item.uid,
+                "username":
+                item.username,
+                "avatar":
+                url_for("world.media", path=item.avatar, _external=True),
+                "email":
+                item.email,
             } for item in pagination.items]
         }
 
@@ -115,8 +124,8 @@ class ProfileDetail(Resource):
             filename = secure_filename(file.filename)
             item.delete_avatar_file()
             item.avatar = item.avatar_upload_to(filename)
-            file.save(os.path.join(
-                current_app.config["UPLOAD_FOLDER"], item.avatar))
+            file.save(
+                os.path.join(current_app.config["UPLOAD_FOLDER"], item.avatar))
 
         attrs = dict(username=username, email=email)
         for name, value in attrs.items():
