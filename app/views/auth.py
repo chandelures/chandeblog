@@ -5,7 +5,6 @@ from flask import Blueprint, current_app, request
 from flask.helpers import url_for
 from flask_restful import Api, Resource
 
-from app.utils import allow_avatar_file
 from app.utils.pagination import pagination_parser, max_size
 from app.utils.auth import check_password, verify_password, token_auth
 from app.models import db
@@ -119,7 +118,7 @@ class ProfileDetail(Resource):
 
         if "avatar" in request.files:
             file = request.files["avatar"]
-            if not allow_avatar_file(file.filename):
+            if not User.allow_avatar_file(file.filename):
                 return {"detail": "avatar is invalid"}, 400
             filename = secure_filename(file.filename)
             item.delete_avatar_file()

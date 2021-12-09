@@ -122,6 +122,7 @@ class ArticleDetail(Resource):
         for name, value in attrs.items():
             if value:
                 setattr(item, name, value)
+        item.update_slug()
         db.session.commit()
         return {
             "title": item.title,
@@ -217,6 +218,7 @@ class CategoryDetail(Resource):
         item = Category.query.filter_by(slug=slug).first()
         if name:
             item.name = name
+        item.update_slug()
         db.session.commit()
 
     @token_auth.login_required(role=["admin", "stuff"])

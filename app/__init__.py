@@ -24,7 +24,6 @@ def create_app(test_config=None) -> Flask:
 
     try:
         os.makedirs(app.instance_path)
-        os.makedirs(app.config["UPLOAD_FOLDER"])
     except OSError:
         pass
 

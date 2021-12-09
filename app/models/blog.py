@@ -39,8 +39,9 @@ class Article(db.Model):
         self.title = title
         self.abstract = abstract
         self.content = content
-        self.category = kwargs.get("category", None)
-        self.author = kwargs.get("author", None)
+        for name, value in kwargs.items():
+            if value:
+                setattr(self, name, value)
         self.update_slug()
 
     def update_slug(self) -> None:

@@ -11,7 +11,9 @@ from app.models import db
 class User(db.Model):
     __tablename__ = "users"
     id = sa.Column(sa.Integer, primary_key=True)
-    uid = sa.Column(sa.String(36), unique=True, index=True,
+    uid = sa.Column(sa.String(36),
+                    unique=True,
+                    index=True,
                     default=lambda: str(uuid4()))
     username = sa.Column(sa.String(64), unique=True, nullable=False)
     password = sa.Column(sa.String(128), nullable=False)
@@ -31,20 +33,12 @@ class User(db.Model):
         return "<User {}>".format(self.username)
 
     @property
-    def is_superuser(self) -> bool:
-        return self.superuser
-
-    @property
     def is_admin(self) -> bool:
         return self.superuser
 
     @property
     def is_stuff(self) -> bool:
-        return self.superuser
-
-    @property
-    def is_active(self) -> bool:
-        return self.active
+        return self.stuff
 
     def set_password(self, password) -> None:
         self.password = generate_password_hash(password)
@@ -56,11 +50,16 @@ class User(db.Model):
             return "stuff"
         return "ordinary"
 
+    @staticmethod
+    def allow_avatar_file(filename) -> bool:
+        return "." in filename and \
+            filename.rsplit('.', 1)[1].lower() in ["png", "jpg", "jpeg"]
+
     def avatar_upload_to(self, filename: str) -> str:
         upload_dir = "avatar/{}".format(self.username)
         try:
-            os.mkdir(os.path.join(
-                current_app.config["UPLOAD_FOLDER"], upload_dir))
+            os.mkdir(
+                os.path.join(current_app.config["UPLOAD_FOLDER"], upload_dir))
         except OSError:
             pass
         ext = filename.rsplit(".", 1)[1].lower() if "." in filename else None
@@ -70,8 +69,8 @@ class User(db.Model):
         if self.avatar == "avatar/default.png":
             return
         try:
-            avatar_file = os.path.join(
-                current_app.config["UPLOAD_FOLDER"], self.avatar)
+            avatar_file = os.path.join(current_app.config["UPLOAD_FOLDER"],
+                                       self.avatar)
             os.remove(avatar_file)
         except OSError:
             pass
@@ -81,7 +80,9 @@ class Token(db.Model):
     __tablename__ = "tokens"
     id = sa.Column(sa.Integer, primary_key=True)
     user = sa.Column(sa.Integer, sa.ForeignKey("users.uid"))
-    value = sa.Column(sa.String(40), unique=True, index=True,
+    value = sa.Column(sa.String(40),
+                      unique=True,
+                      index=True,
                       default=lambda: hashlib.sha1(os.urandom(24)).hexdigest())
 
     def __init__(self, user):
