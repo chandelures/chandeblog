@@ -3,7 +3,7 @@ Pillow==8.4.0
 djangorestframework==3.13.0
 django-uuslug==1.2.0
 django-cors-headers==3.10.1
-cryptography==36.0.0
+cryptography==36.0.1
 Markdown==3.3.6
 psycopg2-binary==2.9.2
 six==1.16.0
