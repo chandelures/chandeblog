@@ -15,6 +15,7 @@ api = Api(bp)
 
 
 class TokenLogin(Resource):
+
     def post(self):
         data = request.get_json() or {}
         username = data.get("username")
@@ -39,14 +40,14 @@ class TokenLogout(Resource):
 
     def post(self):
         user = token_auth.current_user()
-        with current_app.app_context():
-            token = Token.query.filter_by(user=user.uid).first()
-            db.session.delete(token)
-            db.session.commit()
+        token = Token.query.filter_by(user=user.uid).first()
+        db.session.delete(token)
+        db.session.commit()
         return {"detail": "success"}
 
 
 class Register(Resource):
+
     def post(self):
         data = request.get_json() or {}
         username = data.get("username")
@@ -56,15 +57,15 @@ class Register(Resource):
             return {"detail": "username, password, email is required"}, 400
         if not check_password(password):
             return {"detail": "invalid password"}, 400
-        user = User(username, password, email)
+        user = User(username, email)
         user.set_password(password)
         db.session.add(user)
         db.session.commit()
-        return {"detail": "success"}
+        return {"detail": "success"}, 201
 
 
 class ProfileList(Resource):
-    decorators = [token_auth.login_required]
+    decorators = [token_auth.login_required(role=["admin", "stuff"])]
 
     def get(self):
         args = pagination_parser.parse_args(request)
@@ -115,6 +116,8 @@ class ProfileDetail(Resource):
         data = request.get_json() or {}
         username = data.get("username")
         email = data.get("email")
+        if not username or not email:
+            return {"detail": "username, email is required"}, 400
 
         if "avatar" in request.files:
             file = request.files["avatar"]
@@ -128,8 +131,7 @@ class ProfileDetail(Resource):
 
         attrs = dict(username=username, email=email)
         for name, value in attrs.items():
-            if value:
-                setattr(item, name, value)
+            setattr(item, name, value)
         db.session.commit()
 
         return {
