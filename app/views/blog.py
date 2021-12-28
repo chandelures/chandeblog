@@ -12,6 +12,7 @@ api = Api(bp)
 
 
 class ArticleList(Resource):
+
     def get(self):
         args = pagination_parser.parse_args(request)
         page = args.get("page")
@@ -47,6 +48,7 @@ class ArticleList(Resource):
 
 
 class ArticleCreate(Resource):
+
     @token_auth.login_required(role=["admin", "stuff"])
     def post(self):
         data = request.get_json() or {}
@@ -81,6 +83,7 @@ class ArticleCreate(Resource):
 
 
 class ArticleDetail(Resource):
+
     def get(self, slug):
         item = Article.query.filter_by(slug=slug).first()
         if not item:
@@ -147,6 +150,7 @@ class ArticleDetail(Resource):
 
 
 class CategoryList(Resource):
+
     def get(self):
         args = pagination_parser.parse_args(request)
         page = args.get("page")
@@ -173,6 +177,7 @@ class CategoryList(Resource):
 
 
 class CategoryCreate(Resource):
+
     @token_auth.login_required(role=["admin", "stuff"])
     def post(self):
         data = request.get_json() or {}
@@ -184,9 +189,14 @@ class CategoryCreate(Resource):
         category = Category(name)
         db.session.add(category)
         db.session.commit()
+        return {
+            "name": category.name,
+            "slug": category.slug,
+        }, 201
 
 
 class CategoryDetail(Resource):
+
     def get(self, slug):
         item = Category.query.filter_by(slug=slug).first()
         if not item:
@@ -235,10 +245,11 @@ class CategoryDetail(Resource):
 
 
 class AboutView(Resource):
+
     def get(self):
         about = About.query.get(0)
         if not about:
-            return {"detail": "not foun"}, 404
+            return {"detail": "not found"}, 404
         article = Article.query.filter_by(slug=about.article).first()
         if not article:
             return {"detail": "not found"}, 404
@@ -260,6 +271,8 @@ class AboutView(Resource):
         article = data.get("article")
         if not article:
             return {"detail": "article is required"}, 400
+        if not Article.query.filter_by(slug=article).first():
+            return {"detail": "article is not exists"}, 400
         about = About.query.get(0)
         if about:
             about.article = article
