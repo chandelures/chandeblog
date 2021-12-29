@@ -119,16 +119,6 @@ class ProfileDetail(Resource):
         if not username or not email:
             return {"detail": "username, email is required"}, 400
 
-        if "avatar" in request.files:
-            file = request.files["avatar"]
-            if not User.allow_avatar_file(file.filename):
-                return {"detail": "avatar is invalid"}, 400
-            filename = secure_filename(file.filename)
-            item.delete_avatar_file()
-            item.avatar = item.avatar_upload_to(filename)
-            file.save(
-                os.path.join(current_app.config["UPLOAD_FOLDER"], item.avatar))
-
         attrs = dict(username=username, email=email)
         for name, value in attrs.items():
             setattr(item, name, value)
@@ -150,8 +140,31 @@ class ProfileDetail(Resource):
         return {"detail": "success"}
 
 
+class ChangeAvatar(Resource):
+    decorators = [token_auth.login_required]
+
+    def post(self):
+        user = token_auth.current_user()
+        item = User.query.filter_by(uid=user.uid).first()
+        if "avatar" not in request.files:
+            return {"detail": "avatar is required"}, 400
+        file = request.files["avatar"]
+        if not User.allow_avatar_file(file.filename):
+            return {"detail": "avatar is invalid"}, 400
+        filename = secure_filename(file.filename)
+        item.delete_avatar_file()
+        item.avatar = item.avatar_upload_to(filename)
+        file.save(
+            os.path.join(current_app.config["UPLOAD_FOLDER"], item.avatar))
+        db.session.commit()
+        return {"detail": "success"}
+
+
 api.add_resource(TokenLogin, "/token/login", endpoint="token-login")
 api.add_resource(TokenLogout, "/token/logout", endpoint="token-logout")
 api.add_resource(Register, "/register", endpoint="register")
 api.add_resource(ProfileList, "/users", endpoint="profiles")
 api.add_resource(ProfileDetail, "/users/profile", endpoint="profile-detail")
+api.add_resource(ChangeAvatar,
+                 "/users/profile/change/avatar",
+                 endpoint="change-avatar")
