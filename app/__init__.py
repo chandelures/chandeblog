@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 from flask import Flask
+from flask_cors import CORS
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -10,11 +11,10 @@ def create_app(test_config=None) -> Flask:
     app.config.from_mapping(
         SECRET_KEY="dev",
         SQLALCHEMY_DATABASE_URI="sqlite:////{}/db.sqlite3".format(
-            app.instance_path
-        ),
+            app.instance_path),
         SQLALCHEMY_TRACK_MODIFICATIONS=False,
         UPLOAD_FOLDER=os.path.join(BASE_DIR, "media"),
-        MAX_CONTENT_LENGTH=16*1000*1000,
+        MAX_CONTENT_LENGTH=16 * 1000 * 1000,
     )
 
     if test_config is None:
@@ -26,6 +26,8 @@ def create_app(test_config=None) -> Flask:
         os.makedirs(app.instance_path)
     except OSError:
         pass
+
+    CORS(app, allow_headers=app.config.get("ALLOW_HEADERS", []))
 
     from app.models import db, migrate
     db.init_app(app)
