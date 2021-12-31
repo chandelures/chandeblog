@@ -15,6 +15,7 @@ def create_app(test_config=None) -> Flask:
         SQLALCHEMY_TRACK_MODIFICATIONS=False,
         UPLOAD_FOLDER=os.path.join(BASE_DIR, "media"),
         MAX_CONTENT_LENGTH=16 * 1000 * 1000,
+        ORIGINS=[],
     )
 
     if test_config is None:
@@ -27,7 +28,7 @@ def create_app(test_config=None) -> Flask:
     except OSError:
         pass
 
-    CORS(app, allow_headers=app.config.get("ALLOW_HEADERS", []))
+    CORS(app, supports_credentials=True, origins=app.config.get("ORIGINS"))
 
     from app.models import db, migrate
     db.init_app(app)
