@@ -251,21 +251,28 @@ class AboutView(Resource):
         if not about:
             return {"detail": "not found"}, 404
         article = Article.query.filter_by(slug=about.article).first()
+        author = User.query.filter_by(uid=article.author).first()
         if not article:
             return {"detail": "not found"}, 404
         return {
-            "title": article.title,
-            "abstract": article.abstract,
-            "content": article.content,
-            "slug": article.slug,
-            "created": article.created.isoformat(),
-            "updated": article.updated.isoformat(),
+            "title":
+            article.title,
+            "abstract":
+            article.abstract,
+            "content":
+            article.content,
+            "slug":
+            article.slug,
+            "created":
+            article.created.isoformat(),
+            "updated":
+            article.updated.isoformat(),
             "authorName":
-            User.query.filter_by(uid=article.author).first().username,
-            "avatar": url_for("world.media",
-                              path=article.author.avatar,
-                              _external=True),
-            "category": article.category,
+            author.username,
+            "avatar":
+            url_for("world.media", path=author.avatar, _external=True),
+            "category":
+            article.category,
         }
 
     @token_auth.login_required(role=["admin", "stuff"])
