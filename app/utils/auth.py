@@ -1,12 +1,31 @@
 from typing import Union, Tuple
+import click
 from werkzeug.security import check_password_hash
 from sqlalchemy import or_
 from flask import current_app
+from flask.cli import with_appcontext
 from flask_httpauth import HTTPTokenAuth
 
+from app.models import db
 from app.models.auth import User, Token
 
 token_auth = HTTPTokenAuth()
+
+
+@click.command("createsuperuser")
+@click.option("--username", default="")
+@click.option("--email", default="")
+@click.option("--password", default="")
+@with_appcontext
+def create_superuser(username, email, password) -> None:
+    if not username or not email or not password:
+        click.echo("Failed.")
+        return
+    user = User(username, email, stuff=True, superuser=True)
+    user.set_password(password)
+    db.session.add(user)
+    db.session.commit()
+    click.echo("Created.")
 
 
 def check_password(password) -> bool:
