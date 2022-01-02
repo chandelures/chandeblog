@@ -1,25 +1,12 @@
-# Virtualenv 
 venv/
 
-# Editor
 .vscode/
 
-# Pycache
-__pycache__/
 *.pyc
+__pycache__/
 
-# Django
-*.sqlite3
-/static/
+instance/
+
 media/
 
-# Config
-config.py
-
-# Front
-dist/
-dist.zip
-
-# Coverage
 .coverage
-coverage.xml

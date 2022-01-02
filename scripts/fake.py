@@ -1,155 +1,113 @@
-from django.core.exceptions import ImproperlyConfigured
-import os
-import sys
-from pathlib import Path
-
-import django
+import random
+from flask import Flask
 import faker
+from app import create_app
+from app.models import db
+from app.models.auth import User
+from app.models.blog import Article, Category
+
+en_fake = faker.Faker("en_US")
+zh_fake = faker.Faker("zh_CN")
 
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-sys.path.append(BASE_DIR)
+def word() -> str:
+    return en_fake.word()
 
 
-fake = faker.Faker('zh_CN')
-
-try:
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "chandeblog.settings")
-    django.setup()
-
-    from django.contrib.auth import get_user_model
-    from comment.models import Comment
-    from blog.models import Category, Article, About
-    User = get_user_model()
-except ImproperlyConfigured:
-    pass
+def name() -> str:
+    return en_fake.name().replace(" ", "")
 
 
-def clean_database() -> None:
-    print('clean database')
-    Article.objects.all().delete()
-    About.objects.all().delete()
-    Category.objects.all().delete()
-    User.objects.all().delete()
-    Comment.objects.all().delete()
+def title() -> str:
+    return zh_fake.sentence().rstrip(".")
 
 
-def create_superuser() -> None:
-    print('create super user')
-    global user
-    user = User.objects.create_superuser('admin', 'admin@example.com', 'admin')
+def section() -> str:
+    return "## {}\n\n".format(zh_fake.sentence().rstrip(".")) + \
+        "{}\n\n".format(zh_fake.paragraph(10))*2
 
 
-def create_categories() -> None:
-    print('create categories')
-    categories = ['test1', 'test2', 'test3', 'test4', 'test5']
-    for category in categories:
-        Category.objects.create(name=category)
+def subsection() -> str:
+    return "### {}\n\n".format(zh_fake.sentence().rstrip(".")) + \
+        "{}\n\n".format(zh_fake.paragraph(10))*3
 
 
-def create_articles() -> None:
-    print('create some articles by using Faker')
-
-    def section() -> str:
-        return '## {}\n\n{}\n\n{}\n\n'.format(
-            fake.sentence().rstrip('.'),
-            fake.paragraph(10), fake.paragraph(10)
-        )
-
-    def subsection() -> str:
-        return '### {}\n\n{}\n\n{}\n\n{}\n\n'.format(
-            fake.sentence().rstrip('.'),
-            fake.paragraph(10),
-            fake.paragraph(10),
-            fake.paragraph(10)
-        )
-
-    def subsections(count) -> str:
-        results = ''
-        for _ in range(count):
-            results = results + subsection()
-        return results
-
-    for _ in range(100):
-        category = Category.objects.order_by('?').first()
-        title = fake.sentence().rstrip('.')
-        abstract = '{}\n\n{}\n\n'.format(fake.paragraph(8), fake.paragraph(8))
-        content = "{}".format(abstract + section() + section() +
-                              subsections(2) + section() + subsections(3))
-
-        Article.objects.create(
-            title=title,
-            category=category,
-            abstract=abstract,
-            content=content,
-            author=user,
-        )
+def abstract() -> str:
+    return "{}\n\n".format(zh_fake.paragraph(8))*2
 
 
-def create_md_sample_article() -> None:
-    print('create a sample article')
-    Article.objects.create(
-        title='博客文章 Markdown 测试',
-        abstract=Path(BASE_DIR).joinpath(
-            'scripts', 'abstract.md').read_text(encoding='utf-8'),
-        content=Path(BASE_DIR).joinpath(
-            'scripts', 'example.md').read_text(encoding='utf-8'),
-        category=Category.objects.create(name='Markdown测试'),
-        author=user,
-    )
+def content() -> str:
+    return abstract() + section()*2 + subsection()*2 + \
+        section() + subsection()*3
 
 
-def create_about() -> None:
-    print('create about article')
-    About.objects.create(
-        article=Article.objects.all().order_by('?').first()
-    )
+def get_admin(app: Flask) -> User:
+    with app.app_context():
+        return User.query.filter_by(superuser=True).first()
 
 
-def create_users() -> None:
-    print('create some users')
-    for _ in range(10):
-        User.objects.create_user(
-            username=fake.name(),
-            password='123456',
-        )
+def get_random_category(app: Flask) -> Category:
+    with app.app_context():
+        return random.choice(Category.query.all())
 
 
-def create_comments() -> None:
-    print('create some comments')
-    article = Article.objects.first()
-    user = User.objects.all().order_by('?').first()
-    for _ in range(10):
-        root = Comment.objects.create(
-            user=user,
-            article=article,
-            content=fake.paragraph(),
-        )
-        leaf = Comment.objects.create(
-            user=User.objects.all().order_by('?').first(),
-            article=article,
-            content=fake.paragraph(),
-            parent=root,
-        )
-        Comment.objects.create(
-            user=User.objects.all().order_by('?').first(),
-            article=article,
-            content=fake.paragraph(),
-            parent=leaf,
-        )
+def clean_database(app: Flask) -> None:
+    print("clean database...")
+    with app.app_context():
+        db.drop_all()
+        db.create_all()
+
+
+def create_superuser(app: Flask) -> None:
+    print("create superuser...")
+    with app.app_context():
+        admin = User("admin", "admin@example.org", stuff=True, superuser=True)
+        admin.set_password("admin")
+        db.session.add(admin)
+        db.session.commit()
+
+
+def create_users(app: Flask) -> None:
+    print("create some fake users...")
+    with app.app_context():
+        for _ in range(10):
+            username = name()
+            user = User(username, "{}@{}.org".format(username, word()))
+            user.set_password("password")
+            db.session.add(user)
+            db.session.commit()
+
+
+def create_categories(app: Flask) -> None:
+    print("create some fake categories...")
+    with app.app_context():
+        categorie_names = ["python", "php", "javascript", "c++", "world"]
+        for name in categorie_names:
+            category = Category(name)
+            db.session.add(category)
+            db.session.commit()
+
+
+def create_articles(app: Flask) -> None:
+    print("create some fake articles")
+    with app.app_context():
+        for _ in range(100):
+            article = Article(title(), abstract(), content(),
+                              author=get_admin(app).uid,
+                              category=get_random_category(app).slug)
+            db.session.add(article)
+            db.session.commit()
 
 
 def main() -> None:
-    clean_database()
-    create_superuser()
-    create_users()
-    create_categories()
-    create_articles()
-    create_about()
-    create_md_sample_article()
-    create_comments()
-    print('done')
+    app = create_app()
+    clean_database(app)
+    create_superuser(app)
+    create_users(app)
+    create_categories(app)
+    create_articles(app)
+    print("done")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

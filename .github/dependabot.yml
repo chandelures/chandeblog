@@ -1,6 +1,5 @@
 version: 2
 updates:
-  # Fetch and update latest `pip` packages
   - package-ecosystem: pip
     directory: "/"
     schedule:
