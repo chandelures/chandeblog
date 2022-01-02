@@ -251,9 +251,9 @@ class AboutView(Resource):
         if not about:
             return {"detail": "not found"}, 404
         article = Article.query.filter_by(slug=about.article).first()
-        author = User.query.filter_by(uid=article.author).first()
         if not article:
             return {"detail": "not found"}, 404
+        author = User.query.filter_by(uid=article.author).first()
         return {
             "title":
             article.title,
