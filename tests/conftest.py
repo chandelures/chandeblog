@@ -44,6 +44,11 @@ def client(app: Flask):
 
 
 @pytest.fixture
+def runner(app: Flask):
+    return app.test_cli_runner()
+
+
+@pytest.fixture
 def user_client(app: Flask):
     client = app.test_client()
     user = User("temp", "temp@temp.org")

@@ -40,4 +40,7 @@ def create_app(test_config=None) -> Flask:
     from app.views.error import Error
     Error(app)
 
+    from app.utils import init_app
+    init_app(app)
+
     return app
