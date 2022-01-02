@@ -37,4 +37,7 @@ def create_app(test_config=None) -> Flask:
     from app.views import bp
     app.register_blueprint(bp)
 
+    from app.views.error import Error
+    Error(app)
+
     return app
