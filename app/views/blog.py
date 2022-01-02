@@ -247,7 +247,7 @@ class CategoryDetail(Resource):
 class AboutView(Resource):
 
     def get(self):
-        about = About.query.get(0)
+        about = About.query.first()
         if not about:
             return {"detail": "not found"}, 404
         article = Article.query.filter_by(slug=about.article).first()
