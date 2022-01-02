@@ -283,7 +283,7 @@ class AboutView(Resource):
             return {"detail": "article is required"}, 400
         if not Article.query.filter_by(slug=article).first():
             return {"detail": "article is not exists"}, 400
-        about = About.query.get(0)
+        about = About.query.first()
         if about:
             about.article = article
         else:
