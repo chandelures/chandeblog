@@ -10,7 +10,7 @@ The front end blog project is in https://github.com/chandelures/chandeblog-front
 First, install dependencies
 
 ```shell
-(env) $ pip install requirements.txt
+(env) $ pip install -r requirements.txt
 ```
 
 Run server
