@@ -2,7 +2,6 @@ import pytest
 
 import tempfile
 import shutil
-from flask import json
 from flask.app import Flask
 
 from app import create_app
@@ -57,7 +56,8 @@ def user_client(app: Flask):
                           "username": "temp",
                           "password": "temppsw",
                       })
-    token = json.loads(res.data).get("token")
+    assert res.is_json
+    token = res.get_json().get("token")
     client.environ_base["HTTP_AUTHORIZATION"] = "Bearer {}".format(token)
     return client
 
@@ -75,6 +75,7 @@ def stuff_client(app: Flask):
                           "username": "stuff",
                           "password": "stuffpsw",
                       })
-    token = json.loads(res.data).get("token")
+    assert res.is_json
+    token = res.get_json().get("token")
     client.environ_base["HTTP_AUTHORIZATION"] = "Bearer {}".format(token)
     return client

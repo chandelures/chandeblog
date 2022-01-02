@@ -2,7 +2,7 @@ import pytest
 
 import os
 from io import BytesIO
-from flask import Flask, json
+from flask import Flask
 from flask.testing import FlaskClient
 
 from app.models.auth import Token, User
@@ -38,12 +38,14 @@ def test_token_login(client: FlaskClient, username: str, password: str,
         "password": password,
     })
     assert res.status_code == status_code
-    token = json.loads(res.data).get("token")
+    assert res.is_json
+    token = res.get_json().get("token")
     res = client.post(url, json={
         "username": username,
         "password": password,
     })
-    assert json.loads(res.data).get("token") == token
+    assert res.is_json
+    assert res.get_json().get("token") == token
 
 
 def test_token_logout(client: FlaskClient, stuff_client: FlaskClient,
