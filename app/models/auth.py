@@ -79,7 +79,11 @@ class User(db.Model):
 class Token(db.Model):
     __tablename__ = "tokens"
     id = sa.Column(sa.Integer, primary_key=True)
-    user = sa.Column(sa.Integer, sa.ForeignKey("users.uid"))
+    user = sa.Column(
+        sa.String(36),
+        sa.ForeignKey("users.uid"),
+        unique=True,
+    )
     value = sa.Column(sa.String(40),
                       unique=True,
                       index=True,
