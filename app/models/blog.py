@@ -53,5 +53,5 @@ class About(db.Model):
     article = sa.Column(sa.String(128), sa.ForeignKey(Article.slug))
 
     def __init__(self, article) -> None:
-        self.id = 0
+        self.id = 1
         self.article = article

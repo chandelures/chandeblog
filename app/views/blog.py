@@ -262,6 +262,9 @@ class AboutView(Resource):
             "updated": article.updated.isoformat(),
             "authorName":
             User.query.filter_by(uid=article.author).first().username,
+            "avatar": url_for("world.media",
+                              path=article.author.avatar,
+                              _external=True),
             "category": article.category,
         }
 
