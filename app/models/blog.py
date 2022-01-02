@@ -29,7 +29,7 @@ class Article(db.Model):
     author = sa.Column(sa.String(36), sa.ForeignKey(User.uid))
     category = sa.Column(sa.String(128), sa.ForeignKey(
         Category.slug), nullable=True)
-    slug = sa.Column(sa.String(256), unique=True, index=True)
+    slug = sa.Column(sa.String(128), unique=True, index=True)
     views = sa.Column(sa.Integer, default=0)
     created = sa.Column(sa.DateTime, default=datetime.now)
     updated = sa.Column(sa.DateTime, default=datetime.now,
@@ -50,7 +50,7 @@ class Article(db.Model):
 
 class About(db.Model):
     id = sa.Column(sa.Integer, primary_key=True)
-    article = sa.Column(sa.String(100), sa.ForeignKey(Article.slug))
+    article = sa.Column(sa.String(128), sa.ForeignKey(Article.slug))
 
     def __init__(self, article) -> None:
         self.id = 0

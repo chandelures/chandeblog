@@ -9,7 +9,7 @@ from app.models.blog import Article
 class Comment(db.Model):
     __tablename__ = "comments"
     uid = sa.Column(sa.String(36), primary_key=True)
-    article = sa.Column(sa.String(256), sa.ForeignKey(Article.slug))
+    article = sa.Column(sa.String(128), sa.ForeignKey(Article.slug))
     user = sa.Column(sa.String(36), sa.ForeignKey(User.uid))
     content = sa.Column(sa.Text)
     created = sa.Column(sa.DateTime, default=datetime.now)
