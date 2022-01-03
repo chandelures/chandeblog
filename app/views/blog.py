@@ -6,6 +6,7 @@ from app.utils.pagination import pagination_parser, max_size
 from app.models import db
 from app.models.blog import Article, Category, About
 from app.models.auth import User
+from app.utils.error import invalid_api_usage
 
 bp = Blueprint("blog", __name__, url_prefix="/")
 api = Api(bp)
@@ -58,9 +59,10 @@ class ArticleCreate(Resource):
         category = data.get("category")
         author = token_auth.current_user()
         if not title or not abstract or not content:
-            return {"detail": "title, abstract and content is required"}, 400
+            return invalid_api_usage("No title, abstract or content provided",
+                                     400)
         if Article.query.filter_by(title=title).first():
-            return {"detail": "already exists"}, 400
+            return invalid_api_usage("Title is already exist", 400)
         item = Article(title,
                        abstract,
                        content,
@@ -87,7 +89,7 @@ class ArticleDetail(Resource):
     def get(self, slug):
         item = Article.query.filter_by(slug=slug).first()
         if not item:
-            return {"detail": "not fount"}, 404
+            return invalid_api_usage("No such article", 404)
         next = Article.query.filter(Article.created > item.created).order_by(
             Article.created).first()
         previous = Article.query.filter(
@@ -143,10 +145,10 @@ class ArticleDetail(Resource):
     def delete(self, slug):
         item = Article.query.filter_by(slug=slug).first()
         if not item:
-            return {"detail": "not found"}, 204
+            return invalid_api_usage("No such article", 204)
         db.session.delete(item)
         db.session.commit()
-        return {"detail": "success"}
+        return {"message": "success"}
 
 
 class CategoryList(Resource):
@@ -183,9 +185,9 @@ class CategoryCreate(Resource):
         data = request.get_json() or {}
         name = data.get("name")
         if not name:
-            return {"detail": "name is required"}, 400
+            return invalid_api_usage("No name provided", 400)
         if Category.query.filter_by(name=name).first():
-            return {"detail": "already exists"}, 400
+            return invalid_api_usage("Name is already exist", 400)
         category = Category(name)
         db.session.add(category)
         db.session.commit()
@@ -200,7 +202,7 @@ class CategoryDetail(Resource):
     def get(self, slug):
         item = Category.query.filter_by(slug=slug).first()
         if not item:
-            return {"detail": "not found"}, 404
+            return invalid_api_usage("No such category", 404)
         return {
             "name":
             item.name,
@@ -235,13 +237,13 @@ class CategoryDetail(Resource):
     def delete(self, slug):
         item = Category.query.filter_by(slug=slug).first()
         if not item:
-            return {"detail": "not found"}, 204
+            return invalid_api_usage("No such category", 204)
         articles = Article.query.filter_by(category=slug).all()
         for article in articles:
             article.category = None
         db.session.delete(item)
         db.session.commit()
-        return {"detail": "success"}
+        return {"message": "success"}
 
 
 class AboutView(Resource):
@@ -249,30 +251,24 @@ class AboutView(Resource):
     def get(self):
         about = About.query.first()
         if not about:
-            return {"detail": "not found"}, 404
+            return invalid_api_usage("No article is associated with about",
+                                     404)
         article = Article.query.filter_by(slug=about.article).first()
         if not article:
-            return {"detail": "not found"}, 404
+            return invalid_api_usage("No such article", 404)
         author = User.query.filter_by(uid=article.author).first()
         return {
-            "title":
-            article.title,
-            "abstract":
-            article.abstract,
-            "content":
-            article.content,
-            "slug":
-            article.slug,
-            "created":
-            article.created.isoformat(),
-            "updated":
-            article.updated.isoformat(),
-            "authorName":
-            author.username,
-            "avatar":
-            url_for("world.media", path=author.avatar, _external=True),
-            "category":
-            article.category,
+            "title": article.title,
+            "abstract": article.abstract,
+            "content": article.content,
+            "slug": article.slug,
+            "created": article.created.isoformat(),
+            "updated": article.updated.isoformat(),
+            "authorName": author.username,
+            "avatar": url_for("world.media",
+                              path=author.avatar,
+                              _external=True),
+            "category": article.category,
         }
 
     @token_auth.login_required(role=["admin", "stuff"])
@@ -280,9 +276,9 @@ class AboutView(Resource):
         data = request.get_json() or {}
         article = data.get("article")
         if not article:
-            return {"detail": "article is required"}, 400
+            return invalid_api_usage("No article provided", 400)
         if not Article.query.filter_by(slug=article).first():
-            return {"detail": "article is not exists"}, 400
+            return invalid_api_usage("Article is not exist", 400)
         about = About.query.first()
         if about:
             about.article = article
@@ -290,7 +286,7 @@ class AboutView(Resource):
             about = About(article)
             db.session.add(about)
         db.session.commit()
-        return {"detail": "success"}
+        return {"message": "success"}
 
 
 api.add_resource(ArticleList, "/articles", endpoint="articles")

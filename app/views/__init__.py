@@ -3,7 +3,8 @@ from flask.app import Flask
 from flask.helpers import url_for
 from flask_restful import Resource, Api
 
-from app.views import auth, blog, error
+from app.views import auth, blog
+from app.utils.error import page_not_found
 
 bp = Blueprint("world", __name__, url_prefix="/")
 bp.register_blueprint(auth.bp)
@@ -13,7 +14,7 @@ api = Api(bp)
 
 
 def init_app(app: Flask):
-    app.register_error_handler(404, error.page_not_found)
+    app.register_error_handler(404, page_not_found)
 
 
 class Root(Resource):
