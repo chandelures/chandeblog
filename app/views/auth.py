@@ -4,6 +4,7 @@ from werkzeug.utils import secure_filename
 from flask import Blueprint, current_app, request
 from flask.helpers import url_for
 from flask_restful import Api, Resource
+from app.utils.error import invalid_api_usage
 
 from app.utils.pagination import pagination_parser, max_size
 from app.utils.auth import check_password, verify_password, token_auth
@@ -21,9 +22,9 @@ class TokenLogin(Resource):
         username = data.get("username")
         password = data.get("password")
         if not username or not password:
-            return {"detail": "username and password is required"}, 400
+            return invalid_api_usage("No username or password provided", 400)
         if not verify_password(username, password):
-            return {"detail": "login failed"}, 400
+            return invalid_api_usage("Invalid username or password", 400)
         user = User.query.filter(
             or_(User.username == username, User.email == username)).first()
         token = Token.query.filter_by(user=user.uid).first()
@@ -43,7 +44,7 @@ class TokenLogout(Resource):
         token = Token.query.filter_by(user=user.uid).first()
         db.session.delete(token)
         db.session.commit()
-        return {"detail": "success"}
+        return {"message": "success"}
 
 
 class Register(Resource):
@@ -54,14 +55,15 @@ class Register(Resource):
         password = data.get("password")
         email = data.get("email")
         if not username or not password or not email:
-            return {"detail": "username, password, email is required"}, 400
+            return invalid_api_usage("No username, password, email provided",
+                                     400)
         if not check_password(password):
-            return {"detail": "invalid password"}, 400
+            return invalid_api_usage("Invalid password", 400)
         user = User(username, email)
         user.set_password(password)
         db.session.add(user)
         db.session.commit()
-        return {"detail": "success"}, 201
+        return {"message": "success"}, 201
 
 
 class ProfileList(Resource):
@@ -117,7 +119,7 @@ class ProfileDetail(Resource):
         username = data.get("username")
         email = data.get("email")
         if not username or not email:
-            return {"detail": "username, email is required"}, 400
+            return invalid_api_usage("No username or email provided", 400)
 
         attrs = dict(username=username, email=email)
         for name, value in attrs.items():
@@ -137,7 +139,7 @@ class ProfileDetail(Resource):
         item = User.query.filter_by(uid=user.uid).first()
         item.active = False
         db.session.commit()
-        return {"detail": "success"}
+        return {"message": "success"}
 
 
 class ChangeAvatar(Resource):
@@ -147,17 +149,17 @@ class ChangeAvatar(Resource):
         user = token_auth.current_user()
         item = User.query.filter_by(uid=user.uid).first()
         if "avatar" not in request.files:
-            return {"detail": "avatar is required"}, 400
+            return invalid_api_usage("No avatar provided", 400)
         file = request.files["avatar"]
         if not User.allow_avatar_file(file.filename):
-            return {"detail": "avatar is invalid"}, 400
+            return invalid_api_usage("Invalid avatar", 400)
         filename = secure_filename(file.filename)
         item.delete_avatar_file()
         item.avatar = item.avatar_upload_to(filename)
         file.save(
             os.path.join(current_app.config["UPLOAD_FOLDER"], item.avatar))
         db.session.commit()
-        return {"detail": "success"}
+        return {"message": "success"}
 
 
 api.add_resource(TokenLogin, "/token/login", endpoint="token-login")
