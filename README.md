@@ -2,10 +2,9 @@
 
 [![codecov](https://codecov.io/gh/chandelures/chandeblog/branch/master/graph/badge.svg)](https://codecov.io/gh/chandelures/chandeblog)
 
-This is a back end project for [chandeblog](https://blog.chandelure.com/) based on Flask.
-The front end blog project is in https://github.com/chandelures/chandeblog-frontend.git.
+A personal blogging application on the [chandeblog](https://blog.chandelure.me) .
 
-## Run
+## Installation
 
 First, install dependencies
 
@@ -18,6 +17,14 @@ Run server
 ```shell
 (env) $ export FLASK_APP=app
 (env) $ flask run
+```
+
+## Unit Test
+
+```shell
+(env) $ pip install pytest
+
+(env) $ pytest
 ```
 
 ## License
