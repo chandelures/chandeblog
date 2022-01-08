@@ -33,7 +33,7 @@ def subsection() -> str:
 
 
 def abstract() -> str:
-    return "{}\n\n".format(zh_fake.paragraph(8))*2
+    return "{}\n\n".format(zh_fake.paragraph(8)) * 2
 
 
 def content() -> str:
@@ -92,7 +92,9 @@ def create_articles(app: Flask) -> None:
     print("create some fake articles")
     with app.app_context():
         for _ in range(100):
-            article = Article(title(), abstract(), content(),
+            article = Article(title(),
+                              abstract(),
+                              content(),
                               author=get_admin(app).uid,
                               category=get_random_category(app).slug)
             db.session.add(article)
