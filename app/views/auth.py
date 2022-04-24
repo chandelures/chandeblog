@@ -3,19 +3,20 @@ from sqlalchemy import or_
 from werkzeug.utils import secure_filename
 from flask import Blueprint, current_app, request
 from flask.helpers import url_for
-from flask_restful import Api, Resource
-from app.utils.error import invalid_api_usage
+from flask.views import MethodView
 
-from app.utils.pagination import pagination_parser, max_size
+from webargs.flaskparser import parser
+
+from app.utils.error import invalid_api_usage
+from app.utils.args import pagination_args
 from app.utils.auth import check_password, verify_password, token_auth
 from app.models import db
 from app.models.auth import User, Token
 
 bp = Blueprint("auth", __name__, url_prefix="/auth")
-api = Api(bp)
 
 
-class TokenLogin(Resource):
+class TokenLogin(MethodView):
 
     def post(self):
         data = request.get_json() or {}
@@ -36,7 +37,7 @@ class TokenLogin(Resource):
         return {"token": token.value}
 
 
-class TokenLogout(Resource):
+class TokenLogout(MethodView):
     decorators = [token_auth.login_required]
 
     def post(self):
@@ -47,7 +48,7 @@ class TokenLogout(Resource):
         return {"message": "success"}
 
 
-class Register(Resource):
+class Register(MethodView):
 
     def post(self):
         data = request.get_json() or {}
@@ -66,25 +67,26 @@ class Register(Resource):
         return {"message": "success"}, 201
 
 
-class ProfileList(Resource):
+class ProfileList(MethodView):
     decorators = [token_auth.login_required(role=["admin", "stuff"])]
 
-    def get(self):
-        args = pagination_parser.parse_args(request)
-        page = args.get("page")
-        size = args.get("size")
-        pagination = User.query.filter_by().paginate(page=page,
-                                                     per_page=size,
-                                                     max_per_page=max_size)
+    @parser.use_args(pagination_args, location="query")
+    def get(self, args):
+        pagination = User.query.filter_by().paginate(
+            page=args["page"],
+            per_page=args["size"],
+        )
         return {
             "count":
             pagination.total,
             "next":
-            url_for("auth.profiles", page=pagination.next_num, _external=True)
-            if pagination.has_next else None,
+            url_for("world.auth.profiles",
+                    page=pagination.next_num,
+                    _external=True) if pagination.has_next else None,
             "previous":
-            url_for("auth.profiles", page=pagination.prev_num, _external=True)
-            if pagination.has_prev else None,
+            url_for("world.auth.profiles",
+                    page=pagination.prev_num,
+                    _external=True) if pagination.has_prev else None,
             "results": [{
                 "uid":
                 item.uid,
@@ -98,7 +100,7 @@ class ProfileList(Resource):
         }
 
 
-class ProfileDetail(Resource):
+class ProfileDetail(MethodView):
     decorators = [token_auth.login_required]
 
     def get(self):
@@ -142,7 +144,7 @@ class ProfileDetail(Resource):
         return {"message": "success"}
 
 
-class ChangeAvatar(Resource):
+class ChangeAvatar(MethodView):
     decorators = [token_auth.login_required]
 
     def post(self):
@@ -162,11 +164,21 @@ class ChangeAvatar(Resource):
         return {"message": "success"}
 
 
-api.add_resource(TokenLogin, "/token/login", endpoint="token-login")
-api.add_resource(TokenLogout, "/token/logout", endpoint="token-logout")
-api.add_resource(Register, "/register", endpoint="register")
-api.add_resource(ProfileList, "/users", endpoint="profiles")
-api.add_resource(ProfileDetail, "/users/profile", endpoint="profile-detail")
-api.add_resource(ChangeAvatar,
-                 "/users/profile/change/avatar",
-                 endpoint="change-avatar")
+bp.add_url_rule("/token/login",
+                view_func=TokenLogin.as_view("token-login"),
+                endpoint="token-login")
+bp.add_url_rule("/token/logout",
+                view_func=TokenLogout.as_view("token-logout"),
+                endpoint="token-logout")
+bp.add_url_rule("/register",
+                view_func=Register.as_view("register"),
+                endpoint="register")
+bp.add_url_rule("/users",
+                view_func=ProfileList.as_view("profiles"),
+                endpoint="profiles")
+bp.add_url_rule("/users/profile",
+                view_func=ProfileDetail.as_view("profile-detail"),
+                endpoint="profile-detail")
+bp.add_url_rule("/users/profile/change/avatar",
+                view_func=ChangeAvatar.as_view("change-avatar"),
+                endpoint="change-avatar")

@@ -1,34 +1,35 @@
 from flask import Blueprint, request, url_for
-from flask_restful import Api, Resource
+from flask.views import MethodView
 
+from webargs.flaskparser import parser
+
+from app.utils.args import pagination_args
 from app.utils.auth import token_auth
-from app.utils.pagination import pagination_parser, max_size
 from app.models import db
 from app.models.blog import Article, Category, About
 from app.models.auth import User
 from app.utils.error import invalid_api_usage
 
 bp = Blueprint("blog", __name__, url_prefix="/")
-api = Api(bp)
 
 
-class ArticleList(Resource):
+class ArticleList(MethodView):
 
-    def get(self):
-        args = pagination_parser.parse_args(request)
-        page = args.get("page")
-        size = args.get("size")
+    @parser.use_args(pagination_args, location="query")
+    def get(self, args):
         pagination = Article.query.order_by(Article.created.desc()).paginate(
-            page=page, per_page=size, max_per_page=max_size)
+            page=args["page"], per_page=args["size"])
         return {
             "count":
             pagination.total,
             "next":
-            url_for("blog.articles", page=pagination.next_num, _external=True)
-            if pagination.has_next else None,
+            url_for("world.blog.articles",
+                    page=pagination.next_num,
+                    _external=True) if pagination.has_next else None,
             "previous":
-            url_for("blog.articles", page=pagination.prev_num, _external=True)
-            if pagination.has_prev else None,
+            url_for("world.blog.articles",
+                    page=pagination.prev_num,
+                    _external=True) if pagination.has_prev else None,
             "results": [{
                 "title":
                 item.title,
@@ -48,7 +49,7 @@ class ArticleList(Resource):
         }
 
 
-class ArticleCreate(Resource):
+class ArticleCreate(MethodView):
 
     @token_auth.login_required(role=["admin", "stuff"])
     def post(self):
@@ -84,7 +85,7 @@ class ArticleCreate(Resource):
         }, 201
 
 
-class ArticleDetail(Resource):
+class ArticleDetail(MethodView):
 
     def get(self, slug):
         item = Article.query.filter_by(slug=slug).first()
@@ -151,24 +152,23 @@ class ArticleDetail(Resource):
         return {"message": "success"}
 
 
-class CategoryList(Resource):
+class CategoryList(MethodView):
 
-    def get(self):
-        args = pagination_parser.parse_args(request)
-        page = args.get("page")
-        size = args.get("size")
-        pagination = Category.query.filter_by().paginate(page=page,
-                                                         per_page=size,
-                                                         max_per_page=max_size)
+    @parser.use_args(pagination_args, location="query")
+    def get(self, args):
+        pagination = Category.query.filter_by().paginate(
+            page=args["page"],
+            per_page=args["size"],
+        )
         return {
             "count":
             pagination.total,
             "next":
-            url_for("blog.categories",
+            url_for("world.blog.categories",
                     page=pagination.next_num,
                     _external=True) if pagination.has_next else None,
             "previous":
-            url_for("blog.categories",
+            url_for("world.blog.categories",
                     page=pagination.prev_num,
                     _external=True) if pagination.has_prev else None,
             "results": [{
@@ -178,7 +178,7 @@ class CategoryList(Resource):
         }
 
 
-class CategoryCreate(Resource):
+class CategoryCreate(MethodView):
 
     @token_auth.login_required(role=["admin", "stuff"])
     def post(self):
@@ -197,7 +197,7 @@ class CategoryCreate(Resource):
         }, 201
 
 
-class CategoryDetail(Resource):
+class CategoryDetail(MethodView):
 
     def get(self, slug):
         item = Category.query.filter_by(slug=slug).first()
@@ -232,6 +232,7 @@ class CategoryDetail(Resource):
             item.name = name
         item.update_slug()
         db.session.commit()
+        return {"message": "success"}
 
     @token_auth.login_required(role=["admin", "stuff"])
     def delete(self, slug):
@@ -246,7 +247,7 @@ class CategoryDetail(Resource):
         return {"message": "success"}
 
 
-class AboutView(Resource):
+class AboutView(MethodView):
 
     def get(self):
         about = About.query.first()
@@ -289,14 +290,24 @@ class AboutView(Resource):
         return {"message": "success"}
 
 
-api.add_resource(ArticleList, "/articles", endpoint="articles")
-api.add_resource(ArticleCreate, "/articles", endpoint="article-create")
-api.add_resource(ArticleDetail,
-                 "/articles/<string:slug>",
-                 endpoint="article-detail")
-api.add_resource(CategoryList, "/categories", endpoint="categories")
-api.add_resource(CategoryCreate, "/categories", endpoint="category-create")
-api.add_resource(CategoryDetail,
-                 "/categories/<string:slug>",
-                 endpoint="category-detail")
-api.add_resource(AboutView, "/about", endpoint="about")
+bp.add_url_rule("/articles",
+                view_func=ArticleList.as_view("articles"),
+                endpoint="articles")
+bp.add_url_rule("/articles",
+                view_func=ArticleCreate.as_view("article-create"),
+                endpoint="article-create")
+bp.add_url_rule("/articles/<string:slug>",
+                view_func=ArticleDetail.as_view("article-detail"),
+                endpoint="article-detail")
+bp.add_url_rule("/categories",
+                view_func=CategoryList.as_view("categories"),
+                endpoint="categories")
+bp.add_url_rule("/categories",
+                view_func=CategoryCreate.as_view("category-create"),
+                endpoint="category-create")
+bp.add_url_rule("/categories/<string:slug>",
+                view_func=CategoryDetail.as_view("category-detail"),
+                endpoint="category-detail")
+bp.add_url_rule("/about",
+                view_func=AboutView.as_view("about"),
+                endpoint="about")
