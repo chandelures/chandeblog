@@ -3,6 +3,7 @@ import pytest
 import tempfile
 import shutil
 from flask.app import Flask
+from flask.testing import FlaskClient, FlaskCliRunner
 
 from app import create_app
 from app.models import db
@@ -10,7 +11,7 @@ from app.models.auth import User
 
 
 @pytest.fixture
-def app():
+def app() -> Flask:
     db_dir = tempfile.mkdtemp()
     media_dir = tempfile.mkdtemp()
 
@@ -39,17 +40,17 @@ def app():
 
 
 @pytest.fixture
-def client(app: Flask):
+def client(app: Flask) -> FlaskClient:
     return app.test_client()
 
 
 @pytest.fixture
-def runner(app: Flask):
+def runner(app: Flask) -> FlaskCliRunner:
     return app.test_cli_runner()
 
 
 @pytest.fixture
-def user_client(app: Flask):
+def user_client(app: Flask) -> FlaskClient:
     client = app.test_client()
     user = User("temp", "temp@temp.org")
     user.set_password("temppsw")
@@ -68,7 +69,7 @@ def user_client(app: Flask):
 
 
 @pytest.fixture
-def stuff_client(app: Flask):
+def stuff_client(app: Flask) -> FlaskClient:
     client = app.test_client()
     user = User("stuff", "stuff@stuff.org", stuff=True)
     user.set_password("stuffpsw")

@@ -66,10 +66,13 @@ def test_create_category(client: FlaskClient, user_client: FlaskClient,
     data = {"name": name}
 
     res = client.post(url, json=data)
+    assert res.is_json
     assert res.status_code == 401
     res = user_client.post(url, json=data)
+    assert res.is_json
     assert res.status_code == 403
     res = stuff_client.post(url, json=data)
+    assert res.is_json
     assert res.status_code == status_code
 
     with app.app_context():
@@ -78,17 +81,19 @@ def test_create_category(client: FlaskClient, user_client: FlaskClient,
     if status_code == 400:
         return
 
-    res = stuff_client.post(url, json=data)
-    assert res.status_code == 400
-
     assert category
     assert category.slug == slugify(name)
+
+    res = stuff_client.post(url, json=data)
+    assert res.is_json
+    assert res.status_code == 400
 
 
 def test_get_category_list(client: FlaskClient, app: Flask) -> None:
     url = "/categories"
     create_categories(app)
     res = client.get(url)
+    assert res.is_json
     assert res.status_code == 200
 
 
@@ -96,8 +101,10 @@ def test_get_category_detail(client: FlaskClient, app: Flask) -> None:
     url = "/categories/{}"
     category = create_category(app)
     res = client.get(url.format("not-exists"))
+    assert res.is_json
     assert res.status_code == 404
     res = client.get(url.format(category.slug))
+    assert res.is_json
     assert res.status_code == 200
 
 
@@ -108,10 +115,13 @@ def test_update_category_detail(client: FlaskClient, user_client: FlaskClient,
     url = "/categories/{}"
     category = create_category(app)
     res = client.put(url.format(category.slug), json=data)
+    assert res.is_json
     assert res.status_code == 401
     res = user_client.put(url.format(category.slug), json=data)
+    assert res.is_json
     assert res.status_code == 403
     res = stuff_client.put(url.format(category.slug), json=data)
+    assert res.is_json
     assert res.status_code == 200
 
     if not data.get("name"):
@@ -135,8 +145,10 @@ def test_delete_category_detail(client: FlaskClient, user_client: FlaskClient,
         db.session.commit()
 
     res = client.delete(url.format(category.slug))
+    assert res.is_json
     assert res.status_code == 401
     res = user_client.delete(url.format(category.slug))
+    assert res.is_json
     assert res.status_code == 403
     res = stuff_client.delete(url.format(category.slug))
     assert res.status_code == 200
@@ -146,6 +158,7 @@ def test_delete_category_detail(client: FlaskClient, user_client: FlaskClient,
         assert not Article.query.filter_by(slug=article.slug).first().category
 
     res = stuff_client.delete(url.format(category.slug))
+    assert res.is_json
     assert res.status_code == 204
 
 
@@ -165,16 +178,20 @@ def test_create_article(client: FlaskClient, user_client: FlaskClient,
     }
 
     res = client.post(url, json=data)
+    assert res.is_json
     assert res.status_code == 401
     res = user_client.post(url, json=data)
+    assert res.is_json
     assert res.status_code == 403
     res = stuff_client.post(url, json=data)
+    assert res.is_json
     assert res.status_code == status_code
 
     if status_code == 400:
         return
 
     res = stuff_client.post(url, json=data)
+    assert res.is_json
     assert res.status_code == 400
 
     with app.app_context():
@@ -190,6 +207,7 @@ def test_get_article_list(client: FlaskClient, app: Flask) -> None:
     url = "/articles"
     create_articles(app)
     res = client.get(url)
+    assert res.is_json
     assert res.status_code == 200
 
 
@@ -197,8 +215,10 @@ def test_get_article_detail(client: FlaskClient, app: Flask) -> None:
     url = "/articles/{}"
     article = create_article(app)
     res = client.get(url.format("not exists"))
+    assert res.is_json
     assert res.status_code == 404
     res = client.get(url.format(article.slug))
+    assert res.is_json
     assert res.status_code == 200
 
 
@@ -213,10 +233,13 @@ def test_update_article_detail(client: FlaskClient, user_client: FlaskClient,
     url = "/articles/{}"
     article = create_article(app)
     res = client.put(url.format(article.slug), json=data)
+    assert res.is_json
     assert res.status_code == 401
     res = user_client.put(url.format(article.slug), json=data)
+    assert res.is_json
     assert res.status_code == 403
     res = stuff_client.put(url.format(article.slug), json=data)
+    assert res.is_json
     assert res.status_code == 200
 
     with app.app_context():
@@ -234,10 +257,13 @@ def test_delete_article_detail(client: FlaskClient, user_client: FlaskClient,
     url = "/articles/{}"
     article = create_article(app)
     res = client.delete(url.format(article.slug))
+    assert res.is_json
     assert res.status_code == 401
     res = user_client.delete(url.format(article.slug))
+    assert res.is_json
     assert res.status_code == 403
     res = stuff_client.delete(url.format(article.slug))
+    assert res.is_json
     assert res.status_code == 200
 
     with app.app_context():
@@ -251,6 +277,7 @@ def test_delete_article_detail(client: FlaskClient, user_client: FlaskClient,
 def test_get_about(client: FlaskClient, app: Flask) -> None:
     url = "/about"
     res = client.get(url)
+    assert res.is_json
     assert res.status_code == 404
 
     with app.app_context():
@@ -258,6 +285,7 @@ def test_get_about(client: FlaskClient, app: Flask) -> None:
         db.session.add(about)
         db.session.commit()
     res = client.get(url)
+    assert res.is_json
     assert res.status_code == 404
 
     article = create_article(app)
@@ -266,6 +294,7 @@ def test_get_about(client: FlaskClient, app: Flask) -> None:
         about.article = article.slug
         db.session.commit()
     res = client.get(url)
+    assert res.is_json
     assert res.status_code == 200
 
 
@@ -281,10 +310,13 @@ def test_update_about(client: FlaskClient, user_client: FlaskClient,
     article = create_article(app)
 
     res = client.post(url, json=data)
+    assert res.is_json
     assert res.status_code == 401
     res = user_client.post(url, json=data)
+    assert res.is_json
     assert res.status_code == 403
     res = stuff_client.post(url, json=data)
+    assert res.is_json
     assert res.status_code == status_code
 
     if status_code == 400:

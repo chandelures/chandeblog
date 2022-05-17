@@ -11,7 +11,7 @@ from app.models.auth import User
      ("superuser", "superuser@test.org", "", "Failed"),
      ("superuser", "superuser@test.org", "admin", "Created")))
 def test_create_superuser(runner: FlaskCliRunner, app: Flask, username: str,
-                          email: str, password: str, output: str):
+                          email: str, password: str, output: str) -> None:
     result = runner.invoke(args=[
         "createsuperuser", "--username", username, "--email", email,
         "--password", password
