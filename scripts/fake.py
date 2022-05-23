@@ -1,4 +1,5 @@
 import random
+from pathlib import Path
 from flask import Flask
 import faker
 from app import create_app
@@ -8,6 +9,8 @@ from app.models.blog import Article, Category
 
 en_fake = faker.Faker("en_US")
 zh_fake = faker.Faker("zh_CN")
+
+CURRENT_DIR = Path(__file__).resolve().parent
 
 
 def word() -> str:
@@ -101,6 +104,20 @@ def create_articles(app: Flask) -> None:
             db.session.commit()
 
 
+def create_sample_articles(app: Flask) -> None:
+    print("create a sample article")
+    with app.app_context():
+        with open("{}/sample.md".format(CURRENT_DIR), "r") as f:
+            content = f.read()
+        article = Article("Markdown示例",
+                          abstract(),
+                          content,
+                          author=get_admin(app).uid,
+                          category=get_random_category(app).slug)
+        db.session.add(article)
+        db.session.commit()
+
+
 def main() -> None:
     app = create_app()
     clean_database(app)
@@ -108,6 +125,7 @@ def main() -> None:
     create_users(app)
     create_categories(app)
     create_articles(app)
+    create_sample_articles(app)
     print("done")
 
 
