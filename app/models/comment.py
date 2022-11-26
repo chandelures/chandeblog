@@ -3,13 +3,13 @@ import sqlalchemy as sa
 
 from app.models import db
 from app.models.auth import User
-from app.models.blog import Article
+from app.models.blog import Post
 
 
 class Comment(db.Model):
     __tablename__ = "comments"
     uid = sa.Column(sa.String(36), primary_key=True)
-    article = sa.Column(sa.String(128), sa.ForeignKey(Article.slug))
+    post = sa.Column(sa.String(128), sa.ForeignKey(Post.slug))
     user = sa.Column(sa.String(36), sa.ForeignKey(User.uid))
     content = sa.Column(sa.Text)
     created = sa.Column(sa.DateTime, default=datetime.now)

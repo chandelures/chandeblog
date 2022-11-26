@@ -20,7 +20,7 @@ class Root(MethodView):
 
     def get(self) -> dict:
         return {
-            "articles": url_for("world.blog.articles", _external=True),
+            "posts": url_for("world.blog.posts", _external=True),
         }
 
 
