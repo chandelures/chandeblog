@@ -1,11 +1,10 @@
-import random
 from pathlib import Path
 from flask import Flask
 import faker
 from app import create_app
 from app.models import db
 from app.models.auth import User
-from app.models.blog import Article, Category
+from app.models.blog import Post
 
 en_fake = faker.Faker("en_US")
 zh_fake = faker.Faker("zh_CN")
@@ -35,23 +34,18 @@ def subsection() -> str:
         "{}\n\n".format(zh_fake.paragraph(10))*3
 
 
-def abstract() -> str:
+def description() -> str:
     return "{}\n\n".format(zh_fake.paragraph(8)) * 2
 
 
 def content() -> str:
-    return abstract() + section()*2 + subsection()*2 + \
+    return description() + section()*2 + subsection()*2 + \
         section() + subsection()*3
 
 
 def get_admin(app: Flask) -> User:
     with app.app_context():
         return User.query.filter_by(superuser=True).first()
-
-
-def get_random_category(app: Flask) -> Category:
-    with app.app_context():
-        return random.choice(Category.query.all())
 
 
 def clean_database(app: Flask) -> None:
@@ -81,40 +75,30 @@ def create_users(app: Flask) -> None:
             db.session.commit()
 
 
-def create_categories(app: Flask) -> None:
-    print("create some fake categories...")
-    with app.app_context():
-        categorie_names = ["python", "php", "javascript", "c++", "world"]
-        for name in categorie_names:
-            category = Category(name)
-            db.session.add(category)
-            db.session.commit()
-
-
-def create_articles(app: Flask) -> None:
-    print("create some fake articles")
+def create_posts(app: Flask) -> None:
+    print("create some fake posts")
     with app.app_context():
         for _ in range(100):
-            article = Article(title(),
-                              abstract(),
-                              content(),
-                              author=get_admin(app).uid,
-                              category=get_random_category(app).slug)
-            db.session.add(article)
+            post = Post(
+                title(),
+                description(),
+                content(),
+            )
+            db.session.add(post)
             db.session.commit()
 
 
-def create_sample_articles(app: Flask) -> None:
-    print("create a sample article")
+def create_sample_posts(app: Flask) -> None:
+    print("create a sample post")
     with app.app_context():
         with open("{}/sample.md".format(CURRENT_DIR), "r") as f:
             content = f.read()
-        article = Article("Markdown示例",
-                          abstract(),
-                          content,
-                          author=get_admin(app).uid,
-                          category=get_random_category(app).slug)
-        db.session.add(article)
+        post = Post(
+            "Markdown示例",
+            description(),
+            content,
+        )
+        db.session.add(post)
         db.session.commit()
 
 
@@ -123,9 +107,8 @@ def main() -> None:
     clean_database(app)
     create_superuser(app)
     create_users(app)
-    create_categories(app)
-    create_articles(app)
-    create_sample_articles(app)
+    create_posts(app)
+    create_sample_posts(app)
     print("done")
 
 
