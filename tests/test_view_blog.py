@@ -5,50 +5,50 @@ from flask.testing import FlaskClient
 
 from app.utils import slugify
 from app.models import db
-from app.models.blog import Article
+from app.models.blog import Post
 from app.models.auth import User
 
 
-def create_articles(app: Flask) -> None:
-    article_titles = ["test title " + str(i) for i in range(10)]
+def create_posts(app: Flask) -> None:
+    post_titles = ["test title " + str(i) for i in range(10)]
     with app.app_context():
-        for title in article_titles:
+        for title in post_titles:
             admin = User.query.filter_by(username="admin").first()
-            article = Article(
+            post = Post(
                 title,
                 "test abstarct",
                 "test content",
                 author=admin.uid,
             )
-            db.session.add(article)
+            db.session.add(post)
             db.session.commit()
 
 
-def create_article(app: Flask) -> Article:
+def create_post(app: Flask) -> Post:
     with app.app_context():
         admin = User.query.filter_by(username="admin").first()
-        article = Article("test title",
-                          "test abstract",
-                          "test content",
-                          author=admin.uid)
-        db.session.add(article)
+        post = Post("test title",
+                    "test description",
+                    "test content",
+                    author=admin.uid)
+        db.session.add(post)
         db.session.commit()
-        article = Article.query.filter_by(title="test title").first()
-    return article
+        post = Post.query.filter_by(title="test title").first()
+    return post
 
 
 @pytest.mark.parametrize(
-    ("title", "abstract", "content", "status_code"),
+    ("title", "description", "content", "status_code"),
     (("", "", "", 400), ("test title", "", "", 400),
-     ("test title", "test abstract", "", 400),
-     ("test title", "test abstract", "test content", 201)))
-def test_create_article(client: FlaskClient, user_client: FlaskClient,
-                        stuff_client: FlaskClient, app: Flask, title: str,
-                        abstract: str, content: str, status_code: int) -> None:
-    url = "/articles"
+     ("test title", "test description", "", 400),
+     ("test title", "test description", "test content", 201)))
+def test_create_post(client: FlaskClient, user_client: FlaskClient,
+                     stuff_client: FlaskClient, app: Flask, title: str,
+                     description: str, content: str, status_code: int) -> None:
+    url = "/posts"
     data = {
         "title": title,
-        "abstract": abstract,
+        "description": description,
         "content": content,
     }
 
@@ -70,79 +70,79 @@ def test_create_article(client: FlaskClient, user_client: FlaskClient,
     assert res.status_code == 400
 
     with app.app_context():
-        article = Article.query.filter_by(title=title).first()
-    assert article
-    assert article.slug == slugify(article.title)
-    assert article.abstract == abstract
-    assert article.content == content
-    assert article.author
+        post = Post.query.filter_by(title=title).first()
+    assert post
+    assert post.slug == slugify(post.title)
+    assert post.description == description
+    assert post.content == content
+    assert post.author
 
 
-def test_get_article_list(client: FlaskClient, app: Flask) -> None:
-    url = "/articles"
-    create_articles(app)
+def test_get_post_list(client: FlaskClient, app: Flask) -> None:
+    url = "/posts"
+    create_posts(app)
     res = client.get(url)
     assert res.is_json
     assert res.status_code == 200
 
 
-def test_get_article_detail(client: FlaskClient, app: Flask) -> None:
-    url = "/articles/{}"
-    article = create_article(app)
+def test_get_post_detail(client: FlaskClient, app: Flask) -> None:
+    url = "/posts/{}"
+    post = create_post(app)
     res = client.get(url.format("not exists"))
     assert res.is_json
     assert res.status_code == 404
-    res = client.get(url.format(article.slug))
+    res = client.get(url.format(post.slug))
     assert res.is_json
     assert res.status_code == 200
 
 
 @pytest.mark.parametrize(("data"), (({
     "title": "other title",
-    "abstract": "other abstract",
+    "description": "other description",
     "content": "other content",
 }), ({})))
-def test_update_article_detail(client: FlaskClient, user_client: FlaskClient,
-                               stuff_client: FlaskClient, app: Flask,
-                               data: dict) -> None:
-    url = "/articles/{}"
-    article = create_article(app)
-    res = client.put(url.format(article.slug), json=data)
+def test_update_post_detail(client: FlaskClient, user_client: FlaskClient,
+                            stuff_client: FlaskClient, app: Flask,
+                            data: dict) -> None:
+    url = "/posts/{}"
+    post = create_post(app)
+    res = client.put(url.format(post.slug), json=data)
     assert res.is_json
     assert res.status_code == 401
-    res = user_client.put(url.format(article.slug), json=data)
+    res = user_client.put(url.format(post.slug), json=data)
     assert res.is_json
     assert res.status_code == 403
-    res = stuff_client.put(url.format(article.slug), json=data)
+    res = stuff_client.put(url.format(post.slug), json=data)
     assert res.is_json
     assert res.status_code == 200
 
     with app.app_context():
-        article = Article.query.filter_by(title=data.get("title")).first()
+        post = Post.query.filter_by(title=data.get("title")).first()
 
-    update_fields = ["title", "abstract", "content"]
+    update_fields = ["title", "description", "content"]
     for field in update_fields:
         if field in data:
-            assert getattr(article, field) == data.get(field)
-            assert article.slug == slugify(article.title)
+            assert getattr(post, field) == data.get(field)
+            assert post.slug == slugify(post.title)
 
 
-def test_delete_article_detail(client: FlaskClient, user_client: FlaskClient,
-                               stuff_client: FlaskClient, app: Flask) -> None:
-    url = "/articles/{}"
-    article = create_article(app)
-    res = client.delete(url.format(article.slug))
+def test_delete_post_detail(client: FlaskClient, user_client: FlaskClient,
+                            stuff_client: FlaskClient, app: Flask) -> None:
+    url = "/posts/{}"
+    post = create_post(app)
+    res = client.delete(url.format(post.slug))
     assert res.is_json
     assert res.status_code == 401
-    res = user_client.delete(url.format(article.slug))
+    res = user_client.delete(url.format(post.slug))
     assert res.is_json
     assert res.status_code == 403
-    res = stuff_client.delete(url.format(article.slug))
+    res = stuff_client.delete(url.format(post.slug))
     assert res.is_json
     assert res.status_code == 200
 
     with app.app_context():
-        assert not Article.query.filter_by(slug=article.slug).first()
+        assert not Post.query.filter_by(slug=post.slug).first()
 
-    res = stuff_client.delete(url.format(article.slug))
+    res = stuff_client.delete(url.format(post.slug))
     assert res.status_code == 204

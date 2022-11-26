@@ -6,35 +6,35 @@ from webargs.flaskparser import parser
 from app.utils.args import pagination_args
 from app.utils.auth import token_auth
 from app.models import db
-from app.models.blog import Article
+from app.models.blog import Post
 from app.models.auth import User
 from app.utils.error import invalid_api_usage
 
 bp = Blueprint("blog", __name__, url_prefix="/")
 
 
-class ArticleList(MethodView):
+class PostList(MethodView):
 
     @parser.use_args(pagination_args, location="query")
     def get(self, args):
-        pagination = Article.query.order_by(Article.created.desc()).paginate(
+        pagination = Post.query.order_by(Post.created.desc()).paginate(
             page=args["page"], per_page=args["size"])
         return {
             "count":
             pagination.total,
             "next":
-            url_for("world.blog.articles",
+            url_for("world.blog.posts",
                     page=pagination.next_num,
                     _external=True) if pagination.has_next else None,
             "previous":
-            url_for("world.blog.articles",
+            url_for("world.blog.posts",
                     page=pagination.prev_num,
                     _external=True) if pagination.has_prev else None,
             "results": [{
                 "title":
                 item.title,
-                "abstract":
-                item.abstract,
+                "description":
+                item.description,
                 "slug":
                 item.slug,
                 "authorName":
@@ -49,27 +49,27 @@ class ArticleList(MethodView):
         }
 
 
-class ArticleCreate(MethodView):
+class PostCreate(MethodView):
 
     @token_auth.login_required(role=["admin", "stuff"])
     def post(self):
         data = request.get_json() or {}
         title = data.get("title")
-        abstract = data.get("abstract")
+        description = data.get("description")
         content = data.get("content")
         author = token_auth.current_user()
-        if not title or not abstract or not content:
-            return invalid_api_usage("No title, abstract or content provided",
-                                     400)
-        if Article.query.filter_by(title=title).first():
+        if not title or not description or not content:
+            return invalid_api_usage(
+                "No title, description or content provided", 400)
+        if Post.query.filter_by(title=title).first():
             return invalid_api_usage("Title is already exist", 400)
-        item = Article(title, abstract, content, author=author.uid)
+        item = Post(title, description, content, author=author.uid)
         item.author = author.uid
         db.session.add(item)
         db.session.commit()
         return {
             "title": item.title,
-            "abstract": item.abstract,
+            "description": item.description,
             "content": item.content,
             "slug": item.slug,
             "authorName":
@@ -79,21 +79,20 @@ class ArticleCreate(MethodView):
         }, 201
 
 
-class ArticleDetail(MethodView):
+class PostDetail(MethodView):
 
     def get(self, slug):
-        item = Article.query.filter_by(slug=slug).first()
+        item = Post.query.filter_by(slug=slug).first()
         if not item:
-            return invalid_api_usage("No such article", 404)
-        next = Article.query.filter(Article.created > item.created).order_by(
-            Article.created).first()
-        previous = Article.query.filter(
-            Article.created < item.created).order_by(
-                Article.created.desc()).first()
+            return invalid_api_usage("No such post", 404)
+        next = Post.query.filter(Post.created > item.created).order_by(
+            Post.created).first()
+        previous = Post.query.filter(Post.created < item.created).order_by(
+            Post.created.desc()).first()
         author = User.query.filter_by(uid=item.author).first()
         return {
             "title": item.title,
-            "abstract": item.abstract,
+            "description": item.description,
             "content": item.content,
             "slug": item.slug,
             "created": item.created.isoformat(),
@@ -110,12 +109,12 @@ class ArticleDetail(MethodView):
     def put(self, slug):
         data = request.get_json() or {}
         title = data.get("title")
-        abstract = data.get("abstract")
+        description = data.get("description")
         content = data.get("content")
-        item = Article.query.filter_by(slug=slug).first()
+        item = Post.query.filter_by(slug=slug).first()
         attrs = dict(
             title=title,
-            abstract=abstract,
+            description=description,
             content=content,
         )
         for name, value in attrs.items():
@@ -125,7 +124,7 @@ class ArticleDetail(MethodView):
         db.session.commit()
         return {
             "title": item.title,
-            "abstract": item.abstract,
+            "description": item.description,
             "content": item.content,
             "slug": item.slug,
             "created": item.created.isoformat(),
@@ -136,20 +135,20 @@ class ArticleDetail(MethodView):
 
     @token_auth.login_required(role=["admin", "stuff"])
     def delete(self, slug):
-        item = Article.query.filter_by(slug=slug).first()
+        item = Post.query.filter_by(slug=slug).first()
         if not item:
-            return invalid_api_usage("No such article", 204)
+            return invalid_api_usage("No such post", 204)
         db.session.delete(item)
         db.session.commit()
         return {"message": "success"}
 
 
-bp.add_url_rule("/articles",
-                view_func=ArticleList.as_view("articles"),
-                endpoint="articles")
-bp.add_url_rule("/articles",
-                view_func=ArticleCreate.as_view("article-create"),
-                endpoint="article-create")
-bp.add_url_rule("/articles/<string:slug>",
-                view_func=ArticleDetail.as_view("article-detail"),
-                endpoint="article-detail")
+bp.add_url_rule("/posts",
+                view_func=PostList.as_view("posts"),
+                endpoint="posts")
+bp.add_url_rule("/posts",
+                view_func=PostCreate.as_view("post-create"),
+                endpoint="post-create")
+bp.add_url_rule("/posts/<string:slug>",
+                view_func=PostDetail.as_view("post-detail"),
+                endpoint="post-detail")
