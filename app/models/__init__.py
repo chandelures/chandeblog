@@ -6,4 +6,3 @@ migrate = Migrate()
 
 from app.models.auth import *  # NOQA
 from app.models.blog import *  # NOQA
-from app.models.comment import *  # NOQA

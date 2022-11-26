@@ -3,7 +3,6 @@ from datetime import datetime
 
 from app.utils import slugify
 from app.models import db
-from app.models.auth import User
 
 
 class Post(db.Model):
@@ -12,7 +11,6 @@ class Post(db.Model):
     title = sa.Column(sa.String(100), unique=True)
     description = sa.Column(sa.Text)
     content = sa.Column(sa.Text)
-    author = sa.Column(sa.String(36), sa.ForeignKey(User.uid))
     slug = sa.Column(sa.String(128), unique=True, index=True)
     views = sa.Column(sa.Integer, default=0)
     created = sa.Column(sa.DateTime, default=datetime.now)
