@@ -6,11 +6,11 @@ from app.models import db
 from app.models.auth import User
 
 
-class Article(db.Model):
-    __tablename__ = "articles"
+class Post(db.Model):
+    __tablename__ = "posts"
     id = sa.Column(sa.Integer, primary_key=True)
     title = sa.Column(sa.String(100), unique=True)
-    abstract = sa.Column(sa.Text)
+    description = sa.Column(sa.Text)
     content = sa.Column(sa.Text)
     author = sa.Column(sa.String(36), sa.ForeignKey(User.uid))
     slug = sa.Column(sa.String(128), unique=True, index=True)
@@ -20,9 +20,9 @@ class Article(db.Model):
                         default=datetime.now,
                         onupdate=datetime.now)
 
-    def __init__(self, title, abstract, content, **kwargs) -> None:
+    def __init__(self, title, description, content, **kwargs) -> None:
         self.title = title
-        self.abstract = abstract
+        self.description = description
         self.content = content
         for name, value in kwargs.items():
             if value:
