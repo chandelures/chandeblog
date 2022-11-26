@@ -21,7 +21,6 @@ class Root(MethodView):
     def get(self) -> dict:
         return {
             "articles": url_for("world.blog.articles", _external=True),
-            "categories": url_for("world.blog.categories", _external=True)
         }
 
 
