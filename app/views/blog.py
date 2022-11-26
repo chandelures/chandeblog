@@ -7,7 +7,6 @@ from app.utils.args import pagination_args
 from app.utils.auth import token_auth
 from app.models import db
 from app.models.blog import Post
-from app.models.auth import User
 from app.utils.error import invalid_api_usage
 
 bp = Blueprint("blog", __name__, url_prefix="/")
@@ -37,8 +36,6 @@ class PostList(MethodView):
                 item.description,
                 "slug":
                 item.slug,
-                "authorName":
-                User.query.filter_by(uid=item.author).first().username,
                 "created":
                 item.created.isoformat(),
                 "updated":
@@ -57,14 +54,12 @@ class PostCreate(MethodView):
         title = data.get("title")
         description = data.get("description")
         content = data.get("content")
-        author = token_auth.current_user()
         if not title or not description or not content:
             return invalid_api_usage(
                 "No title, description or content provided", 400)
         if Post.query.filter_by(title=title).first():
             return invalid_api_usage("Title is already exist", 400)
-        item = Post(title, description, content, author=author.uid)
-        item.author = author.uid
+        item = Post(title, description, content)
         db.session.add(item)
         db.session.commit()
         return {
@@ -72,8 +67,6 @@ class PostCreate(MethodView):
             "description": item.description,
             "content": item.content,
             "slug": item.slug,
-            "authorName":
-            User.query.filter_by(uid=item.author).first().username,
             "created": item.created.isoformat(),
             "updated": item.updated.isoformat(),
         }, 201
@@ -89,7 +82,6 @@ class PostDetail(MethodView):
             Post.created).first()
         previous = Post.query.filter(Post.created < item.created).order_by(
             Post.created.desc()).first()
-        author = User.query.filter_by(uid=item.author).first()
         return {
             "title": item.title,
             "description": item.description,
@@ -97,10 +89,6 @@ class PostDetail(MethodView):
             "slug": item.slug,
             "created": item.created.isoformat(),
             "updated": item.updated.isoformat(),
-            "authorName": author.username,
-            "avatar": url_for("world.media",
-                              path=author.avatar,
-                              _external=True),
             "next": next.slug if next else None,
             "previous": previous.slug if previous else None,
         }
@@ -129,8 +117,6 @@ class PostDetail(MethodView):
             "slug": item.slug,
             "created": item.created.isoformat(),
             "updated": item.updated.isoformat(),
-            "authorName":
-            User.query.filter_by(uid=item.author).first().username,
         }
 
     @token_auth.login_required(role=["admin", "stuff"])

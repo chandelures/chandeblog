@@ -6,19 +6,16 @@ from flask.testing import FlaskClient
 from app.utils import slugify
 from app.models import db
 from app.models.blog import Post
-from app.models.auth import User
 
 
 def create_posts(app: Flask) -> None:
     post_titles = ["test title " + str(i) for i in range(10)]
     with app.app_context():
         for title in post_titles:
-            admin = User.query.filter_by(username="admin").first()
             post = Post(
                 title,
                 "test abstarct",
                 "test content",
-                author=admin.uid,
             )
             db.session.add(post)
             db.session.commit()
@@ -26,11 +23,11 @@ def create_posts(app: Flask) -> None:
 
 def create_post(app: Flask) -> Post:
     with app.app_context():
-        admin = User.query.filter_by(username="admin").first()
-        post = Post("test title",
-                    "test description",
-                    "test content",
-                    author=admin.uid)
+        post = Post(
+            "test title",
+            "test description",
+            "test content",
+        )
         db.session.add(post)
         db.session.commit()
         post = Post.query.filter_by(title="test title").first()
@@ -75,7 +72,6 @@ def test_create_post(client: FlaskClient, user_client: FlaskClient,
     assert post.slug == slugify(post.title)
     assert post.description == description
     assert post.content == content
-    assert post.author
 
 
 def test_get_post_list(client: FlaskClient, app: Flask) -> None:
