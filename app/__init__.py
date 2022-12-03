@@ -7,9 +7,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 def create_app(test_config=None) -> Flask:
-    app = Flask("chandeblog", instance_relative_config=True)
+    app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
         SECRET_KEY="dev",
+        SITENAME="BlogApi",
         SQLALCHEMY_DATABASE_URI="sqlite:////{}/db.sqlite3".format(
             app.instance_path),
         SQLALCHEMY_TRACK_MODIFICATIONS=False,
@@ -39,6 +40,9 @@ def create_app(test_config=None) -> Flask:
     init_app(app)
 
     from app.utils import init_app
+    init_app(app)
+
+    from app.admin import init_app
     init_app(app)
 
     return app

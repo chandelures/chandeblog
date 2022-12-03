@@ -5,11 +5,13 @@ from sqlalchemy import or_
 from flask import current_app
 from flask.cli import with_appcontext
 from flask_httpauth import HTTPTokenAuth
+from flask_httpauth import HTTPBasicAuth
 
 from app.models import db
 from app.models.auth import User, Token
 
 token_auth = HTTPTokenAuth()
+base_auth = HTTPBasicAuth()
 
 
 @click.command("createsuperuser")
@@ -34,6 +36,7 @@ def check_password(password) -> bool:
     return True
 
 
+@base_auth.verify_password
 def verify_password(username, password) -> Union[User, None]:
     with current_app.app_context():
         user = User.query.filter(
@@ -54,6 +57,7 @@ def verify_token(token) -> Union[User, None]:
             return User.query.filter_by(uid=token.user).first()
 
 
+@base_auth.get_user_roles
 @token_auth.get_user_roles
 def get_user_roles(user: User) -> str:
     return user.get_roles()
