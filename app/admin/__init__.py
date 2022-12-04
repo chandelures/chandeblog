@@ -36,10 +36,23 @@ class AuthModelView(ModelView):
         return base_auth.auth_error_callback(status=401)
 
 
+class PostModelView(AuthModelView):
+    column_exclude_list = ("description", "content", "slug")
+    column_default_sort = ("created", True)
+
+    def after_model_change(self, form, model, is_created):
+        model.update_slug()
+        self.session.commit()
+
+
+class UserModelView(AuthModelView):
+    column_exclude_list = ("password")
+
+
 def init_app(app: Flask):
     admin = Admin(app,
                   index_view=AuthAdminIndexView(),
                   name=app.config["SITENAME"],
                   template_mode="bootstrap4")
-    admin.add_view(AuthModelView(Post, db.session))
-    admin.add_view(AuthModelView(User, db.session))
+    admin.add_view(PostModelView(Post, db.session))
+    admin.add_view(UserModelView(User, db.session))
