@@ -1,23 +1,9 @@
 import pytest
 
-import os
-from io import BytesIO
 from flask import Flask
 from flask.testing import FlaskClient
 
 from app.models.auth import Token, User
-
-
-def create_default_avatar(app: Flask) -> None:
-    avatar_dir = "{}/avatar".format(app.config["UPLOAD_FOLDER"])
-    if not os.path.exists(avatar_dir):
-        os.mkdir(avatar_dir)
-    with open("{}/default.png".format(avatar_dir), "wb") as f:
-        f.write(b"test content")
-
-
-def create_avatar(filename="default.png") -> dict:
-    return (BytesIO(b"test avatar"), filename)
 
 
 @pytest.mark.parametrize(
@@ -177,48 +163,3 @@ def test_delete_user(client: FlaskClient, user_client: FlaskClient,
                            })
     assert res.is_json
     assert res.status_code == 400
-
-
-@pytest.mark.parametrize(("filename", "status_code"),
-                         (("invalid-ext.exe", 400), ("new.png", 200)))
-def test_update_avatar(client: FlaskClient, user_client: FlaskClient,
-                       app: Flask, filename: str, status_code: int) -> None:
-    url = "/auth/users/profile/change/avatar"
-    create_default_avatar(app)
-    data = {"avatar": create_avatar(filename)}
-
-    res = client.post(url)
-    assert res.is_json
-    assert res.status_code == 401
-    res = user_client.post(url)
-    assert res.is_json
-    assert res.status_code == 400
-    res = user_client.post(url, data=data, content_type='multipart/form-data')
-    assert res.is_json
-    assert res.status_code == status_code
-
-    if status_code == 400:
-        return
-
-    assert os.path.exists("{}/avatar/default.png".format(
-        app.config["UPLOAD_FOLDER"]))
-
-    with app.app_context():
-        user = User.query.filter_by(username="temp").first()
-    old_path = user.avatar
-
-    data["avatar"] = create_avatar("new1.png")
-    res = user_client.post(url, data=data, content_type='multipart/form-data')
-    assert res.is_json
-    assert res.status_code == 200
-    assert not os.path.exists("{}/{}".format(app.config["UPLOAD_FOLDER"],
-                                             old_path))
-
-    with app.app_context():
-        user = User.query.filter_by(username="temp").first()
-    os.remove("{}/{}".format(app.config["UPLOAD_FOLDER"], user.avatar))
-
-    data["avatar"] = create_avatar("new2.png")
-    res = user_client.post(url, data=data, content_type='multipart/form-data')
-    assert res.is_json
-    assert res.status_code == 200

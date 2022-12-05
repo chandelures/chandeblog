@@ -1,7 +1,5 @@
-import os
 from sqlalchemy import or_
-from werkzeug.utils import secure_filename
-from flask import Blueprint, current_app, request
+from flask import Blueprint, request
 from flask.helpers import url_for
 from flask.views import MethodView
 
@@ -88,14 +86,9 @@ class ProfileList(MethodView):
                     page=pagination.prev_num,
                     _external=True) if pagination.has_prev else None,
             "results": [{
-                "uid":
-                item.uid,
-                "username":
-                item.username,
-                "avatar":
-                url_for("world.media", path=item.avatar, _external=True),
-                "email":
-                item.email,
+                "uid": item.uid,
+                "username": item.username,
+                "email": item.email,
             } for item in pagination.items]
         }
 
@@ -110,7 +103,6 @@ class ProfileDetail(MethodView):
             "uid": item.uid,
             "username": item.username,
             "email": item.email,
-            "avatar": url_for("world.media", path=item.avatar, _external=True),
             "isAdmin": item.is_admin,
         }
 
@@ -132,7 +124,6 @@ class ProfileDetail(MethodView):
             "uid": item.uid,
             "username": item.username,
             "email": item.email,
-            "avatar": url_for("world.media", path=item.avatar, _external=True),
             "isAdmin": item.is_admin,
         }
 
@@ -140,26 +131,6 @@ class ProfileDetail(MethodView):
         user = token_auth.current_user()
         item = User.query.filter_by(uid=user.uid).first()
         item.active = False
-        db.session.commit()
-        return {"message": "success"}
-
-
-class ChangeAvatar(MethodView):
-    decorators = [token_auth.login_required]
-
-    def post(self):
-        user = token_auth.current_user()
-        item = User.query.filter_by(uid=user.uid).first()
-        if "avatar" not in request.files:
-            return invalid_api_usage("No avatar provided", 400)
-        file = request.files["avatar"]
-        if not User.allow_avatar_file(file.filename):
-            return invalid_api_usage("Invalid avatar", 400)
-        filename = secure_filename(file.filename)
-        item.delete_avatar_file()
-        item.avatar = item.avatar_upload_to(filename)
-        file.save(
-            os.path.join(current_app.config["UPLOAD_FOLDER"], item.avatar))
         db.session.commit()
         return {"message": "success"}
 
@@ -179,6 +150,3 @@ bp.add_url_rule("/users",
 bp.add_url_rule("/users/profile",
                 view_func=ProfileDetail.as_view("profile-detail"),
                 endpoint="profile-detail")
-bp.add_url_rule("/users/profile/change/avatar",
-                view_func=ChangeAvatar.as_view("change-avatar"),
-                endpoint="change-avatar")
